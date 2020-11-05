@@ -334,8 +334,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <t>
                         Note that JSON parsers normally remove escape sequences and
                         the ordering of properties may not always be honored.  However,
-                        this has due to the canonicalization performed by JCS no
-                        impact on the result.
+                        this has (due to the canonicalization performed by JCS),
+                        no impact on the result.
                     </t>
                 </section>            
                 <section anchor="CNRemainingObject" numbered="true" toc="default">
