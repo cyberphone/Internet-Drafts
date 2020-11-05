@@ -1,0 +1,502 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
+
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     submissionType="independent"
+     category="info"
+     tocDepth="3"
+     docName="draft-jordan-jwsjcs-json-signatures-00"
+     ipr="trust200902"
+     obsoletes=""
+     updates=""
+     xml:lang="en"
+     tocInclude="true"
+     symRefs="true"
+     sortRefs="true"
+     version="3">
+    <front>
+        <title abbrev="JWSJCS">
+            Clear-text JSON Signatures by combining JWS and JCS
+        </title>
+        <author fullname="Bret Jordan" initials="B." surname="Jordan" role="editor">
+            <organization>Broadcom</organization>
+            <address>
+                <postal>
+                    <street>1320 Ridder Park Drive</street>
+                    <region>CA</region>
+                    <code>95131</code>
+                    <city>San Jose</city>
+                    <country>United States of America</country>
+                </postal>
+                <email>bret.jordan@broadcom.com</email>
+            </address>
+        </author>
+        <author fullname="Samuel Erdtman" initials="S." surname="Erdtman">
+            <organization>Spotify AB</organization>
+            <address>
+                <postal>
+                    <street>Birger Jarlsgatan 61, 4tr</street>
+                    <code>113 56</code>
+                    <city>Stockholm</city>
+                    <country>Sweden</country>
+                </postal>
+                <email>erdtman@spotify.com</email>
+            </address>
+        </author>
+        <author fullname="Anders Rundgren" initials="A." surname="Rundgren">
+            <organization>Independent</organization>
+            <address>
+                <postal>
+                    <city>Montpellier</city>
+                    <country>France</country>
+                </postal>
+                <email>anders.rundgren.net@gmail.com</email>
+                <uri>https://www.linkedin.com/in/andersrundgren/</uri>
+            </address>
+        </author>
+        <date year="2020"/>
+        <area>Security</area>
+        <workgroup/>
+        <keyword>JSON</keyword>
+        <keyword>ECMAScript</keyword>
+        <keyword>Signatures</keyword>
+        <keyword>Cryptography</keyword>
+        <keyword>Canonicalization</keyword>
+
+
+        <abstract>
+            <t>
+                This document describes how JSON objects can be complemented
+                with enveloped signatures based on the JSON Web Signature (JWS) standard.
+                By building on the JSON Canonicalization Scheme (JCS) and using JWS
+                in the "detached" mode, signed JSON objects remain in the JSON format
+                (aka "clear&nbsp;text" signing), which is the main difference to using JWS alone.
+            </t>
+        </abstract>
+    </front>
+    <middle>
+        <section anchor="Introduction" numbered="true" toc="default">
+            <name>Introduction</name>
+            <t>
+                This specification introduces a method for augmenting objects expressed in the
+                JSON <xref target="RFC8259" format="default"/> notation,
+                with enveloped signatures, quite similar to the scheme used in 
+                the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> standard.
+                For interoperability reasons this specification constrains JSON objects
+                to the I-JSON <xref target="RFC7493" format="default"/> subset.
+            </t>
+            <t>
+                To avoid "reinventing the wheel", this specification leverages the
+                JSON Web Signature (JWS) <xref target="RFC7515" format="default"/> standard.
+            </t>
+            <t>
+                By exploiting JWS in the "detached" mode in combination with the
+                JSON Canonicalizion Scheme (JCS)
+                <xref target="RFC8785" format="default"/>,
+                JSON objects to be signed can be kept in the JSON format.
+                This is sometimes
+                referred to as "clear&nbsp;text" signing.
+            </t>
+            <t>
+                The primary motivations for keeping signed JSON objects in the JSON format
+                include simplified documentation, debugging, and logging,
+                as well as for maintaining a consistent message structure. 
+                The latter is at odds with JWS in the "standard" mode,
+                since it transforms JSON objects to be signed into base64url-encoded
+                <xref target="RFC4648" format="default"/>
+                signature containers with embedded data.
+            </t>
+            <t>
+                Another target are HTTP-based signature schemes that currently
+                utilize HTTP header values for holding detached signatures.
+                By rather using the method described herein,
+                signed JSON-formatted HTTP requests and responses
+                may be self-contained and thus be serializable.
+                The latter facilitates such data to be stored, passed through
+                intermediaries, embedded in other JSON objects, and
+                counter-signed, without losing the ability to (at any time)
+                verify signatures.
+            </t>
+            <t>
+                The intended audiences of this document are JSON tool vendors as
+                well as designers of JSON-based cryptographic solutions.
+            </t>
+        </section>
+        <section anchor="Terminology" numbered="true" toc="default">
+            <name>Terminology</name>
+            <t>
+                Note that this document is not on the IETF standards track. However, a
+                conformant implementation is supposed to adhere to the specified behavior for
+                security and interoperability reasons.  This text uses BCP 14 to
+                describe that necessary behavior.
+            </t>
+            <t>
+                The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>",
+                "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>
+                    SHALL
+                    NOT
+                </bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>",
+                "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
+                "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are
+                to be interpreted as described in BCP&nbsp;14 <xref target="RFC2119"/>
+                <xref target="RFC8174"/> when, and only when, they appear in all capitals,
+                as shown here.
+            </t>
+        </section>
+
+        <section anchor="Operation" numbered="true" toc="default">
+            <name>Detailed Operation</name>
+            <t>
+                This section describes the details related to signing
+                and validating signatures based on this specification.
+            </t>
+            <t>
+                The signature creation and signature validation sections
+                feature samples using the "HS256" algorithm with a 256-bit
+                key having the following value expressed in hex:
+            </t>
+            <sourcecode type="json">
+7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
+            </sourcecode>
+            <section anchor="Signature" numbered="true" toc="default">
+                <name>Signature Creation</name>
+                <t>
+                    The following sub-sections describe how JSON objects can be signed
+                    according to this specification.
+                </t>
+                <section anchor="DataCreation" numbered="true" toc="default">
+                    <name>Create the JSON Object to be Signed</name>
+                    <t>
+                        Create or parse the JSON object to be signed.
+                        Note that JCS <xref target="RFC8785" format="default"/>
+                        constrains objects to the I-JSON
+                        <xref target="RFC7493" format="default"/> subset.
+                    </t>
+                    <t>
+                        To illustrate the subsequent operations the following sample object is used:
+                    </t>
+                    <sourcecode type="json">
+{
+  "statement": "Hello signed \u0077orld!",
+  "otherProperties": [2e+3, true]
+}
+                    </sourcecode>
+                </section>
+                <section anchor="CNCreatedData" numbered="true" toc="default">
+                    <name>Canonicalize the JSON Object to be Signed</name>
+                    <t>
+                        Use the result of the previous step as input to the
+                        canonicalization process described in JCS
+                        <xref target="RFC8785" format="default"/>.
+                    </t>
+                    <t>
+                        Applied to the sample, the following JSON String should be generated:
+                    </t>
+                    <sourcecode type="json">
+{"otherProperties":[2000,true],"statement":"Hello signed world!"}
+                    </sourcecode>
+                    <t>
+                        After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
+                        format, the following bytes should be generated:
+                    </t>
+                    <sourcecode type="json">
+7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
+30 30 2c 74 72 75 65 5d 2c 22 73 74 61 74 65 6d 65 6e 74 22 3a 22
+48 65 6c 6c 6f 20 73 69 67 6e 65 64 20 77 6f 72 6c 64 21 22 7d
+                    </sourcecode>
+                </section>
+                <section anchor="JWSCreatedData" numbered="true" toc="default">
+                    <name>Generate a JWS String</name>
+                    <t>
+                        Use the result of the previous step as "payload" to the
+                        signature process described in
+                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
+                        <xref target="RFC7515" format="default"/>.
+                    </t>
+                    <t>
+                        For the sample the JWS header is assumed to be:
+                    </t>
+                    <sourcecode type="json">
+{"alg":"HS256"}
+                    </sourcecode>
+                    <t>
+                        Then the resulting JWS string after payload removal
+                        and using the key specified in <xref target="Operation" format="default"/> 
+                        should read:
+                    </t>
+                    <sourcecode type="json">
+eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
+                    </sourcecode>
+                </section>
+                <section anchor="Assembly" numbered="true" toc="default">
+                    <name>Assemble the Signed JSON Object</name>
+                    <t>
+                        Before a complete signed object can be created, a dedicated top-level
+                        property for holding the JWS signature string needs to be defined.
+                        The only requirement is that this property <bcp14>MUST NOT</bcp14> clash
+                        with any other top-level property name.  
+                        The JWS string itself <bcp14>MUST</bcp14>' be supplied as a
+                        JSON string argument ("") to the signature property.
+                    </t>
+                    <t>
+                        For the sample, the property name "signature" was selected as designated holder of the JWS string.
+                        Equipped with a signature property, the JWS string from the previous
+                        section, and the original JSON sample, the process above should result
+                        in the following, now signed JSON object:
+                    </t>
+                    <sourcecode type="json">
+{
+  "statement": "Hello signed \u0077orld!",
+  "otherProperties": [2e+3, true],
+  "signature": "eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4"
+}
+                    </sourcecode>
+                    <t>
+                        Note that we could equally well have applied the signature
+                        to the canonicalized version of the JSON object.
+                        However, the rearrangement of properties may sometimes be
+                        considered a problem from a "human" point of view, while
+                        computing-wise the order of JSON properties has no impact
+                        whatsoever on the outcome.
+                    </t>
+                </section>
+            </section>
+            <section anchor="Validation" numbered="true" toc="default">
+                <name>Signature Validation</name>
+                <t>
+                    The following sub-sections describe how JSON objects signed
+                    according to this specification can be validated.
+                </t>
+                <section anchor="Parse" numbered="true" toc="default">
+                    <name>Parse the Signed JSON Object</name>
+                    <t>
+                        Parse the JSON object that is anticipated to be signed.
+                        Note that JCS <xref target="RFC8785" format="default"/>
+                        constrains objects to the I-JSON
+                        <xref target="RFC7493" format="default"/> subset.
+                        If the parsing is unsuccessful,
+                        the operation <bcp14>MUST</bcp14>
+                        cause a compliant implementation to terminate
+                        with an appropriate error.
+                    </t>
+                    <t>
+                        To illustrate the subsequent operations the signed JSON object
+                        featured in <xref target="Assembly" format="default"/> is used as sample.
+                   </t>
+                </section>
+                <section anchor="SignProp" numbered="true" toc="default">
+                    <name>Fetch the Signature Property String</name>
+                    <t>
+                        After successful parsing, retrieve the designated JSON top-level
+                        property holding the JWS string.  If the property is missing
+                        or its argument is not a JSON string (""),
+                        the operation <bcp14>MUST</bcp14>
+                        cause a compliant implementation to terminate
+                        with an appropriate error.
+                    </t>
+                    <t>
+                        For the sample where "signature" is supposed to hold the JWS string
+                        the operation above should return the following string: 
+                   </t>
+                    <sourcecode type="json">
+eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
+                    </sourcecode>
+                </section>
+                <section anchor="RemoveProp" numbered="true" toc="default">
+                    <name>Remove the Signature Property String</name>
+                    <t>
+                        Since the signature is calculated over the actual JSON object
+                        data, the designated signature property and its argument <bcp14>MUST</bcp14>'
+                        be removed from the signed JSON object.
+                    </t>
+                    <t>
+                        If applied to the sample the resulting JSON object should read as follows: 
+                   </t>
+                    <sourcecode type="json">
+{
+  "statement": "Hello signed \u0077orld!",
+  "otherProperties": [2e+3, true]
+}
+                    </sourcecode>
+                    <t>
+                        Note that JSON parsers normally remove escape sequences and
+                        the ordering of properties may not always be honored.  However,
+                        this has due to the canonicalization performed by JCS no
+                        impact on the result.
+                    </t>
+                </section>            
+                <section anchor="CNRemainingObject" numbered="true" toc="default">
+                    <name>Canonicalize the Remaining JSON Object</name>
+                    <t>
+                        Use the result of the previous step as input to the
+                        canonicalization process described in JCS
+                        <xref target="RFC8785" format="default"/>.
+                    </t>
+                    <t>
+                        If applied to the sample the result of the process above should read as follows: 
+                   </t>
+                    <sourcecode type="json">
+{"otherProperties":[2000,true],"statement":"Hello signed world!"}
+                    </sourcecode>
+                    <t>
+                        After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
+                        format, the following bytes should be generated:
+                    </t>
+                    <sourcecode type="json">
+7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
+30 30 2c 74 72 75 65 5d 2c 22 73 74 61 74 65 6d 65 6e 74 22 3a 22
+48 65 6c 6c 6f 20 73 69 67 6e 65 64 20 77 6f 72 6c 64 21 22 7d
+                    </sourcecode>
+                </section>
+                <section anchor="JWSValidation" numbered="true" toc="default">
+                    <name>Validate the JWS String</name>
+                    <t>
+                        After extracting the JWS string and canonicalizing the JSON object,
+                        the JWS string <bcp14>MUST</bcp14>' be validated.  
+                        The exact procedures are not specified
+                        here because they depend on application-specific policies like:
+                    </t>
+                    <ul spacing="normal">
+                        <li>Accepted JWS signature algorithms</li>
+                        <li>Accepted and/or required JWS header elements</li>
+                        <li>Signature key lookup methods</li>
+                    </ul>
+                    <t>
+                        If the validation process for some reason fails, 
+                        the operation <bcp14>MUST</bcp14>
+                        cause a compliant implementation to terminate
+                        with an appropriate error.
+                    </t>
+                    <t>
+                        For the sample validation is (deliberately) very simple since both the algorithm and
+                        the key to use are predefined (see <xref target="Operation" format="default"/>). 
+                   </t>
+                </section>
+            </section>
+        </section>
+        <section anchor="IANA" numbered="true" toc="default">
+            <name>IANA Considerations</name>
+            <t>
+                This document has no IANA actions.
+            </t>
+        </section>
+        <section anchor="Security" numbered="true" toc="default">
+            <name>Security Considerations</name>
+            <t>
+                This specification inherits all the security considerations
+                of JWS <xref target="RFC7515" format="default"/>
+                and JCS <xref target="RFC8785" format="default"/>.
+            </t>
+            <t>
+                In similarity to any other signature specification,
+                it is crucial that signatures are verified before
+                acting on the signed payload.
+            </t>
+            <t>
+                For usage in a wider community, the name of the designated
+                signature property becomes a critical factor that
+                <bcp14>MUST</bcp14> be documented and communicated.
+                However, in a properly designed system, a faulty or
+                missing signature <bcp14>MUST</bcp14> "only" lead to
+                failed operation, and not to a security breach.
+            </t>
+        </section>
+    </middle>
+    <back>
+        <references>
+            <name>References</name>
+            <references>
+                <name>Normative References</name>
+
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7493.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
+
+                <reference anchor="UNICODE"
+                   target="https://www.unicode.org/versions/latest/">
+                    <front>
+                        <title>The Unicode Standard</title>
+                        <author>
+                            <organization>The Unicode Consortium</organization>
+                        </author>
+                    </front>
+                </reference>
+
+            </references>
+            <references>
+
+                <name>Informative References</name>
+
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4648.xml"/>
+
+                <reference anchor="XMLDSIG"
+                   target="https://www.w3.org/TR/xmldsig-core1/">
+                    <front>
+                        <title>XML Signature Syntax and Processing Version 1.1</title>
+                        <author>
+                            <organization>W3C</organization>
+                        </author>
+                        <date month="April" year="2013"/>
+                    </front>
+                    <refcontent>W3C Recommendation</refcontent>
+                </reference>
+
+            </references>
+        </references>
+        <section anchor="open.source" numbered="true" toc="default">
+            <name>Open-Source Implementations</name>
+            <t>
+                Due to the simplicity of this specification, there is hardly a need for
+                specific support software.
+                However, JCS which is (at the time of writing), a relatively new design,
+                may be fetched as a separate component for multiple platforms.
+                The following open-source implementations have been verified to be
+                compatible with JCS:
+            </t>
+            <ul spacing="normal">
+                <li>
+                    JavaScript: <eref
+      target="https://www.npmjs.com/package/canonicalize"
+      brackets="angle"/>
+                </li>
+                <li>
+                    Java: <eref
+            target="https://mvnrepository.com/artifact/io.github.erdtman/java-json-canonicalization"
+            brackets="angle"/>
+                </li>
+                <li>
+                    Go: <eref
+              target="https://github.com/cyberphone/json-canonicalization/tree/master/go"
+                brackets="angle"/>
+                </li>
+                <li>
+                    .NET/C#: <eref
+         target="https://github.com/cyberphone/json-canonicalization/tree/master/dotnet"
+           brackets="angle"/>
+                </li>
+                <li>
+                    Python: <eref
+          target="https://github.com/cyberphone/json-canonicalization/tree/master/python3"
+            brackets="angle"/>
+                </li>
+            </ul>
+        </section>
+        <section anchor="Acknowledgements" numbered="false" toc="default">
+            <name>Acknowledgements</name>
+            <t>
+                TBD
+            </t>
+        </section>
+    </back>
+</rfc>
