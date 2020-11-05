@@ -70,7 +70,7 @@
                 This document describes how JSON objects can be complemented
                 with enveloped signatures based on the JSON Web Signature (JWS) standard.
                 By building on the JSON Canonicalization Scheme (JCS) and using JWS
-                in the "detached" mode, signed JSON objects remain in the JSON format
+                in the "detached" mode, signed JSON objects may be kept in the JSON format
                 (aka "clear&nbsp;text" signing), which is the main difference to using JWS alone.
             </t>
         </abstract>
@@ -81,7 +81,7 @@
             <t>
                 This specification introduces a method for augmenting objects expressed in the
                 JSON <xref target="RFC8259" format="default"/> notation,
-                with enveloped signatures, quite similar to the scheme used in 
+                with enveloped signatures, similar to the scheme used in 
                 the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> standard.
                 For interoperability reasons this specification constrains JSON objects
                 to the I-JSON <xref target="RFC7493" format="default"/> subset.
@@ -100,8 +100,8 @@
             </t>
             <t>
                 The primary motivations for keeping signed JSON objects in the JSON format
-                include simplified documentation, debugging, and logging,
-                as well as for maintaining a consistent message structure. 
+                include <em>simplified documentation</em>, <em>debugging</em>, and <em>logging</em>,
+                as well as for maintaining a <em>consistent message structure</em>. 
                 The latter is at odds with JWS in the "standard" mode,
                 since it transforms JSON objects to be signed into base64url-encoded
                 <xref target="RFC4648" format="default"/>
@@ -112,11 +112,17 @@
                 utilize HTTP header values for holding detached signatures.
                 By rather using the method described herein,
                 signed JSON-formatted HTTP requests and responses
-                may be self-contained and thus be serializable.
-                The latter facilitates such data to be stored, passed through
-                intermediaries, embedded in other JSON objects, and
-                counter-signed, without losing the ability to (at any time)
-                verify signatures.
+                may be self-contained and thus be <em>serializable</em>.
+                The latter facilitates such data to be
+            </t>
+            <ul spacing="compact">
+                <li>stored</li>
+                <li>passed through intermediaries</li>
+                <li>embedded in other JSON objects</li>
+                <li>counter-signed</li>
+            </ul>
+            <t>
+                 without losing the ability to (at any time) verify signatures.
             </t>
             <t>
                 The intended audiences of this document are JSON tool vendors as
@@ -153,8 +159,9 @@
             </t>
             <t>
                 The signature creation and signature validation sections
-                feature samples using the "HS256" algorithm with a 256-bit
-                key having the following value expressed in hex:
+                feature samples using the "HS256" JOSE algorithm 
+                <xref target="RFC7518" format="default"/>
+                with a 256-bit key having the following value expressed in hex notation:
             </t>
             <sourcecode type="json">
 7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
@@ -198,7 +205,7 @@
                     </sourcecode>
                     <t>
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
-                        format, the following bytes should be generated:
+                        format, the following bytes (here in hex notation) should be generated:
                     </t>
                     <sourcecode type="json">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
@@ -215,7 +222,7 @@
                         <xref target="RFC7515" format="default"/>.
                     </t>
                     <t>
-                        For the sample the JWS header is assumed to be:
+                        For the sample, the JWS header is assumed to be:
                     </t>
                     <sourcecode type="json">
 {"alg":"HS256"}
@@ -236,7 +243,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         property for holding the JWS signature string needs to be defined.
                         The only requirement is that this property <bcp14>MUST NOT</bcp14> clash
                         with any other top-level property name.  
-                        The JWS string itself <bcp14>MUST</bcp14>' be supplied as a
+                        The JWS string itself <bcp14>MUST</bcp14> be supplied as a
                         JSON string argument ("") to the signature property.
                     </t>
                     <t>
@@ -249,14 +256,19 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
 {
   "statement": "Hello signed \u0077orld!",
   "otherProperties": [2e+3, true],
-  "signature": "eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4"
+  "signature": "eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imar
+DtJeSxH2uLU0DhqQP5Zjw4"
 }
                     </sourcecode>
                     <t>
-                        Note that we could equally well have applied the signature
+                        Note: the line-break in the "signature" argument was added for display purposes only.
+                    </t>
+                    <t>
+                        Note: you could equally well apply the signature
                         to the canonicalized version of the JSON object.
-                        However, the rearrangement of properties may sometimes be
-                        considered a problem from a "human" point of view, while
+                        However, the rearrangement of properties (performed by JCS),
+                        may sometimes be considered a problem from a "human" point of view,
+                        while
                         computing-wise the order of JSON properties has no impact
                         whatsoever on the outcome.
                     </t>
@@ -307,7 +319,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <name>Remove the Signature Property String</name>
                     <t>
                         Since the signature is calculated over the actual JSON object
-                        data, the designated signature property and its argument <bcp14>MUST</bcp14>'
+                        data, the designated signature property and its argument <bcp14>MUST</bcp14>
                         be removed from the signed JSON object.
                     </t>
                     <t>
@@ -341,7 +353,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </sourcecode>
                     <t>
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
-                        format, the following bytes should be generated:
+                        format, the following bytes (here in hex notation) should be generated:
                     </t>
                     <sourcecode type="json">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
@@ -353,11 +365,11 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <name>Validate the JWS String</name>
                     <t>
                         After extracting the JWS string and canonicalizing the JSON object,
-                        the JWS string <bcp14>MUST</bcp14>' be validated.  
+                        the JWS string <bcp14>MUST</bcp14> be validated.  
                         The exact procedures are not specified
                         here because they depend on application-specific policies like:
                     </t>
-                    <ul spacing="normal">
+                    <ul spacing="compact">
                         <li>Accepted JWS signature algorithms</li>
                         <li>Accepted and/or required JWS header elements</li>
                         <li>Signature key lookup methods</li>
@@ -419,6 +431,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7493.xml"/>
                 <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7518.xml"/>
                 <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
 
