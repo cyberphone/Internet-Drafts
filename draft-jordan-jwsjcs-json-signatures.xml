@@ -216,7 +216,7 @@
                 <section anchor="JWSCreatedData" numbered="true" toc="default">
                     <name>Generate a JWS String</name>
                     <t>
-                        Use the result of the previous step as "payload" to the
+                        Use the result of the previous step as JWS&nbsp;Payload to the
                         signature process described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
                         <xref target="RFC7515" format="default"/>.
@@ -364,11 +364,13 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                 <section anchor="JWSValidation" numbered="true" toc="default">
                     <name>Validate the JWS String</name>
                     <t>
-                        After extracting the JWS string and canonicalizing the JSON object
-                        (to retrieve the JWS "payload" in binary),
-                        the JWS string <bcp14>MUST</bcp14> be validated.  
-                        The exact procedures are not specified
-                        here because they depend on application-specific policies like:
+                        After extracting the detached mode JWS string and canonicalizing the JSON object
+                        (to retrieve the JWS&nbsp;Payload),
+                        the JWS string <bcp14>MUST</bcp14> be restored as described in
+                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
+                        <xref target="RFC7515" format="default"/>.
+                        The exact validation procedure is not specified
+                        here because it depends on application-specific policies like:
                     </t>
                     <ul spacing="compact">
                         <li>Accepted JWS signature algorithms</li>
