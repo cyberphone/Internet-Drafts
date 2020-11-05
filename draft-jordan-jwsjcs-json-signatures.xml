@@ -181,7 +181,7 @@
                         <xref target="RFC7493" format="default"/> subset.
                     </t>
                     <t>
-                        To illustrate the subsequent operations the following sample object is used:
+                        For illustrating the subsequent operations the following sample object is used:
                     </t>
                     <sourcecode type="json">
 {
@@ -228,9 +228,9 @@
 {"alg":"HS256"}
                     </sourcecode>
                     <t>
-                        Then the resulting JWS string after payload removal
+                        The resulting JWS string after payload removal
                         and using the key specified in <xref target="Operation" format="default"/> 
-                        should read:
+                        should then read as follows:
                     </t>
                     <sourcecode type="json">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
@@ -364,7 +364,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                 <section anchor="JWSValidation" numbered="true" toc="default">
                     <name>Validate the JWS String</name>
                     <t>
-                        After extracting the JWS string and canonicalizing the JSON object,
+                        After extracting the JWS string and canonicalizing the JSON object
+                        (to retrieve the JWS "payload" in binary),
                         the JWS string <bcp14>MUST</bcp14> be validated.  
                         The exact procedures are not specified
                         here because they depend on application-specific policies like:
