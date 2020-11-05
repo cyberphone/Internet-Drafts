@@ -161,7 +161,7 @@
                 The signature creation and signature validation sections
                 feature samples using the "HS256" JOSE algorithm 
                 <xref target="RFC7518" format="default"/>
-                with a 256-bit key having the following value expressed in hex notation:
+                with a 256-bit key having the following value here expressed in hex notation:
             </t>
             <sourcecode type="json">
 7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
