@@ -369,8 +369,9 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         the JWS string <bcp14>MUST</bcp14> be restored as described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
                         <xref target="RFC7515" format="default"/>.
-                        The exact validation procedure is not specified
-                        here because it depends on application-specific policies like:
+                        The actual JWS validation procedure is not specified
+                        here because it is covered by <xref target="RFC7515" format="default"/>
+                        and also depends on application-specific policies like:
                     </t>
                     <ul spacing="compact">
                         <li>Accepted JWS signature algorithms</li>
@@ -384,7 +385,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample validation is (deliberately) very simple since both the algorithm and
+                        For the sample, validation is straightforward since both the algorithm and
                         the key to use are predefined (see <xref target="Operation" format="default"/>). 
                    </t>
                 </section>
