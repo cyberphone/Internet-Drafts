@@ -308,7 +308,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample where "signature" is supposed to hold the JWS string
+                        For the sample where "signature" is supposed to hold the JWS string,
                         the operation above should return the following string: 
                    </t>
                     <sourcecode type="test-vectors">
