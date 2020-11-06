@@ -198,7 +198,7 @@
                         <xref target="RFC8785" format="default"/>.
                     </t>
                     <t>
-                        Applied to the sample, the following JSON String should be generated:
+                        Applied to the sample, the following JSON string should be generated:
                     </t>
                     <sourcecode type="json">
 {"otherProperties":[2000,true],"statement":"Hello signed world!"}
@@ -230,7 +230,7 @@
                     <t>
                         The resulting JWS string should after payload removal
                         and using the key specified in <xref target="Operation" format="default"/>,
-                        now read as follows:
+                        read as follows:
                     </t>
                     <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
