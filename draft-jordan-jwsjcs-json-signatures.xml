@@ -17,7 +17,7 @@
      version="3">
     <front>
         <title abbrev="JWSJCS">
-            Clear-text JSON Signatures by combining JWS and JCS
+            JWS/JCS “Combo” for Enabling Clear-text JSON Signatures
         </title>
         <author fullname="Bret Jordan" initials="B." surname="Jordan" role="editor">
             <organization>Broadcom</organization>
@@ -69,9 +69,9 @@
             <t>
                 This document describes how JSON objects can be complemented
                 with enveloped signatures based on the JSON Web Signature (JWS) standard.
-                By building on the JSON Canonicalization Scheme (JCS) and using JWS
+                By combining the JSON Canonicalization Scheme (JCS) with JWS running
                 in the "detached" mode, signed JSON objects may be kept in the JSON format
-                (aka "clear&nbsp;text" signing), which is the main difference to using JWS alone.
+                (aka "clear&nbsp;text" signing), which is the main differentiator to using JWS alone.
             </t>
         </abstract>
     </front>
