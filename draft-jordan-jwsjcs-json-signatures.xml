@@ -102,8 +102,8 @@
                 The primary motivations for keeping signed JSON objects in the JSON format
                 include <em>simplified documentation</em>, <em>debugging</em>, and <em>logging</em>,
                 as well as for maintaining a <em>consistent message structure</em>. 
-                The latter is at odds with JWS in the "standard" mode,
-                since it transforms JSON objects to be signed into base64url-encoded
+                The latter is at odds with JWS in the "standard" mode which
+                transforms JSON objects to be signed into base64url-encoded
                 <xref target="RFC4648" format="default"/>
                 signature containers with embedded data.
             </t>
