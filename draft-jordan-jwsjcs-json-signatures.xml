@@ -116,7 +116,7 @@
                 The latter facilitates such data to be
             </t>
             <ul spacing="compact">
-                <li>stored in a database</li>
+                <li>stored in databases</li>
                 <li>passed through intermediaries</li>
                 <li>embedded in other JSON objects</li>
                 <li>counter-signed</li>
