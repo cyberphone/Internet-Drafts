@@ -268,9 +268,8 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         to the canonicalized version of the JSON object.
                         However, the rearrangement of properties (performed by JCS),
                         may sometimes be considered a problem from a "human" point of view,
-                        while
-                        computing-wise the order of JSON properties has no impact
-                        whatsoever on the outcome.
+                        while computing-wise the order of JSON properties has no impact
+                        on the outcome.
                     </t>
                 </section>
             </section>
@@ -308,7 +307,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample where "signature" is supposed to hold the JWS string,
+                        For the sample, where a property named "signature" is supposed to hold the JWS string,
                         the operation above should return the following string: 
                    </t>
                     <sourcecode type="test-vectors">
