@@ -228,9 +228,9 @@
 {"alg":"HS256"}
                     </sourcecode>
                     <t>
-                        The resulting JWS string after payload removal
-                        and using the key specified in <xref target="Operation" format="default"/> 
-                        should then read as follows:
+                        The resulting JWS string should after payload removal
+                        and using the key specified in <xref target="Operation" format="default"/>,
+                        now read as follows:
                     </t>
                     <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
