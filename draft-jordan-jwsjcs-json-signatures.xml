@@ -386,8 +386,15 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </t>
                     <t>
                         For the sample, validation is straightforward since both the algorithm and
-                        the key to use are predefined (see <xref target="Operation" format="default"/>). 
+                        the key to use are predefined (see <xref target="Operation" format="default"/>).
+                        The input string to the JWS validator should read as follows (disregarding
+                        the line-breaks that were added for display purposes):
                    </t>
+                    <sourcecode type="json">
+eyJhbGciOiJIUzI1NiJ9.eyJvdGhlclByb3BlcnRpZXMiOlsyMDAwLHRydWVdLCJzdGF0
+ZW1lbnQiOiJIZWxsbyBzaWduZWQgd29ybGQhIn0.VHVItCBCb8Q5CI-49imarDtJeSxH2
+uLU0DhqQP5Zjw4
+                    </sourcecode>
                 </section>
             </section>
         </section>
