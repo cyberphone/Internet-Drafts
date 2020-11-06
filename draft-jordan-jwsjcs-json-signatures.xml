@@ -163,16 +163,16 @@
                 <xref target="RFC7518" format="default"/>
                 with a 256-bit key having the following value here expressed in hex notation:
             </t>
-            <sourcecode type="json">
+            <sourcecode type="test-vectors">
 7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
             </sourcecode>
-            <section anchor="Signature" numbered="true" toc="default">
+            <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
                     The following sub-sections describe how JSON objects can be signed
                     according to this specification.
                 </t>
-                <section anchor="DataCreation" numbered="true" toc="default">
+                <section anchor="signing.data.creation" numbered="true" toc="default">
                     <name>Create the JSON Object to be Signed</name>
                     <t>
                         Create or parse the JSON object to be signed.
@@ -190,7 +190,7 @@
 }
                     </sourcecode>
                 </section>
-                <section anchor="CNCreatedData" numbered="true" toc="default">
+                <section anchor="signing.canonicalize" numbered="true" toc="default">
                     <name>Canonicalize the JSON Object to be Signed</name>
                     <t>
                         Use the result of the previous step as input to the
@@ -207,13 +207,13 @@
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
                         format, the following bytes (here in hex notation) should be generated:
                     </t>
-                    <sourcecode type="json">
+                    <sourcecode type="test-vectors">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
 30 30 2c 74 72 75 65 5d 2c 22 73 74 61 74 65 6d 65 6e 74 22 3a 22
 48 65 6c 6c 6f 20 73 69 67 6e 65 64 20 77 6f 72 6c 64 21 22 7d
                     </sourcecode>
                 </section>
-                <section anchor="JWSCreatedData" numbered="true" toc="default">
+                <section anchor="signing.create.jws" numbered="true" toc="default">
                     <name>Generate a JWS String</name>
                     <t>
                         Use the result of the previous step as JWS&nbsp;Payload to the
@@ -232,11 +232,11 @@
                         and using the key specified in <xref target="Operation" format="default"/> 
                         should then read as follows:
                     </t>
-                    <sourcecode type="json">
+                    <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </sourcecode>
                 </section>
-                <section anchor="Assembly" numbered="true" toc="default">
+                <section anchor="signing.final" numbered="true" toc="default">
                     <name>Assemble the Signed JSON Object</name>
                     <t>
                         Before a complete signed object can be created, a dedicated top-level
@@ -274,13 +274,13 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     </t>
                 </section>
             </section>
-            <section anchor="Validation" numbered="true" toc="default">
+            <section anchor="validation" numbered="true" toc="default">
                 <name>Signature Validation</name>
                 <t>
                     The following sub-sections describe how JSON objects signed
                     according to this specification can be validated.
                 </t>
-                <section anchor="Parse" numbered="true" toc="default">
+                <section anchor="validation.parse.input" numbered="true" toc="default">
                     <name>Parse the Signed JSON Object</name>
                     <t>
                         Parse the JSON object that is anticipated to be signed.
@@ -294,10 +294,10 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     </t>
                     <t>
                         To illustrate the subsequent operations the signed JSON object
-                        featured in <xref target="Assembly" format="default"/> is used as sample.
+                        featured in <xref target="signing.final" format="default"/> is used as sample.
                    </t>
                 </section>
-                <section anchor="SignProp" numbered="true" toc="default">
+                <section anchor="validation.fetch.signprop" numbered="true" toc="default">
                     <name>Fetch the Signature Property String</name>
                     <t>
                         After successful parsing, retrieve the designated JSON top-level
@@ -311,11 +311,11 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         For the sample where "signature" is supposed to hold the JWS string
                         the operation above should return the following string: 
                    </t>
-                    <sourcecode type="json">
+                    <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </sourcecode>
                 </section>
-                <section anchor="RemoveProp" numbered="true" toc="default">
+                <section anchor="validation.remove.signprop" numbered="true" toc="default">
                     <name>Remove the Signature Property String</name>
                     <t>
                         Since the signature is calculated over the actual JSON object
@@ -338,7 +338,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         no impact on the result.
                     </t>
                 </section>            
-                <section anchor="CNRemainingObject" numbered="true" toc="default">
+                <section anchor="validation.canonicalize" numbered="true" toc="default">
                     <name>Canonicalize the Remaining JSON Object</name>
                     <t>
                         Use the result of the previous step as input to the
@@ -355,13 +355,13 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
                         format, the following bytes (here in hex notation) should be generated:
                     </t>
-                    <sourcecode type="json">
+                    <sourcecode type="test-vectors">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
 30 30 2c 74 72 75 65 5d 2c 22 73 74 61 74 65 6d 65 6e 74 22 3a 22
 48 65 6c 6c 6f 20 73 69 67 6e 65 64 20 77 6f 72 6c 64 21 22 7d
                     </sourcecode>
                 </section>
-                <section anchor="JWSValidation" numbered="true" toc="default">
+                <section anchor="validation.finalstep.jws" numbered="true" toc="default">
                     <name>Validate the JWS String</name>
                     <t>
                         After extracting the detached mode JWS string and canonicalizing the JSON object
@@ -390,7 +390,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         The input string to the JWS validator should after the process step above read as follows (disregarding
                         the line-breaks that were added for display purposes only):
                    </t>
-                    <sourcecode type="json">
+                    <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9.eyJvdGhlclByb3BlcnRpZXMiOlsyMDAwLHRydWVdLCJzdGF0
 ZW1lbnQiOiJIZWxsbyBzaWduZWQgd29ybGQhIn0.VHVItCBCb8Q5CI-49imarDtJeSxH2
 uLU0DhqQP5Zjw4
