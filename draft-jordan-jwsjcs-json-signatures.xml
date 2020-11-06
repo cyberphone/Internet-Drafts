@@ -332,9 +332,9 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </sourcecode>
                     <t>
                         Note that JSON parsers normally remove escape sequences and
-                        the ordering of properties may not always be honored.  However,
-                        this has (due to the canonicalization performed by JCS),
-                        no impact on the result.
+                        the original ordering of properties may not be honored.
+                        However, none of this has (due to the canonicalization performed by JCS),
+                        any impact on the result.
                     </t>
                 </section>            
                 <section anchor="validation.canonicalize" numbered="true" toc="default">
