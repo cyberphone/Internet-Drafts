@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jwsjcs-json-signatures-00"
+     docName="draft-jordan-jws-ct"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -16,8 +16,8 @@
      sortRefs="true"
      version="3">
     <front>
-        <title abbrev="JWSJCS">
-            JWS/JCS “Combo” for Enabling Clear-text JSON Signatures
+        <title abbrev="JWS/CT">
+            JWS Clear-text JSON Signature Mode (JWS/CT)
         </title>
         <author fullname="Bret Jordan" initials="B." surname="Jordan" role="editor">
             <organization>Broadcom</organization>
@@ -59,7 +59,6 @@
         <area>Security</area>
         <workgroup/>
         <keyword>JSON</keyword>
-        <keyword>ECMAScript</keyword>
         <keyword>Signatures</keyword>
         <keyword>Cryptography</keyword>
         <keyword>Canonicalization</keyword>
@@ -69,9 +68,9 @@
             <t>
                 This document describes how JSON objects can be complemented
                 with enveloped signatures based on the JSON Web Signature (JWS) standard.
-                By combining the JSON Canonicalization Scheme (JCS) with JWS running
-                in the "detached" mode, signed JSON objects may be kept in the JSON format
-                (aka "clear&nbsp;text" signing), which is the main differentiator to using JWS alone.
+                By combining the "detached" mode of JWS with the 
+                JSON Canonicalization Scheme (JCS), signed JSON objects may 
+                be kept in the JSON format (aka "clear&nbsp;text" signing).
             </t>
         </abstract>
     </front>
@@ -91,12 +90,11 @@
                 JSON Web Signature (JWS) <xref target="RFC7515" format="default"/> standard.
             </t>
             <t>
-                By exploiting JWS in the "detached" mode in combination with the
-                JSON Canonicalizion Scheme (JCS)
+                By exploiting the "detached" mode of JWS
+                in combination with the JSON Canonicalizion Scheme (JCS)
                 <xref target="RFC8785" format="default"/>,
                 JSON objects to be signed can be kept in the JSON format.
-                This is sometimes
-                referred to as "clear&nbsp;text" signing.
+                This is here referred to as "clear&nbsp;text" signing.
             </t>
             <t>
                 The primary motivations for keeping signed JSON objects in the JSON format
