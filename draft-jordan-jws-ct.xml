@@ -17,7 +17,7 @@
      version="3">
     <front>
         <title abbrev="JWS/CT">
-            JWS Clear-text JSON Signature Mode (JWS/CT)
+            JWS Clear-text JSON Signature Option (JWS/CT)
         </title>
         <author fullname="Bret Jordan" initials="B." surname="Jordan" role="editor">
             <organization>Broadcom</organization>
