@@ -160,7 +160,7 @@
                 The signature creation and signature validation sections
                 feature samples using the "HS256" JOSE algorithm 
                 <xref target="RFC7518" format="default"/>
-                with a 256-bit key having the following value here expressed in hex notation:
+                with a 256-bit key having the following value here expressed in hexadecimal notation:
             </t>
             <sourcecode type="test-vectors">
 7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
@@ -204,7 +204,7 @@
                     </sourcecode>
                     <t>
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
-                        format, the following bytes (here in hex notation) should be generated:
+                        format, the following bytes (here in hexadecimal notation) should be generated:
                     </t>
                     <sourcecode type="test-vectors">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
@@ -353,7 +353,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </sourcecode>
                     <t>
                         After encoding the string above in the UTF-8 <xref target="UNICODE" format="default"/>
-                        format, the following bytes (here in hex notation) should be generated:
+                        format, the following bytes (here in hexadecimal notation) should be generated:
                     </t>
                     <sourcecode type="test-vectors">
 7b 22 6f 74 68 65 72 50 72 6f 70 65 72 74 69 65 73 22 3a 5b 32 30
