@@ -94,7 +94,8 @@
                 in combination with the JSON Canonicalizion Scheme (JCS)
                 <xref target="RFC8785" format="default"/>,
                 JSON objects to be signed can be kept in the JSON format.
-                This is here referred to as "clear&nbsp;text" signing.
+                This arrangement is here referred to as JWS/CT, where CT stands for
+                "Clear&nbsp;Text" signing.
             </t>
             <t>
                 The primary motivations for keeping signed JSON objects in the JSON format
