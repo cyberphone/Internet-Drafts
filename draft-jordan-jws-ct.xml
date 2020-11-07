@@ -154,6 +154,7 @@
             <t>
                 This section describes the details related to signing
                 and validating signatures based on this specification.
+                Note that JWS/CT depends on the JWS Compact Serialization mode.
             </t>
             <t>
                 The signature creation and signature validation sections
@@ -168,7 +169,7 @@
                 <name>Signature Creation</name>
                 <t>
                     The following sub-sections describe how JSON objects can be signed
-                    according to this specification.
+                    according to the JWS/CT specification.
                 </t>
                 <section anchor="signing.data.creation" numbered="true" toc="default">
                     <name>Create the JSON Object to be Signed</name>
@@ -275,7 +276,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                 <name>Signature Validation</name>
                 <t>
                     The following sub-sections describe how JSON objects signed
-                    according to this specification can be validated.
+                    according to the JWS/CT specification can be validated.
                 </t>
                 <section anchor="validation.parse.input" numbered="true" toc="default">
                     <name>Parse the Signed JSON Object</name>
