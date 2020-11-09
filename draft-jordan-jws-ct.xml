@@ -63,7 +63,6 @@
         <keyword>Cryptography</keyword>
         <keyword>Canonicalization</keyword>
 
-
         <abstract>
             <t>
                 This document describes how JSON objects can be complemented
@@ -216,14 +215,14 @@
                 <section anchor="signing.create.jws" numbered="true" toc="default">
                     <name>Generate a JWS String</name>
                     <t>
-                        Use the result of the previous step as JWS&nbsp;Payload to the
+                        Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
                         signature process described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
                         <xref target="RFC7515" format="default"/>.
                     </t>
                     <t>
                         Note: although it is correct that using the "Unencoded Payload" mode of RFC7797
-                        <xref target="RFC7797" format="default"/> would eliminate an (internal only)
+                        <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
                         base64url encoding step, the performance hit should be quite marginal
                         in real-world applications.
                         The current design also makes JWS/CT independent of JWS library support for the
@@ -256,7 +255,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         JSON string argument ("") to the signature property.
                     </t>
                     <t>
-                        For the sample, the property name "signature" is assumed to be the designated holder of the JWS string.
+                        For the sample, the property name <tt>"signature"</tt> is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
                         section, and the original JSON sample, the process above should result
                         in the following, now signed JSON object:
@@ -270,7 +269,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
 }
                     </sourcecode>
                     <t>
-                        Note: the line-break in the "signature" argument was added for display purposes only.
+                        Note: the line-break in the <tt>"signature"</tt> argument was added for display purposes only.
                     </t>
                     <t>
                         Note: you could equally well apply the signature
@@ -316,7 +315,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample, where the property named "signature" is assumed to hold the JWS string,
+                        For the sample, where the property named <tt>"signature"</tt> is assumed to hold the JWS string,
                         the operation above should return the following string: 
                    </t>
                     <sourcecode type="test-vectors">
@@ -375,7 +374,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <name>Validate the JWS String</name>
                     <t>
                         After extracting the detached mode JWS string and canonicalizing the JSON object
-                        (to retrieve the JWS&nbsp;Payload),
+                        (to retrieve the <tt>JWS&nbsp;Payload</tt>),
                         the JWS string <bcp14>MUST</bcp14> be restored as described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
                         <xref target="RFC7515" format="default"/>.
@@ -533,7 +532,11 @@ uLU0DhqQP5Zjw4
         <section anchor="Acknowledgements" numbered="false" toc="default">
             <name>Acknowledgements</name>
             <t>
-                TBD
+                People who have contributed directly and indirectly with 
+                valuable input to this specification include
+                <contact fullname="Freddi Gyara"/>,
+                and
+                <contact fullname="Filip Skokan"/>.
             </t>
         </section>
     </back>
