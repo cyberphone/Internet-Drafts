@@ -270,7 +270,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         Note: you could equally well apply the signature
                         to the canonicalized version of the JSON object.
                         However, the rearrangement of properties (performed by JCS),
-                        may sometimes be considered a problem from a "human" point of view,
+                        may sometimes be considered an issue from a "human" point of view,
                         while computing-wise the order of JSON properties has no impact
                         on the outcome.
                     </t>
