@@ -339,7 +339,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
 }
                     </sourcecode>
                     <t>
-                        Note that JSON tools usually convert escape sequences into
+                        Note: JSON tools usually convert escape sequences into
                         real characters as well as removing whitespace.
                         In addition, the original ordering of properties may
                         not always be honored.
