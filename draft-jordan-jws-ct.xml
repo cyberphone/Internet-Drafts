@@ -221,7 +221,7 @@
                         <xref target="RFC7515" format="default"/>.
                     </t>
                     <t>
-                        Note: although it is correct that using the "Unencoded Payload" mode of RFC7797
+                        Note: although it is true that using the "Unencoded Payload" mode of RFC7797
                         <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
                         base64url encoding step, the performance hit should be quite marginal
                         in real-world applications.
