@@ -230,13 +230,8 @@
                         JWS header items required by RFC7797.
                     </t>
                     <t>
-                        For the sample, the JWS header is assumed to be:
-                    </t>
-                    <sourcecode type="json">
-{"alg":"HS256"}
-                    </sourcecode>
-                    <t>
-                        The resulting JWS string should after payload removal
+                        For the sample, the JWS header is assumed to be <tt>{"alg":"HS256"}</tt>.
+                        The resulting JWS string should then after payload removal
                         and using the key specified in <xref target="Operation" format="default"/>,
                         read as follows:
                     </t>
