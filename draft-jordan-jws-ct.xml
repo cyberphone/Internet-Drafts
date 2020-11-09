@@ -223,8 +223,7 @@
                     <t>
                         Note: although it is true that using the "Unencoded Payload" mode of RFC7797
                         <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
-                        base64url encoding step, the performance hit should be quite marginal
-                        in real-world applications.
+                        base64url encoding step, the performance hit should be marginal for real-world applications.
                         The current design also makes JWS/CT independent of JWS library support for the
                         <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt> 
                         JWS header items required by RFC7797.
