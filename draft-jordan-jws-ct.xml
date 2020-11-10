@@ -120,7 +120,7 @@
                 <li>counter-signed</li>
             </ul>
             <t>
-                 without losing the ability to (at any time) verify signatures.
+                without losing the ability to (at any time) verify signatures.
             </t>
             <t>
                 The intended audiences of this document are JSON tool vendors as
@@ -154,17 +154,25 @@
             <t>
                 This section describes the details related to signing
                 and validating signatures based on this specification.
-                Note that JWS/CT depends on the JWS Compact Serialization mode.
+                Note that JWS/CT depends on the JWS <em>Compact Serialization</em> mode.
             </t>
             <t>
                 The signature creation and signature validation sections
-                feature samples using the "HS256" JOSE algorithm 
+                feature samples using the <tt>HS256</tt> JOSE algorithm 
                 <xref target="RFC7518" format="default"/>
-                with a 256-bit key having the following value here expressed in hexadecimal notation:
+                with a 256-bit key having the following value here expressed as hexadecimal bytes:
             </t>
             <sourcecode type="test-vectors">
-7fdd851a3b9d2dafc5f0d00030e22b9343900cd42ede4948568a4a2ee655291a
+7f dd 85 1a 3b 9d 2d af c5 f0 d0 00 30 e2 2b 93 43 90 0c d4 2e de
+49 48 56 8a 4a 2e e6 55 29 1a
             </sourcecode>
+            <t>
+                Note that the contents of JWS headers as well as things
+                related to signature algorithms and cryptographic keys,
+                are out of scope for this specification.
+                In fact, the only "connection" between JWS/CT and JWS is the processing outlined in
+                <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/>.
+            </t>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
@@ -184,8 +192,8 @@
                     </t>
                     <sourcecode type="json">
 {
-  "statement": "Hello signed \u0077orld!",
-  "otherProperties": [2e+3, true]
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true]
 }
                     </sourcecode>
                 </section>
@@ -223,10 +231,11 @@
                     <t>
                         Note: although it is true that using the "Unencoded Payload" mode of RFC7797
                         <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
-                        base64url encoding step, the performance hit should be marginal for real-world applications.
+                        base64url encoding step, the performance hit should be marginal for most real-world applications.
                         The current design also makes JWS/CT independent of JWS library support for the
                         <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt> 
-                        JWS header items required by RFC7797.
+                        JWS header items required by RFC7797.  However, this specification does not
+                        in any way "outlaw" the use RFC7797, it rather leaves it as an <em>implementer option</em>.
                     </t>
                     <t>
                         For the sample, the JWS header is assumed to be <tt>{"alg":"HS256"}</tt>.
@@ -256,8 +265,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     </t>
                     <sourcecode type="json">
 {
-  "statement": "Hello signed \u0077orld!",
-  "otherProperties": [2e+3, true],
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true],
   "signature": "eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imar
 DtJeSxH2uLU0DhqQP5Zjw4"
 }
@@ -328,13 +337,12 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                    </t>
                     <sourcecode type="json">
 {
-  "statement": "Hello signed \u0077orld!",
-  "otherProperties": [2e+3, true]
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true]
 }
                     </sourcecode>
                     <t>
-                        Note: JSON tools usually convert escape sequences into
-                        real characters as well as removing whitespace.
+                        Note: JSON tools usally by default remove whitespace.
                         In addition, the original ordering of properties may
                         not always be honored.
                         However, none of this has (due to the canonicalization performed by JCS),
