@@ -120,6 +120,10 @@
                 <li>counter-signed</li>
             </ul>
             <t>
+                <xref target="multiple.signatures" format="default"/> shows an example of embedding
+                and counter-signing using JWS/CT.
+            </t>
+            <t>
                 without losing the ability to (at any time) verify signatures.
             </t>
             <t>
@@ -531,6 +535,54 @@ uLU0DhqQP5Zjw4
                 </li>
             </ul>
         </section>
+        <section anchor="multiple.signatures" numbered="true" toc="default">
+            <name>Multiple Signatures</name>
+            <t>
+                JWS/CT does not natively support multiple signatures.
+                However, by embedding JWS/CT objects in other
+                JWS/CT objects this functionality can be emulated.
+                Consider the following JWS/CT object showing an imaginary
+                real estate business record:
+            </t>
+            <sourcecode type="json">
+{
+  "id": "lADU_sO067Wlgoo52-9L",
+  "object": {"type": "house", "price": "$635,000"},
+  "role": "buyer",
+  "timeStamp": "2020-11-08T13:56:08Z",
+  "signature": "Buyer JWS Signature"
+}
+            </sourcecode>
+            <t>
+                Adding a notary signature on top of this could be performed
+                by embedding the former object as follows:
+            </t>
+            <sourcecode type="json">
+{
+  "attesting": {
+    "id": "lADU_sO067Wlgoo52-9L",
+    "object": {"type": "house", "price": "$635,000"},
+    "role": "buyer",
+    "timeStamp": "2020-11-08T13:56:08Z",
+    "signature": "Buyer JWS Signature"
+  },
+  "role": "notary",
+  "timeStamp": "2020-11-08T13:58:42Z",
+  "signature": "Notary JWS Signature"
+}
+            </sourcecode>
+            <t>
+                Note: this means that the notary's signature signs not only the
+                notary data, but the buyers's data as well.
+            </t>
+            <t>
+                Note: another solution would be supporting arrays of JWS signatures strings.
+                This has the drawback that signer-related meta data like the <tt>"role"</tt>
+                and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
+                which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
+            </t>
+        </section>
+
         <section anchor="Acknowledgements" numbered="false" toc="default">
             <name>Acknowledgements</name>
             <t>
