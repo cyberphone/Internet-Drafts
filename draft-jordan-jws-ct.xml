@@ -176,6 +176,7 @@
                 are out of scope for this specification.
                 In fact, the only "connection" between JWS/CT and JWS is the processing outlined in
                 <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/>.
+                See also <xref target="alt.algorithm" format="default"/>.
             </t>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
@@ -483,6 +484,12 @@ uLU0DhqQP5Zjw4
                 <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7797.xml"/>
 
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8037.xml"/>
+
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>                
+
                 <reference anchor="XMLDSIG"
                    target="https://www.w3.org/TR/xmldsig-core1/">
                     <front>
@@ -546,9 +553,10 @@ uLU0DhqQP5Zjw4
             </t>
             <sourcecode type="json">
 {
-  "id": "lADU_sO067Wlgoo52-9L",
+  "gps": [38.89768255588178, -77.03658644893932],
   "object": {"type": "house", "price": "$635,000"},
   "role": "buyer",
+  "name": "John Smith",
   "timeStamp": "2020-11-08T13:56:08Z",
   "signature": "Buyer JWS Signature"
 }
@@ -560,13 +568,15 @@ uLU0DhqQP5Zjw4
             <sourcecode type="json">
 {
   "attesting": {
-    "id": "lADU_sO067Wlgoo52-9L",
+    "gps": [38.89768255588178, -77.03658644893932],
     "object": {"type": "house", "price": "$635,000"},
     "role": "buyer",
+    "name": "John Smith",
     "timeStamp": "2020-11-08T13:56:08Z",
     "signature": "Buyer JWS Signature"
   },
   "role": "notary",
+  "name": "Carol Lombardi-Jones",
   "timeStamp": "2020-11-08T13:58:42Z",
   "signature": "Notary JWS Signature"
 }
@@ -576,11 +586,49 @@ uLU0DhqQP5Zjw4
                 notary data, but the buyers's data as well.
             </t>
             <t>
-                Note: another solution would be supporting arrays of JWS signatures strings.
+                Note: another possibility would be supporting arrays of JWS signatures strings.
                 This has the drawback that signer-related meta data like the <tt>"role"</tt>
                 and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
                 which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
             </t>
+        </section>
+
+        <section anchor="alt.algorithm" numbered="true" toc="default">
+            <name>Test Vector Using the Ed25519 Algorithm</name>
+            <t>
+                Although JWS/CT is <em>agnostic</em> to the cryptography used by JWS component,
+                it might be of some value having a reference that uses another
+                algorithm and key than featured in <xref target="Operation" format="default"/>.
+                This appendix shows how a signed version of the JSON sample object in 
+                <xref target="signing.data.creation" format="default"/> would look like
+                if applying the <tt>Ed25519</tt> algorithm described in RFC&nbsp;8037
+                <xref target="RFC8037" format="default"/>:
+            </t>
+            <sourcecode type="json">
+{
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true],
+  "signature": "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3qUYpH
+6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
+}
+            </sourcecode>
+            <t>
+                Note: the line-break in the <tt>"signature"</tt> argument was added for display purposes only.
+            </t>
+            <t>
+                The sample above depends on a JWS header holding the algorithm 
+                <tt>{"alg":"EdDSA"}</tt>, and the following private key, here expressed in
+                the JWK <xref target="RFC7517" format="default"/> format:
+                
+            </t>
+            <sourcecode type="json">
+{
+  "kty": "OKP",
+  "crv": "Ed25519",
+  "x": "_kms9bkrbpI1lPLoM2j2gKySS-k89TOuyvgC43dX-Mk",
+  "d": "0flr-6bXs459f9qwAq20Zs3NizTGIEH5_rTDFoumFV4"
+}
+            </sourcecode>
         </section>
 
         <section anchor="Acknowledgements" numbered="false" toc="default">
