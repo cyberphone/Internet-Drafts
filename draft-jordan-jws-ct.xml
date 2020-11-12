@@ -545,7 +545,7 @@ uLU0DhqQP5Zjw4
         <section anchor="multiple.signatures" numbered="true" toc="default">
             <name>Multiple Signatures</name>
             <t>
-                JWS/CT does not natively support multiple signatures.
+                JWS/CT does not <em>natively</em> support multiple signatures.
                 However, by embedding JWS/CT objects in other
                 JWS/CT objects this functionality can be emulated.
                 Consider the following JWS/CT object showing an imaginary
@@ -558,7 +558,7 @@ uLU0DhqQP5Zjw4
   "role": "buyer",
   "name": "John Smith",
   "timeStamp": "2020-11-08T13:56:08Z",
-  "signature": "Buyer JWS Signature"
+  "signature": "&lt;&lt;Buyer JWS Signature&gt;&gt;"
 }
             </sourcecode>
             <t>
@@ -573,17 +573,20 @@ uLU0DhqQP5Zjw4
     "role": "buyer",
     "name": "John Smith",
     "timeStamp": "2020-11-08T13:56:08Z",
-    "signature": "Buyer JWS Signature"
+    "signature": "&lt;&lt;Buyer JWS Signature&gt;&gt;"
   },
   "role": "notary",
   "name": "Carol Lombardi-Jones",
   "timeStamp": "2020-11-08T13:58:42Z",
-  "signature": "Notary JWS Signature"
+  "signature": "&lt;&lt;Notary JWS Signature&gt;&gt;"
 }
             </sourcecode>
             <t>
                 Note: this means that the notary's signature signs not only the
                 notary data, but the buyers's data as well.
+                In most cases this way of adding signatures is advantageous since it
+                maintains the actual order of the signature events which also cannot
+                be tampered with without invalidating the outermost signature.
             </t>
             <t>
                 Note: another possibility would be supporting arrays of JWS signatures strings.
