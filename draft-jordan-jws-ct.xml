@@ -594,6 +594,43 @@ uLU0DhqQP5Zjw4
                 and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
                 which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
             </t>
+            <t>
+                In the case the signing entities are "peers" or are unrelated to each other,
+                the sample above would not be useful since it anticipates a specific flow.
+                For supporting <em>independent</em> or <em>asynchronous</em> signers targeting
+                a common document, an imaginable solution is using a scheme where each signer
+                rather signs a hash of the document data and associated signer-specific meta data
+                like the following:
+            </t>
+            <sourcecode type="json">
+{
+
+     Common data to sign...
+
+  "signers": [{
+    "sha256": "&lt;&lt;Hash of Document/Data to Sign&gt;&gt;",
+
+       Signer-related meta data...
+
+    "signature": "&lt;&lt;Signer JWS Signature&gt;&gt;"
+  }, {
+    "sha256": "&lt;&lt;Hash of Document/Data to Sign&gt;&gt;",
+
+      Signer-related meta data...
+
+    "signature": "&lt;&lt;Signer JWS Signature&gt;&gt;"
+  }]
+}
+            </sourcecode>
+            <t>
+                In this case the data to sign would not be limited to JSON; it could for example be a PDF document
+                hosted on a specific URL.
+                Note that the relying party would have to update the structure for each incoming signature.
+                In many cases a database would probably be more useful for holding individual signatures
+                since a database can cope with any number of signers as well as keeping track of who
+                have actually signed.  The latter is crucial for things like international treaties and
+                company board statements. 
+            </t>
         </section>
 
         <section anchor="alt.algorithm" numbered="true" toc="default">
