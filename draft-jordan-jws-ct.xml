@@ -595,38 +595,38 @@ uLU0DhqQP5Zjw4
                 which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
             </t>
             <t>
-                In the case the signing entities are "peers" or are unrelated to each other,
+                Note: in the case the signing entities are "peers" or are unrelated to each other,
                 the sample above would not be useful since it anticipates a specific flow.
                 For supporting <em>independent</em> or <em>asynchronous</em> signers targeting
-                a common document, an imaginable solution is using a scheme where each signer
-                rather signs a hash of the document data and associated signer-specific meta data
-                like the following:
+                a common document or data object, an imaginable solution is using a scheme where each signer
+                rather calculates a hash of the target document/data and includes the hash with
+                the signer-specific meta data like the following:
             </t>
             <sourcecode type="json">
 {
 
-     Common data to sign...
+  &lt;&lt;Common Document/Data to Sign...&gt;&gt;
 
   "signers": [{
     "sha256": "&lt;&lt;Hash of Document/Data to Sign&gt;&gt;",
 
-       Signer-related meta data...
+    &lt;&lt;Signer-related meta data...&gt;&gt;
 
     "signature": "&lt;&lt;Signer JWS Signature&gt;&gt;"
-  }, {
+  },{
     "sha256": "&lt;&lt;Hash of Document/Data to Sign&gt;&gt;",
 
-      Signer-related meta data...
+    &lt;&lt;Signer-related meta data...&gt;&gt;
 
     "signature": "&lt;&lt;Signer JWS Signature&gt;&gt;"
   }]
 }
             </sourcecode>
             <t>
-                In this case the data to sign would not be limited to JSON; it could for example be a PDF document
+                In this case the object to sign would not be limited to JSON; it could for example be a PDF document
                 hosted on a specific URL.
-                Note that the relying party would have to update the structure for each incoming signature.
-                In many cases a database would probably be more useful for holding individual signatures
+                Note that the relying party would have to update the structure for each signature received.
+                In some cases a database would probably be more useful for holding individual signatures
                 since a database can cope with any number of signers as well as keeping track of who
                 have actually signed.  The latter is crucial for things like international treaties and
                 company board statements. 
@@ -676,6 +676,7 @@ uLU0DhqQP5Zjw4
             <t>
                 People who have contributed directly and indirectly with 
                 valuable input to this specification include
+                <contact fullname="Vladimir Dzhuvinov"/>,
                 <contact fullname="Freddi Gyara"/>,
                 and
                 <contact fullname="Filip Skokan"/>.
