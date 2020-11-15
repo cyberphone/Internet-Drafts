@@ -67,8 +67,8 @@
             <t>
                 This document describes how JSON objects can be complemented
                 with enveloped signatures based on the JSON Web Signature (JWS) standard.
-                By combining the "detached" mode of JWS with the 
-                JSON Canonicalization Scheme (JCS), signed JSON objects may 
+                By combining the "detached" mode of JWS with the
+                JSON Canonicalization Scheme (JCS), signed JSON objects may
                 be kept in the JSON format (aka "clear&nbsp;text" signing).
             </t>
         </abstract>
@@ -77,9 +77,9 @@
         <section anchor="Introduction" numbered="true" toc="default">
             <name>Introduction</name>
             <t>
-                This specification introduces a method for augmenting objects expressed in the
+                This specification introduces a method for augmenting data expressed in the
                 JSON <xref target="RFC8259" format="default"/> notation,
-                with enveloped signatures, similar to the scheme used in 
+                with enveloped signatures, similar to the scheme used in
                 the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> standard.
                 For interoperability reasons this specification constrains JSON objects
                 to the I-JSON <xref target="RFC7493" format="default"/> subset.
@@ -89,7 +89,7 @@
                 JSON Web Signature (JWS) <xref target="RFC7515" format="default"/> standard.
             </t>
             <t>
-                By exploiting the "detached" mode of JWS
+                By building on the detached mode of JWS
                 in combination with the JSON Canonicalizion Scheme (JCS)
                 <xref target="RFC8785" format="default"/>,
                 JSON objects to be signed can be kept in the JSON format.
@@ -99,11 +99,7 @@
             <t>
                 The primary motivations for keeping signed JSON objects in the JSON format
                 include <em>simplified documentation</em>, <em>debugging</em>, and <em>logging</em>,
-                as well as for maintaining a <em>consistent message structure</em>. 
-                The latter is at odds with JWS in the "standard" mode which
-                transforms JSON objects to be signed into base64url-encoded
-                <xref target="RFC4648" format="default"/>
-                signature containers with embedded data.
+                as well as for maintaining a <em>consistent message structure</em>.
             </t>
             <t>
                 Another target are HTTP-based signature schemes that currently
@@ -120,11 +116,11 @@
                 <li>counter-signed</li>
             </ul>
             <t>
-                <xref target="multiple.signatures" format="default"/> shows an example of embedding
-                and counter-signing using JWS/CT.
+                without losing the ability to (at any time) verify signatures.
             </t>
             <t>
-                without losing the ability to (at any time) verify signatures.
+                <xref target="multiple.signatures" format="default"/> shows an example of embedding
+                and counter-signing using JWS/CT.
             </t>
             <t>
                 The intended audiences of this document are JSON tool vendors as
@@ -162,7 +158,7 @@
             </t>
             <t>
                 The signature creation and signature validation sections
-                feature samples using the <tt>HS256</tt> JOSE algorithm 
+                feature samples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
                 with a 256-bit key having the following value here expressed as hexadecimal bytes:
             </t>
@@ -238,7 +234,7 @@
                         <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
                         base64url encoding step, the performance hit should be marginal for most real-world applications.
                         The current design also makes JWS/CT independent of JWS library support for the
-                        <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt> 
+                        <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt>
                         JWS header items required by RFC7797.  However, this specification does not
                         in any way "outlaw" the use RFC7797, it rather leaves it as an <em>implementer option</em>.
                     </t>
@@ -258,7 +254,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         Before a complete signed object can be created, a dedicated top-level
                         property for holding the JWS signature string needs to be defined.
                         The only requirement is that this property <bcp14>MUST NOT</bcp14> clash
-                        with any other top-level property name.  
+                        with any other top-level property name.
                         The JWS string itself <bcp14>MUST</bcp14> be supplied as a
                         JSON string argument ("") to the signature property.
                     </t>
@@ -324,7 +320,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     </t>
                     <t>
                         For the sample, where the property named <tt>"signature"</tt> is assumed to hold the JWS string,
-                        the operation above should return the following string: 
+                        the operation above should return the following string:
                    </t>
                     <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
@@ -338,7 +334,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         be removed from the signed JSON object.
                     </t>
                     <t>
-                        If applied to the sample the resulting JSON object should read as follows: 
+                        If applied to the sample the resulting JSON object should read as follows:
                    </t>
                     <sourcecode type="json">
 {
@@ -353,7 +349,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         However, none of this has (due to the canonicalization performed by JCS),
                         any impact on the result.
                     </t>
-                </section>            
+                </section>
                 <section anchor="validation.canonicalize" numbered="true" toc="default">
                     <name>Canonicalize the Remaining JSON Object</name>
                     <t>
@@ -362,7 +358,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         <xref target="RFC8785" format="default"/>.
                     </t>
                     <t>
-                        If applied to the sample the result of the process above should read as follows: 
+                        If applied to the sample the result of the process above should read as follows:
                    </t>
                     <sourcecode type="json">
 {"otherProperties":[2000,true],"statement":"Hello signed world!"}
@@ -395,7 +391,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         <li>Signature key lookup methods</li>
                     </ul>
                     <t>
-                        If the validation process for some reason fails, 
+                        If the validation process for some reason fails,
                         the operation <bcp14>MUST</bcp14>
                         cause a compliant implementation to terminate
                         with an appropriate error.
@@ -488,7 +484,7 @@ uLU0DhqQP5Zjw4
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8037.xml"/>
 
                 <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>                
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>
 
                 <reference anchor="XMLDSIG"
                    target="https://www.w3.org/TR/xmldsig-core1/">
@@ -629,7 +625,7 @@ uLU0DhqQP5Zjw4
                 In some cases a database would probably be more useful for holding individual signatures
                 since a database can cope with any number of signers as well as keeping track of who
                 have actually signed.  The latter is crucial for things like international treaties and
-                company board statements. 
+                company board statements.
             </t>
         </section>
 
@@ -639,7 +635,7 @@ uLU0DhqQP5Zjw4
                 Although JWS/CT is <em>agnostic</em> to the cryptography used by JWS component,
                 it might be of some value having a reference that uses another
                 algorithm and key than featured in <xref target="Operation" format="default"/>.
-                This appendix shows how a signed version of the JSON sample object in 
+                This appendix shows how a signed version of the JSON sample object in
                 <xref target="signing.data.creation" format="default"/> would look like
                 if applying the <tt>Ed25519</tt> algorithm described in RFC&nbsp;8037
                 <xref target="RFC8037" format="default"/>:
@@ -656,10 +652,10 @@ uLU0DhqQP5Zjw4
                 Note: the line-break in the <tt>"signature"</tt> argument was added for display purposes only.
             </t>
             <t>
-                The sample above depends on a JWS header holding the algorithm 
+                The sample above depends on a JWS header holding the algorithm
                 <tt>{"alg":"EdDSA"}</tt>, and the following private key, here expressed in
                 the JWK <xref target="RFC7517" format="default"/> format:
-                
+
             </t>
             <sourcecode type="json">
 {
@@ -674,7 +670,7 @@ uLU0DhqQP5Zjw4
         <section anchor="Acknowledgements" numbered="false" toc="default">
             <name>Acknowledgements</name>
             <t>
-                People who have contributed directly and indirectly with 
+                People who have contributed directly and indirectly with
                 valuable input to this specification include
                 <contact fullname="Vladimir Dzhuvinov"/>,
                 <contact fullname="Freddi Gyara"/>,
