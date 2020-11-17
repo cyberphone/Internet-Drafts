@@ -154,7 +154,13 @@
             <t>
                 This section describes the details related to signing
                 and validating signatures based on this specification.
-                Note that JWS/CT depends on the JWS <em>Compact Serialization</em> mode.
+            </t>
+            <t>
+                With the exception of the reliance on the detached mode described in url,
+                JWS/CT does not alter the JWS signature creation process, validation process,
+                or format. This means that the contents of JWS headers as well as things
+                related to signature algorithms and cryptographic keys, are out
+                of scope for this specification.
             </t>
             <t>
                 The signature creation and signature validation sections
@@ -166,14 +172,6 @@
 7f dd 85 1a 3b 9d 2d af c5 f0 d0 00 30 e2 2b 93 43 90 0c d4 2e de
 49 48 56 8a 4a 2e e6 55 29 1a
             </sourcecode>
-            <t>
-                Note that the contents of JWS headers as well as things
-                related to signature algorithms and cryptographic keys,
-                are out of scope for this specification.
-                In fact, the only "connection" between JWS/CT and JWS is the processing outlined in
-                <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/>.
-                See also <xref target="alt.algorithm" format="default"/>.
-            </t>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
@@ -227,7 +225,7 @@
                         Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
                         signature process described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
-                        <xref target="RFC7515" format="default"/>.
+                        <xref target="RFC7515" format="default"/> using the <em>Compact Serialization</em> mode.
                     </t>
                     <t>
                         Note: although it is true that using the "Unencoded Payload" mode of RFC7797
@@ -236,10 +234,18 @@
                         The current design also makes JWS/CT independent of JWS library support for the
                         <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt>
                         JWS header items required by RFC7797.  However, this specification does not
-                        in any way "outlaw" the use RFC7797, it rather leaves it as an <em>implementer option</em>.
+                        in any way prohibit the use RFC7797, it rather leaves it as an <em>implementer option</em>.
                     </t>
                     <t>
-                        For the sample, the JWS header is assumed to be <tt>{"alg":"HS256"}</tt>.
+                        For the sample, the JWS header is assumed to be (line breaks and whitespace
+                        for display purposes only):
+                    </t>
+                    <sourcecode type="test-vectors">
+{
+  "alg": "HS256"
+}
+                    </sourcecode>
+                    <t>
                         The resulting JWS string should then after payload removal
                         and using the key specified in <xref target="Operation" format="default"/>,
                         read as follows:
@@ -262,7 +268,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         For the sample, the property name <tt>"signature"</tt> is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
                         section, and the original JSON sample, the process above should result
-                        in the following, now signed JSON object:
+                        in the following, now signed JSON object (with line breaks in the "signature" property
+                        for display purposes only):
                     </t>
                     <sourcecode type="json">
 {
@@ -272,9 +279,6 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
 DtJeSxH2uLU0DhqQP5Zjw4"
 }
                     </sourcecode>
-                    <t>
-                        Note: the line-break in the <tt>"signature"</tt> argument was added for display purposes only.
-                    </t>
                     <t>
                         Note: you could equally well apply the signature
                         to the canonicalized version of the JSON object.
@@ -400,7 +404,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         For the sample, validation is straightforward since both the algorithm and
                         the key to use are predefined (see <xref target="Operation" format="default"/>).
                         The input string to the JWS validator should after the process step above read as follows (disregarding
-                        the line-breaks that were added for display purposes only):
+                        with line breaks for display purposes only):
                    </t>
                     <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9.eyJvdGhlclByb3BlcnRpZXMiOlsyMDAwLHRydWVdLCJzdGF0
@@ -632,13 +636,12 @@ uLU0DhqQP5Zjw4
         <section anchor="alt.algorithm" numbered="true" toc="default">
             <name>Test Vector Using the Ed25519 Algorithm</name>
             <t>
-                Although JWS/CT is <em>agnostic</em> to the cryptography used by JWS component,
-                it might be of some value having a reference that uses another
-                algorithm and key than featured in <xref target="Operation" format="default"/>.
+                Although JWS/CT is <em>agnostic</em> to the cryptography used by the JWS component
                 This appendix shows how a signed version of the JSON sample object in
                 <xref target="signing.data.creation" format="default"/> would look like
                 if applying the <tt>Ed25519</tt> algorithm described in RFC&nbsp;8037
-                <xref target="RFC8037" format="default"/>:
+                <xref target="RFC8037" format="default"/> (with line breaks in the "signature" property
+                for display purposes only):
             </t>
             <sourcecode type="json">
 {
@@ -648,9 +651,6 @@ uLU0DhqQP5Zjw4
 6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
 }
             </sourcecode>
-            <t>
-                Note: the line-break in the <tt>"signature"</tt> argument was added for display purposes only.
-            </t>
             <t>
                 The sample above depends on a JWS header holding the algorithm
                 <tt>{"alg":"EdDSA"}</tt>, and the following private key, here expressed in
