@@ -156,6 +156,13 @@
                 and validating signatures based on this specification.
             </t>
             <t>
+                With the exception of the reliance on the detached mode described in url,
+                JWS/CT does not alter the JWS signature creation process, validation process,
+                or format. This means that the contents of JWS headers as well as things
+                related to signature algorithms and cryptographic keys, are out
+                of scope for this specification.
+            </t>
+            <t>
                 The signature creation and signature validation sections
                 feature samples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
@@ -165,12 +172,6 @@
 7f dd 85 1a 3b 9d 2d af c5 f0 d0 00 30 e2 2b 93 43 90 0c d4 2e de
 49 48 56 8a 4a 2e e6 55 29 1a
             </sourcecode>
-            <t>
-                That the contents of JWS headers as well as things
-                related to signature algorithms and cryptographic keys,
-                are out of scope for this specification. It all works in the
-                same way as with vanilla JWS.
-            </t>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
