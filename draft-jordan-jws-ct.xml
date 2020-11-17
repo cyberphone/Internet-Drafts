@@ -119,7 +119,7 @@
                 without losing the ability to (at any time) verify signatures.
             </t>
             <t>
-                <xref target="multiple.signatures" format="default"/> shows an example of embedding
+                <xref target="counter.signatures" format="default"/> shows an example of embedding
                 and counter-signing using JWS/CT.
             </t>
             <t>
@@ -475,9 +475,6 @@ uLU0DhqQP5Zjw4
                 <name>Informative References</name>
 
                 <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4648.xml"/>
-
-                <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7797.xml"/>
 
                 <xi:include
@@ -500,6 +497,7 @@ uLU0DhqQP5Zjw4
 
             </references>
         </references>
+
         <section anchor="open.source" numbered="true" toc="default">
             <name>Open-Source Implementations</name>
             <t>
@@ -538,16 +536,25 @@ uLU0DhqQP5Zjw4
                 </li>
             </ul>
         </section>
-        <section anchor="multiple.signatures" numbered="true" toc="default">
-            <name>Multiple Signatures</name>
+
+        <section anchor="jws-ct.applications" numbered="true" toc="default">
+            <name>JWS/CT Application Notes</name>
             <t>
-                JWS/CT does not <em>natively</em> support multiple signatures.
-                However, by embedding JWS/CT objects in other
-                JWS/CT objects this functionality can be emulated.
-                Consider the following JWS/CT object showing an imaginary
-                real estate business record:
+                The following application notes are not a part of the JWS/CT core; they show
+                how JWS/CT can be used in contexts involving multiple signatures.
             </t>
-            <sourcecode type="json">
+            <section anchor="counter.signatures" numbered="true" toc="default">
+                <name>Counter Signatures</name>
+                <t>
+                    <!--
+                    JWS/CT does not <em>natively</em> support multiple signatures.
+                    However, by embedding JWS/CT objects in other
+                    JWS/CT objects this functionality can be emulated.
+                    -->
+                    Consider the following JWS/CT object showing an imaginary
+                    real estate business record:
+                </t>
+                <sourcecode type="json">
 {
   "gps": [38.89768255588178, -77.03658644893932],
   "object": {"type": "house", "price": "$635,000"},
@@ -556,12 +563,12 @@ uLU0DhqQP5Zjw4
   "timeStamp": "2020-11-08T13:56:08Z",
   "signature": "&lt;&lt;Buyer JWS Signature&gt;&gt;"
 }
-            </sourcecode>
-            <t>
-                Adding a notary signature on top of this could be performed
-                by embedding the former object as follows:
-            </t>
-            <sourcecode type="json">
+                </sourcecode>
+                <t>
+                    Adding a notary signature on top of this could be performed
+                    by embedding the former object as follows:
+                </t>
+                <sourcecode type="json">
 {
   "attesting": {
     "gps": [38.89768255588178, -77.03658644893932],
@@ -576,29 +583,29 @@ uLU0DhqQP5Zjw4
   "timeStamp": "2020-11-08T13:58:42Z",
   "signature": "&lt;&lt;Notary JWS Signature&gt;&gt;"
 }
-            </sourcecode>
-            <t>
-                Note: this means that the notary's signature signs not only the
-                notary data, but the buyers's data as well.
-                In most cases this way of adding signatures is advantageous since it
-                maintains the actual order of the signature events which also cannot
-                be tampered with without invalidating the outermost signature.
-            </t>
-            <t>
-                Note: another possibility would be supporting arrays of JWS signatures strings.
-                This has the drawback that signer-related meta data like the <tt>"role"</tt>
-                and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
-                which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
-            </t>
-            <t>
-                Note: in the case the signing entities are "peers" or are unrelated to each other,
-                the sample above would not be useful since it anticipates a specific flow.
-                For supporting <em>independent</em> or <em>asynchronous</em> signers targeting
-                a common document or data object, an imaginable solution is using a scheme where each signer
-                rather calculates a hash of the target document/data and includes the hash with
-                the signer-specific meta data like the following:
-            </t>
-            <sourcecode type="json">
+                </sourcecode>
+                <t>
+                    A side-effect of this arrangement is that the notary's signature signs
+                    not only the notary data, but the buyer's data and signature as well.
+                    In most cases this way of adding signatures is advantageous since it
+                    maintains the actual order of signing events which also cannot
+                    be tampered with without invalidating the outermost signature.
+                </t>
+            </section>
+
+            <section anchor="detached.signatures" numbered="true" toc="default">
+                <name>Detached Signatures</name>
+                <t>
+                    In the case the signing entities are "peers" or are unrelated
+                    to each other, counter-signatures like described in
+                    <xref target="counter.signatures" format="default"/>
+                    are not applicable since they presume a specific flow.
+                    For supporting <em>independent</em> or <em>asynchronous</em> signers targeting
+                    a common document or data object, an imaginable solution is using a scheme where each signer
+                    rather calculates a hash of the target document/data and includes the hash with
+                    the signer-specific meta data like the following:
+                </t>
+                <sourcecode type="json">
 {
 
   &lt;&lt;Common Document/Data to Sign...&gt;&gt;
@@ -617,16 +624,28 @@ uLU0DhqQP5Zjw4
     "signature": "&lt;&lt;Signer JWS Signature&gt;&gt;"
   }]
 }
-            </sourcecode>
-            <t>
-                In this case the object to sign would not be limited to JSON; it could for example be a PDF document
-                hosted on a specific URL.
-                Note that the relying party would have to update the structure for each signature received.
-                In some cases a database would probably be more useful for holding individual signatures
-                since a database can cope with any number of signers as well as keeping track of who
-                have actually signed.  The latter is crucial for things like international treaties and
-                company board statements.
-            </t>
+                </sourcecode>
+                <t>
+                    In this case the object to sign would not be limited to JSON; it could for example be a PDF document
+                    hosted on a specific URL.
+                    Note that the relying party would have to update the structure for each signature received.
+                    In some cases a database would probably be more useful for holding individual signatures
+                    since a database can cope with any number of signers as well as keeping track of who
+                    have actually signed.  The latter is crucial for things like international treaties and
+                    company board statements.
+                </t>
+            </section>
+
+            <section anchor="array.signatures" numbered="true" toc="default">
+                <name>Array of Signatures</name>
+                <t>
+                    Note: another possibility would be supporting arrays of JWS signatures strings.
+                    This has the drawback that signer-related meta data like the <tt>"role"</tt>
+                    and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
+                    which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
+                </t>
+            </section>
+
         </section>
 
         <section anchor="alt.algorithm" numbered="true" toc="default">
