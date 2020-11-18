@@ -156,7 +156,8 @@
                 and validating signatures based on this specification.
             </t>
             <t>
-                With the exception of the reliance on the detached mode described in url,
+                With the exception of the reliance on the detached mode described in 
+                <eref target="https://tools.ietf.org/html/rfc7515#appendix-F">Appendix F</eref> of JWS,
                 JWS/CT does not alter the JWS signature creation process, validation process,
                 or format. This means that the contents of JWS headers as well as things
                 related to signature algorithms and cryptographic keys, are out
@@ -237,13 +238,10 @@
                         in any way prohibit the use RFC7797, it rather leaves it as an <em>implementer option</em>.
                     </t>
                     <t>
-                        For the sample, the JWS header is assumed to be (line breaks and whitespace
-                        for display purposes only):
+                        For the sample, the JWS header is assumed to be:
                     </t>
-                    <sourcecode type="test-vectors">
-{
-  "alg": "HS256"
-}
+                    <sourcecode type="json">
+{"alg":"HS256"}
                     </sourcecode>
                     <t>
                         The resulting JWS string should then after payload removal
@@ -550,11 +548,6 @@ uLU0DhqQP5Zjw4
             <section anchor="counter.signatures" numbered="true" toc="default">
                 <name>Counter Signatures</name>
                 <t>
-                    <!--
-                    JWS/CT does not <em>natively</em> support multiple signatures.
-                    However, by embedding JWS/CT objects in other
-                    JWS/CT objects this functionality can be emulated.
-                    -->
                     Consider the following JWS/CT object showing an imaginary
                     real estate business record:
                 </t>
@@ -630,8 +623,8 @@ uLU0DhqQP5Zjw4
 }
                 </sourcecode>
                 <t>
-                    In this case the object to sign would not be limited to JSON; it could for example be a PDF document
-                    hosted on a specific URL.
+                    In this case the object to sign would not be limited to JSON; 
+                    it could for example be a PDF document hosted on a specific URL.
                     Note that the relying party would have to update the structure for each signature received.
                     In some cases a database would probably be more useful for holding individual signatures
                     since a database can cope with any number of signers as well as keeping track of who
@@ -643,10 +636,49 @@ uLU0DhqQP5Zjw4
             <section anchor="array.signatures" numbered="true" toc="default">
                 <name>Array of Signatures</name>
                 <t>
-                    Note: another possibility would be supporting arrays of JWS signatures strings.
-                    This has the drawback that signer-related meta data like the <tt>"role"</tt>
-                    and <tt>"timeStamp"</tt> properties must be put in the base64url-encoded JWS strings,
-                    which defeats the purpose of a "Clear&nbsp;Text" signature scheme.
+                    Another possibility supporting <em>multiple and independent</em>
+                    signatures is collecting JWS signature strings in a JSON array object
+                    according to the following scheme:
+                </t>
+                <sourcecode type="json">
+{
+
+  &lt;&lt;Common Document/Data to Sign...&gt;&gt;
+
+  "&lt;&lt;Signature property&gt;&gt;": ["&lt;&lt;Signature-1&gt;&gt;",
+                             "&lt;&lt;Signature-2&gt;&gt;",
+                                       .
+                             "&lt;&lt;Signature-n&gt;&gt;"]
+}
+                </sourcecode>
+                <t>
+                    Processing would follow <xref target="Operation" format="default"/>,
+                    with the addition that each signature is dealt with individually.
+                </t>
+                <t>
+                    Compared to <xref target="detached.signatures" format="default"/>,
+                    signature arrays imply that possible signer-specific meta-data
+                    is supplied as JWS extensions in the associated signature's base64url-encoded header.
+                </t>
+                <t>
+                    If you combine the sample used in <xref target="Operation" format="default"/>
+                    with test vector in <xref target="alt.algorithm" format="default"/>, a valid
+                    signature array object could be as follows (with line breaks in the signature
+                    strings for display purposes only):
+                </t>
+                <sourcecode type="json">
+{
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true],
+  "signatures": ["eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imar
+DtJeSxH2uLU0DhqQP5Zjw4",
+                 "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3
+qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"]
+}
+                </sourcecode>
+                <t>
+                    Note that <tt>"signatures"</tt> is not a key-word, it was only selected
+                    to highlite the fact that there are multiple signatures.
                 </t>
             </section>
 
@@ -655,7 +687,6 @@ uLU0DhqQP5Zjw4
         <section anchor="alt.algorithm" numbered="true" toc="default">
             <name>Test Vector Using the Ed25519 Algorithm</name>
             <t>
-                Although JWS/CT is <em>agnostic</em> to the cryptography used by the JWS component
                 This appendix shows how a signed version of the JSON sample object in
                 <xref target="signing.data.creation" format="default"/> would look like
                 if applying the <tt>Ed25519</tt> algorithm described in RFC&nbsp;8037
@@ -666,8 +697,8 @@ uLU0DhqQP5Zjw4
 {
   "statement": "Hello signed world!",
   "otherProperties": [2000, true],
-  "signature": "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3qUYpH
-6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
+  "signature": "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3
+qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
 }
             </sourcecode>
             <t>
