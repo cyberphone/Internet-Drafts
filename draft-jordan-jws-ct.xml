@@ -102,7 +102,7 @@
                 as well as for maintaining a <em>consistent message structure</em>.
             </t>
             <t>
-                Another target are HTTP-based signature schemes that currently
+                Another target is HTTP-based signature schemes that currently
                 utilize HTTP header values for holding detached signatures.
                 By rather using the method described herein,
                 signed JSON-formatted HTTP requests and responses
@@ -119,8 +119,8 @@
                 without losing the ability to (at any time) verify signatures.
             </t>
             <t>
-                <xref target="counter.signatures" format="default"/> shows an example of embedding
-                and counter-signing using JWS/CT.
+                <xref target="jws-ct.applications" format="default"/> outlines different
+                ways to handle multiple signatures including counter-signing using JWS/CT.
             </t>
             <t>
                 The intended audiences of this document are JSON tool vendors as
@@ -156,13 +156,25 @@
                 and validating signatures based on this specification.
             </t>
             <t>
-                With the exception of the reliance on the detached mode described in 
+                The following characteristics are vital to know for
+                prospective JWS/CT implementers and users:
+            </t>
+            <ul>
+                <li>With the exception of the reliance on the detached mode described in 
                 <eref target="https://tools.ietf.org/html/rfc7515#appendix-F">Appendix F</eref> of JWS,
                 JWS/CT does not alter the JWS signature creation process, validation process,
                 or format. This means that the contents of JWS headers as well as things
-                related to signature algorithms and cryptographic keys, are out
-                of scope for this specification.
-            </t>
+                related to signature algorithms and cryptographic keys are out
+                of scope for this specification.</li>
+                <li>
+                    JWS/CT exclusively depends on the JWS <em>Compact Serialization</em> mode.
+                </li>
+                <li>
+                    JCS <xref target="RFC8785" format="default"/>
+                    constrains JSON objects to the I-JSON
+                    <xref target="RFC7493" format="default"/> subset.
+                </li>
+            </ul>
             <t>
                 The signature creation and signature validation sections
                 feature samples using the <tt>HS256</tt> JOSE algorithm
@@ -183,9 +195,6 @@
                     <name>Create the JSON Object to be Signed</name>
                     <t>
                         Create or parse the JSON object to be signed.
-                        Note that JCS <xref target="RFC8785" format="default"/>
-                        constrains objects to the I-JSON
-                        <xref target="RFC7493" format="default"/> subset.
                     </t>
                     <t>
                         For illustrating the subsequent operations the following sample object is used:
@@ -225,8 +234,7 @@
                     <t>
                         Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
                         signature process described in
-                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
-                        <xref target="RFC7515" format="default"/> using the <em>Compact Serialization</em> mode.
+                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS.
                     </t>
                     <t>
                         Note: although it is true that using the "Unencoded Payload" mode of RFC7797
@@ -263,7 +271,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         JSON string argument ("") to the signature property.
                     </t>
                     <t>
-                        For the sample, the property name <tt>"signature"</tt> is assumed to be the designated holder of the JWS string.
+                        For the sample, the property name <tt>"signature"</tt>
+                        is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
                         section, and the original JSON sample, the process above should result
                         in the following, now signed JSON object (with line breaks in the "signature" property
@@ -297,13 +306,8 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     <name>Parse the Signed JSON Object</name>
                     <t>
                         Parse the JSON object that is anticipated to be signed.
-                        Note that JCS <xref target="RFC8785" format="default"/>
-                        constrains objects to the I-JSON
-                        <xref target="RFC7493" format="default"/> subset.
-                        If the parsing is unsuccessful,
-                        the operation <bcp14>MUST</bcp14>
-                        cause a compliant implementation to terminate
-                        with an appropriate error.
+                        If the parsing is unsuccessful, the operation <bcp14>MUST</bcp14>
+                        cause a compliant implementation to terminate with an appropriate error.
                     </t>
                     <t>
                         To illustrate the subsequent operations the signed JSON object
@@ -345,7 +349,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
 }
                     </sourcecode>
                     <t>
-                        Note: JSON tools usally by default remove whitespace.
+                        Note: JSON tools usually by default remove whitespace.
                         In addition, the original ordering of properties may
                         not always be honored.
                         However, none of this has (due to the canonicalization performed by JCS),
@@ -401,9 +405,9 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <t>
                         For the sample, validation is straightforward since both the algorithm and
                         the key to use are predefined (see <xref target="Operation" format="default"/>).
-                        The input string to the JWS validator should after the process step above read as follows (disregarding
-                        with line breaks for display purposes only):
-                   </t>
+                        The input string to the JWS validator should after the process step above read
+                        as follows (with line breaks for display purposes only):
+                    </t>
                     <sourcecode type="test-vectors">
 eyJhbGciOiJIUzI1NiJ9.eyJvdGhlclByb3BlcnRpZXMiOlsyMDAwLHRydWVdLCJzdGF0
 ZW1lbnQiOiJIZWxsbyBzaWduZWQgd29ybGQhIn0.VHVItCBCb8Q5CI-49imarDtJeSxH2
@@ -582,7 +586,7 @@ uLU0DhqQP5Zjw4
 }
                 </sourcecode>
                 <t>
-                    A side-effect of this arrangement is that the notary's signature signs
+                    A side effect of this arrangement is that the notary's signature signs
                     not only the notary data, but the buyer's data and signature as well.
                     In most cases this way of adding signatures is advantageous since it
                     maintains the actual order of signing events which also cannot
@@ -631,6 +635,45 @@ uLU0DhqQP5Zjw4
                     have actually signed.  The latter is crucial for things like international treaties and
                     company board statements.
                 </t>
+                <t>
+                    Note that <tt>"signers"</tt>, <tt>"sha256"</tt>, and <tt>"signature"</tt> are
+                    application specific property names.
+                </t>
+                <t>
+                    The following sample shows a possible signature object
+                    (with line breaks in the signature strings for display purposes only):
+                </t>
+                <sourcecode type="json">
+{
+  "statement": "Hello signed world!",
+  "otherProperties": [2000, true],
+  "signers": [{
+    "sha256": "n-i0HIBJKELoTicCK9c5nqJ8cYH0znGRcEbYKoQfm70",
+    "timeStamp": "2020-11-18T07:45:28Z",
+    "name": "Jane Doe",
+    "signature": "eyJhbGciOiJIUzI1NiJ9..57zPdGh88IgI9kECb1u3O
+Rhjrbe5mZP4wetM2QCoCBM"
+  },{
+    "sha256": "n-i0HIBJKELoTicCK9c5nqJ8cYH0znGRcEbYKoQfm70",
+    "timeStamp": "2020-11-18T08:03:40Z",
+    "name": "John Doe",
+    "signature": "eyJhbGciOiJFZERTQSJ9..OQLwF9XHtLru0GYMkG-WS
+dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
+  }]
+}
+                </sourcecode>
+                <t>
+                    Notes:
+                </t>
+                <ul>
+                    <li>"Jane Doe" used the key from <xref target="Operation" format="default"/>
+                        while "John Doe" used the key in <xref target="alt.algorithm" format="default"/>.
+                    </li>
+                    <li>
+                        The "sha256" properties hold the base64url-encoded, SHA256-hash of the canonicalized
+                        data created in <xref target="signing.canonicalize" format="default"/>.
+                    </li>
+                </ul>
             </section>
 
             <section anchor="array.signatures" numbered="true" toc="default">
@@ -662,7 +705,7 @@ uLU0DhqQP5Zjw4
                 </t>
                 <t>
                     If you combine the sample used in <xref target="Operation" format="default"/>
-                    with test vector in <xref target="alt.algorithm" format="default"/>, a valid
+                    with the test vector in <xref target="alt.algorithm" format="default"/>, a valid
                     signature array object could be as follows (with line breaks in the signature
                     strings for display purposes only):
                 </t>
@@ -677,8 +720,8 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"]
 }
                 </sourcecode>
                 <t>
-                    Note that <tt>"signatures"</tt> is not a key-word, it was only selected
-                    to highlite the fact that there are multiple signatures.
+                    Note that <tt>"signatures"</tt> is not a key word, it was only selected
+                    to highlight the fact that there are multiple signatures.
                 </t>
             </section>
 
