@@ -287,7 +287,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
 }
                     </sourcecode>
                     <t>
-                        Note: you could equally well apply the signature
+                        Note: one could equally well apply the signature
                         to the canonicalized version of the JSON object.
                         However, the rearrangement of properties (performed by JCS),
                         may sometimes be considered an issue from a "human" point of view,
@@ -489,6 +489,9 @@ uLU0DhqQP5Zjw4
                 <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>
 
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4648.xml"/>
+
                 <reference anchor="XMLDSIG"
                    target="https://www.w3.org/TR/xmldsig-core1/">
                     <front>
@@ -501,6 +504,17 @@ uLU0DhqQP5Zjw4
                     <refcontent>W3C Recommendation</refcontent>
                 </reference>
 
+                <reference anchor="SHS"
+                   target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
+                    <front>
+                        <title>Secure Hash Standard (SHS)</title>
+                        <author>
+                            <organization>NIST</organization>
+                        </author>
+                        <date month="August" year="2015"/>
+                    </front>
+                    <refcontent>FIPS PUB 180-4</refcontent>
+                </reference>
             </references>
         </references>
 
@@ -670,7 +684,9 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
                         while "John Doe" used the key in <xref target="alt.algorithm" format="default"/>.
                     </li>
                     <li>
-                        The "sha256" properties hold the base64url-encoded, SHA256-hash of the canonicalized
+                        The "sha256" properties hold the base64url-encoded
+                        <xref target="RFC4648" format="default"/>, SHA256-hash
+                        <xref target="SHS" format="default"/> of the canonicalized
                         data created in <xref target="signing.canonicalize" format="default"/>.
                     </li>
                 </ul>
@@ -704,7 +720,7 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
                     is supplied as JWS extensions in the associated signature's base64url-encoded header.
                 </t>
                 <t>
-                    If you combine the sample used in <xref target="Operation" format="default"/>
+                    By combining the sample used in <xref target="Operation" format="default"/>
                     with the test vector in <xref target="alt.algorithm" format="default"/>, a valid
                     signature array object could be as follows (with line breaks in the signature
                     strings for display purposes only):
