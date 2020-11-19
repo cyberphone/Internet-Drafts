@@ -405,7 +405,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <t>
                         For the sample, validation is straightforward since both the algorithm and
                         the key to use are predefined (see <xref target="Operation" format="default"/>).
-                        The input string to the JWS validator should after the process step above read
+                        The input string to a JWS validator should after the process step above read
                         as follows (with line breaks for display purposes only):
                     </t>
                     <sourcecode type="test-vectors">
@@ -606,6 +606,10 @@ uLU0DhqQP5Zjw4
                     maintains the actual order of signing events which also cannot
                     be tampered with without invalidating the outermost signature.
                 </t>
+                <t>
+                    Note that all properties above including <tt>"signature"</tt> are
+                    application specific.
+                </t>
             </section>
 
             <section anchor="detached.signatures" numbered="true" toc="default">
@@ -680,12 +684,12 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
                     Notes:
                 </t>
                 <ul>
-                    <li>"Jane Doe" used the key from <xref target="Operation" format="default"/>
-                        while "John Doe" used the key in <xref target="alt.algorithm" format="default"/>.
+                    <li>"Jane Doe" used the sample key from <xref target="Operation" format="default"/>
+                        while "John Doe" used the sample key specified in <xref target="alt.algorithm" format="default"/>.
                     </li>
                     <li>
-                        The "sha256" properties hold the base64url-encoded
-                        <xref target="RFC4648" format="default"/>, SHA256-hash
+                        The <tt>"sha256"</tt> properties hold base64url-encoded
+                        <xref target="RFC4648" format="default"/>, SHA256-hashes
                         <xref target="SHS" format="default"/> of the canonicalized
                         data created in <xref target="signing.canonicalize" format="default"/>.
                     </li>
