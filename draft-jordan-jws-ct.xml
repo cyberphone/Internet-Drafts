@@ -17,7 +17,7 @@
      version="3">
     <front>
         <title abbrev="JWS/CT">
-            JWS Clear-text JSON Signature Option (JWS/CT)
+            JWS Clear Text JSON Signature Option (JWS/CT)
         </title>
         <author fullname="Bret Jordan" initials="B." surname="Jordan" role="editor">
             <organization>Broadcom</organization>
@@ -65,11 +65,12 @@
 
         <abstract>
             <t>
-                This document describes how JSON objects can be complemented
-                with enveloped signatures based on the JSON Web Signature (JWS) standard.
-                By combining the "detached" mode of JWS with the
-                JSON Canonicalization Scheme (JCS), signed JSON objects may
-                be kept in the JSON format (aka "clear&nbsp;text" signing).
+                This document describes a method for extending the scope of the
+                JSON Web Signature (JWS) standard, called JWS/CT.
+                JWS/CT enables JSON objects to remain in the JSON format after being signed
+                (aka "Clear&nbsp;Text" signing), by combining the detached mode of JWS with the
+                JSON Canonicalization Scheme (JCS).
+
             </t>
         </abstract>
     </front>
