@@ -67,10 +67,11 @@
             <t>
                 This document describes a method for extending the scope of the
                 JSON Web Signature (JWS) standard, called JWS/CT.
-                JWS/CT enables JSON objects to remain in the JSON format after being signed
-                (aka "Clear&nbsp;Text" signing), by combining the detached mode of JWS with the
-                JSON Canonicalization Scheme (JCS).
-
+                By combining the detached mode of JWS with the
+                JSON Canonicalization Scheme (JCS), JWS/CT enables
+                JSON objects to remain in the JSON format after being signed
+                (aka "Clear&nbsp;Text" signing).
+                <!-- It would be cool with a third line telling what you would use this for... -->
             </t>
         </abstract>
     </front>
@@ -161,7 +162,7 @@
                 prospective JWS/CT implementers and users:
             </t>
             <ul>
-                <li>With the exception of the reliance on the detached mode described in 
+                <li>With the exception of the reliance on the detached mode described in
                 <eref target="https://tools.ietf.org/html/rfc7515#appendix-F">Appendix F</eref> of JWS,
                 JWS/CT does not alter the JWS signature creation process, validation process,
                 or format. This means that the contents of JWS headers as well as things
@@ -646,7 +647,7 @@ uLU0DhqQP5Zjw4
 }
                 </sourcecode>
                 <t>
-                    In this case the object to sign would not be limited to JSON; 
+                    In this case the object to sign would not be limited to JSON;
                     it could for example be a PDF document hosted on a specific URL.
                     Note that the relying party would have to update the structure for each signature received.
                     In some cases a database would probably be more useful for holding individual signatures
