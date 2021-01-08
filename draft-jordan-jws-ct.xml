@@ -55,7 +55,7 @@
                 <uri>https://www.linkedin.com/in/andersrundgren/</uri>
             </address>
         </author>
-        <date year="2020"/>
+        <date year="2021"/>
         <area>Security</area>
         <workgroup/>
         <keyword>JSON</keyword>
@@ -71,7 +71,10 @@
                 JSON Canonicalization Scheme (JCS), JWS/CT enables
                 JSON objects to remain in the JSON format after being signed
                 (aka "Clear&nbsp;Text" signing).
-                <!-- It would be cool with a third line telling what you would use this for... -->
+                In addition to supporting a consistent data format, this
+                arrangement also simplifies documentation, debugging, and logging.
+                The ability to embed signed JSON objects in other JSON objects,
+                makes the use of counter-signatures straightforward.
             </t>
         </abstract>
     </front>
@@ -437,6 +440,31 @@ uLU0DhqQP5Zjw4
                 acting on the signed payload.
             </t>
             <t>
+                However, porely tested software components may also introduce
+                security issues.  Consider the following JSON example:
+            </t>
+            <sourcecode type="json">
+{
+  "fromAccount": "1234",
+  "toAccount": "4567",
+  "amount": {
+    "value": 100,
+    "currency":"USD"
+  }
+}
+            </sourcecode>
+            <t>
+                It is imaginable that a non-compliant JCS implementation could return
+            </t>
+            <sourcecode type="json">
+{"amount":{},"from_account":"1234","to_account":"4567"}
+            </sourcecode>
+            <t>
+                giving an attacker the ability to change <tt>"amount"</tt> to whatever it wants.
+                Note though that this attack presumes that the consumer and producer
+                use the same broken implementation, otherwise the signature would not validate.
+            </t>
+            <t>
                 For usage in a wider community, the name of the designated
                 signature property becomes a critical factor that
                 <bcp14>MUST</bcp14> be documented and communicated.
@@ -792,6 +820,28 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
                 and
                 <contact fullname="Filip Skokan"/>.
             </t>
+        </section>
+        <section anchor="document.history" numbered="false" toc="default">
+            <name>Document History</name>
+            <t>
+                [[ This section to be removed by the RFC Editor before publication as
+                an RFC ]]
+            </t>
+            <t>Version 00:</t>
+            <ul spacing="normal">
+                <li>
+                    Initial publication.
+                </li>
+            </ul>
+            <t>Version 01:</t>
+            <ul spacing="normal">
+                <li>
+                    Added paragraph to Abstract.
+                </li>
+                <li>
+                    Updated Security Considerations.
+                </li>
+            </ul>
         </section>
     </back>
 </rfc>
