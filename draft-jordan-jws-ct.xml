@@ -440,7 +440,7 @@ uLU0DhqQP5Zjw4
                 acting on the signed payload.
             </t>
             <t>
-                However, porely tested software components may also introduce
+                However, poorly tested software components may also introduce
                 security issues.  Consider the following JSON example:
             </t>
             <sourcecode type="json">
