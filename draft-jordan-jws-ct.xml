@@ -454,7 +454,7 @@ uLU0DhqQP5Zjw4
 }
             </sourcecode>
             <t>
-                It is imaginable that a non-compliant JCS implementation could return
+                A non-compliant JCS implementation could return
             </t>
             <sourcecode type="json">
 {"amount":{},"from_account":"1234","to_account":"4567"}
