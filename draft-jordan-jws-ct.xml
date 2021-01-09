@@ -457,7 +457,7 @@ uLU0DhqQP5Zjw4
                 A non-compliant JCS implementation could return
             </t>
             <sourcecode type="json">
-{"amount":{},"from_account":"1234","to_account":"4567"}
+{"amount":{},"fromAccount":"1234","toAccount":"4567"}
             </sourcecode>
             <t>
                 giving an attacker the ability to change <tt>"amount"</tt> to whatever it wants.
