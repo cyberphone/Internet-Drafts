@@ -461,8 +461,8 @@ uLU0DhqQP5Zjw4
             </sourcecode>
             <t>
                 giving an attacker the ability to change <tt>"amount"</tt> to whatever it wants.
-                Note though that this attack presumes that the consumer and producer
-                use the same broken implementation, otherwise the signature would not validate.
+                Note though that this attack presumes that the consumer and producer use 
+                implementations broken in the same way, otherwise the signature would not validate.
             </t>
             <t>
                 For usage in a wider community, the name of the designated
