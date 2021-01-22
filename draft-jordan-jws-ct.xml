@@ -815,12 +815,12 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
             <t>
                 By default JWS/CT uses the JWS compact serialization mode "as is".
                 As a consequence, a <em>technically redundant</em>, <em>internal-only</em>,
-                base64url encoding step is performed over the <tt>JWS Payload</tt>.
+                base64url encoding step is performed over the <tt>JWS&nbsp;Payload</tt>.
                 Although the performance hit should be marginal for most real-world applications,
-                it is technically feasible using the "Unencoded Payload" mode of RFC7797
+                a possibility is using the "Unencoded Payload" mode of RFC7797
                 <xref target="RFC7797" format="default"/>.
                 However, this requires that the JWS implementation supports the
-                "b64":false and "crit":["b64"] header elements required by RFC7797. 
+                "b64":false and "crit":["b64"] header elements implied by RFC7797. 
                 Due to that, this specification leaves RFC7797 as an <em>implementer option</em>.
             </t>
         </section>
