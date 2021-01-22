@@ -165,12 +165,16 @@
                 prospective JWS/CT implementers and users:
             </t>
             <ul>
-                <li>With the exception of the reliance on the detached mode described in
+                <li>
+                    With the exception of the reliance on the detached mode described in
                 <eref target="https://tools.ietf.org/html/rfc7515#appendix-F">Appendix F</eref> of JWS,
-                JWS/CT does not alter the JWS signature creation process, validation process,
-                or format. This means that the contents of JWS headers as well as things
-                related to signature algorithms and cryptographic keys are out
-                of scope for this specification.</li>
+                    JWS/CT does not alter the JWS signature creation process, validation process,
+                    or format. This means that the contents of JWS headers as well as things
+                    related to signature algorithms and cryptographic keys are out
+                    of scope for this specification.
+                    A slightly enhanced processing option is outlined in
+                    <xref target="alt.mode" format="default"/>.
+                </li>
                 <li>
                     JWS/CT exclusively depends on the JWS <em>Compact Serialization</em> mode.
                 </li>
@@ -248,7 +252,6 @@ I &#xe2;m @ v&#x20ac;ry $ecret.8 &#x1f60e; key
                         Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
                         signature process described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS.
-                        An enhanced signature process is outlined in <xref target="alt.mode" format="default"/>.
                     </t>
                     <t>
                         For the sample, the JWS header is assumed to be:
@@ -811,7 +814,7 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
         </section>
 
         <section anchor="alt.mode" numbered="true" toc="default">
-            <name>Enhanced Signature Mode</name>
+            <name>Enhanced JWS Processing Option</name>
             <t>
                 By default JWS/CT uses the JWS compact serialization mode "as is".
                 As a consequence, a <em>technically redundant</em>, <em>internal-only</em>,
