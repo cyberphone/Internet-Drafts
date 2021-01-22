@@ -184,12 +184,20 @@
                 The signature creation and signature validation sections
                 feature samples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
-                with a 256-bit key having the following value here expressed as hexadecimal bytes:
+                with a 256-bit key having the following value, 
+                here provided as a string using UTF-8 
+                <xref target="UNICODE" format="default"/> encoding:
             </t>
             <sourcecode type="test-vectors">
-7f dd 85 1a 3b 9d 2d af c5 f0 d0 00 30 e2 2b 93 43 90 0c d4 2e de
-49 48 56 8a 4a 2e e6 55 29 1a
+I am a very secret &#x1f60e; p@ssword
             </sourcecode>
+            <t>
+                The same key expressed as hexadecimal bytes:
+            </t>
+<sourcecode type="test-vectors">
+49 20 61 6d 20 61 20 76 65 72 79 20 73 65 63 72
+65 74 20 f0 9f 98 8e 20 70 40 73 73 77 6f 72 64
+</sourcecode>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
@@ -240,15 +248,7 @@
                         Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
                         signature process described in
                         <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS.
-                    </t>
-                    <t>
-                        Note: although it is true that using the "Unencoded Payload" mode of RFC7797
-                        <xref target="RFC7797" format="default"/> would eliminate an <em>internal-only</em>,
-                        base64url encoding step, the performance hit should be marginal for most real-world applications.
-                        The current design also makes JWS/CT independent of JWS library support for the
-                        <tt>"b64":false</tt> and <tt>"crit":["b64"]</tt>
-                        JWS header items required by RFC7797.  However, this specification does not
-                        in any way prohibit the use RFC7797, it rather leaves it as an <em>implementer option</em>.
+                        An enhanced signature process is outlined in <xref target="alt.mode" format="default"/>.
                     </t>
                     <t>
                         For the sample, the JWS header is assumed to be:
@@ -276,7 +276,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         JSON string argument ("") to the signature property.
                     </t>
                     <t>
-                        For the sample, the property name <tt>"signature"</tt>
+                        For the sample, the property name "signature"
                         is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
                         section, and the original JSON sample, the process above should result
@@ -330,7 +330,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample, where the property named <tt>"signature"</tt> is assumed to hold the JWS string,
+                        For the sample, where the property named "signature" is assumed to hold the JWS string,
                         the operation above should return the following string:
                    </t>
                     <sourcecode type="test-vectors">
@@ -460,7 +460,7 @@ uLU0DhqQP5Zjw4
 {"amount":{},"fromAccount":"1234","toAccount":"4567"}
             </sourcecode>
             <t>
-                giving an attacker the ability to change <tt>"amount"</tt> to whatever it wants.
+                giving an attacker the ability to change "amount" to whatever it wants.
                 Note though that this attack presumes that the consumer and producer use 
                 implementations broken in the same way, otherwise the signature would not validate.
             </t>
@@ -637,7 +637,7 @@ uLU0DhqQP5Zjw4
                     be tampered with without invalidating the outermost signature.
                 </t>
                 <t>
-                    Note that all properties above including <tt>"signature"</tt> are
+                    Note that all properties above including "signature" are
                     application specific.
                 </t>
             </section>
@@ -684,7 +684,7 @@ uLU0DhqQP5Zjw4
                     company board statements.
                 </t>
                 <t>
-                    Note that <tt>"signers"</tt>, <tt>"sha256"</tt>, and <tt>"signature"</tt> are
+                    Note that "signers", "sha256", and "signature" are
                     application specific property names.
                 </t>
                 <t>
@@ -718,7 +718,7 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
                         while "John Doe" used the sample key specified in <xref target="alt.algorithm" format="default"/>.
                     </li>
                     <li>
-                        The <tt>"sha256"</tt> properties hold base64url-encoded
+                        The "sha256" properties hold base64url-encoded
                         <xref target="RFC4648" format="default"/>, SHA256-hashes
                         <xref target="SHS" format="default"/> of the canonicalized
                         data created in <xref target="signing.canonicalize" format="default"/>.
@@ -770,7 +770,7 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"]
 }
                 </sourcecode>
                 <t>
-                    Note that <tt>"signatures"</tt> is not a key word, it was only selected
+                    Note that "signatures" is not a key word, it was only selected
                     to highlight the fact that there are multiple signatures.
                 </t>
             </section>
@@ -796,7 +796,7 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
             </sourcecode>
             <t>
                 The sample above depends on a JWS header holding the algorithm
-                <tt>{"alg":"EdDSA"}</tt>, and the following private key, here expressed in
+                {"alg":"EdDSA"}, and the following private key, here expressed in
                 the JWK <xref target="RFC7517" format="default"/> format:
 
             </t>
@@ -808,6 +808,21 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
   "d": "0flr-6bXs459f9qwAq20Zs3NizTGIEH5_rTDFoumFV4"
 }
             </sourcecode>
+        </section>
+
+        <section anchor="alt.mode" numbered="true" toc="default">
+            <name>Enhanced Signature Mode</name>
+            <t>
+                By default JWS/CT uses the JWS compact serialization mode "as is".
+                As a consequence, a <em>technically redundant</em>, <em>internal-only</em>,
+                base64url encoding step is performed over the <tt>JWS Payload</tt>.
+                Although the performance hit should be marginal for most real-world applications,
+                it is technically feasible using the "Unencoded Payload" mode of RFC7797
+                <xref target="RFC7797" format="default"/>.
+                However, this requires that the JWS implementation supports the
+                "b64":false and "crit":["b64"] header elements required by RFC7797. 
+                Due to that, this specification leaves RFC7797 as an <em>implementer option</em>.
+            </t>
         </section>
 
         <section anchor="Acknowledgements" numbered="false" toc="default">
@@ -840,6 +855,18 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
                 </li>
                 <li>
                     Updated Security Considerations.
+                </li>
+            </ul>
+            <t>Version 02:</t>
+            <ul spacing="normal">
+                <li>
+                    Changed test key to also work as a string.
+                </li>
+                <li>
+                    Moved RFC7797 to an appendix.
+                </li>
+                <li>
+                    Changed &lt;tt&gt; to only be used on key words.
                 </li>
             </ul>
         </section>
