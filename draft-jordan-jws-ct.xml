@@ -189,14 +189,14 @@
                 <xref target="UNICODE" format="default"/> encoding:
             </t>
             <sourcecode type="test-vectors">
-I am a very secret &#x1f60e; p@ssword
+I &#xe2;m @ v&#x20ac;ry $ecret.8 &#x1f60e; key
             </sourcecode>
             <t>
                 The same key expressed as hexadecimal bytes:
             </t>
 <sourcecode type="test-vectors">
-49 20 61 6d 20 61 20 76 65 72 79 20 73 65 63 72
-65 74 20 f0 9f 98 8e 20 70 40 73 73 77 6f 72 64
+49 20 c3 a2 6d 20 40 20 76 e2 82 ac 72 79 20 24
+65 63 72 65 74 2e 38 20 f0 9f 98 8e 20 6b 65 79
 </sourcecode>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
