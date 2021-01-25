@@ -595,13 +595,21 @@ uLU0DhqQP5Zjw4
                 <sourcecode type="json">
 {
   "gps": [38.89768255588178, -77.03658644893932],
-  "object": {"type": "house", "price": "$635,000"},
+  "object": {
+    "type": "house",
+    "price": "$635,000"
+  },
   "role": "buyer",
   "name": "John Smith",
   "timeStamp": "2020-11-08T13:56:08Z",
-  "signature": "&lt;&lt;Buyer JWS Signature&gt;&gt;"
+  "signature": "eyJhbGciOiJIUzI1NiJ9..zlPMniQiz4Eie86oK4xo25z
+uyW92csiDqyiQrF6R5ug"
 }
                 </sourcecode>
+                <t>
+                    The signature above was created using the sample key from
+                    <xref target="Operation" format="default"/>.
+                </t>
                 <t>
                     Adding a notary signature on top of this could be performed
                     by embedding the former object as follows:
@@ -610,16 +618,21 @@ uLU0DhqQP5Zjw4
 {
   "attesting": {
     "gps": [38.89768255588178, -77.03658644893932],
-    "object": {"type": "house", "price": "$635,000"},
+    "object": {
+      "type": "house",
+      "price": "$635,000"
+    },
     "role": "buyer",
     "name": "John Smith",
     "timeStamp": "2020-11-08T13:56:08Z",
-    "signature": "&lt;&lt;Buyer JWS Signature&gt;&gt;"
+    "signature": "eyJhbGciOiJIUzI1NiJ9..zlPMniQiz4Eie86oK4xo25z
+uyW92csiDqyiQrF6R5ug"
   },
   "role": "notary",
   "name": "Carol Lombardi-Jones",
   "timeStamp": "2020-11-08T13:58:42Z",
-  "signature": "&lt;&lt;Notary JWS Signature&gt;&gt;"
+  "signature": "eyJhbGciOiJFUzI1NiJ9..AVmJGUWp1JD0pf2j1_UQWXbf-
+qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
 }
                 </sourcecode>
                 <t>
@@ -632,6 +645,10 @@ uLU0DhqQP5Zjw4
                 <t>
                     Note that all properties above including "signature" are
                     application specific.
+                </t>
+                <t>
+                    The notary's signature was created using the sample key from
+                    <xref target="alt.algorithm" format="default"/>.
                 </t>
             </section>
 
