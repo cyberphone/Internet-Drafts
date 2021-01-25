@@ -188,20 +188,13 @@
                 The signature creation and signature validation sections
                 feature samples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
-                with a 256-bit key having the following value, 
-                here provided as a string using UTF-8 
-                <xref target="UNICODE" format="default"/> encoding:
+                with a 256-bit key having the following value,
+                here expressed as hexadecimal bytes:
             </t>
             <sourcecode type="test-vectors">
-I &#xe2;m @ v&#x20ac;ry $ecret.8 &#x1f60e; key
+7f dd 85 1a 3b 9d 2d af c5 f0 d0 00 30 e2 2b 93
+43 90 0c d4 2e de 49 48 56 8a 4a 2e e6 55 29 1a
             </sourcecode>
-            <t>
-                The same key expressed as hexadecimal bytes:
-            </t>
-<sourcecode type="test-vectors">
-49 20 c3 a2 6d 20 40 20 76 e2 82 ac 72 79 20 24
-65 63 72 65 74 2e 38 20 f0 9f 98 8e 20 6b 65 79
-</sourcecode>
             <section anchor="signing" numbered="true" toc="default">
                 <name>Signature Creation</name>
                 <t>
@@ -517,9 +510,6 @@ uLU0DhqQP5Zjw4
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7797.xml"/>
 
                 <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8037.xml"/>
-
-                <xi:include
                     href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>
 
                 <xi:include
@@ -652,10 +642,11 @@ uLU0DhqQP5Zjw4
                     to each other, counter-signatures like described in
                     <xref target="counter.signatures" format="default"/>
                     are not applicable since they presume a specific flow.
-                    For supporting <em>independent</em> or <em>asynchronous</em> signers targeting
-                    a common document or data object, an imaginable solution is using a scheme where each signer
-                    rather calculates a hash of the target document/data and includes the hash with
-                    the signer-specific meta data like the following:
+                    For supporting <em>independent</em> or <em>asynchronous</em> 
+                    signers targeting a common document or data object,
+                    an imaginable solution is using a scheme where each signer
+                    calculates a hash of the target document/data and includes the hash 
+                    together with signer-specific meta data like the following:
                 </t>
                 <sourcecode type="json">
 {
@@ -687,11 +678,13 @@ uLU0DhqQP5Zjw4
                     company board statements.
                 </t>
                 <t>
-                    Note that "signers", "sha256", and "signature" are
-                    application specific property names.
+                    Note that although "signers", "sha256", and "signature" are
+                    application specific property names, the objects in the
+                    "signers" array are assumed to be fully conformant with the
+                    JWS/CT specification.
                 </t>
                 <t>
-                    The following sample shows a possible signature object
+                    The following sample shows a possible detached signature solution
                     (with line breaks in the signature strings for display purposes only):
                 </t>
                 <sourcecode type="json">
@@ -708,8 +701,8 @@ Rhjrbe5mZP4wetM2QCoCBM"
     "sha256": "n-i0HIBJKELoTicCK9c5nqJ8cYH0znGRcEbYKoQfm70",
     "timeStamp": "2020-11-18T08:03:40Z",
     "name": "John Doe",
-    "signature": "eyJhbGciOiJFZERTQSJ9..OQLwF9XHtLru0GYMkG-WS
-dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
+    "signature": "eyJhbGciOiJFUzI1NiJ9..fR1Otv7jsSZEUVnxT-0WX
+JwabKSW3Us4OwIRQHpsMsSm5XNuOvO9wUbbPvBaC6GJvTBLlSDL6MijIZoV3i2Llg"
   }]
 }
                 </sourcecode>
@@ -725,6 +718,12 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
                         <xref target="RFC4648" format="default"/>, SHA256-hashes
                         <xref target="SHS" format="default"/> of the canonicalized
                         data created in <xref target="signing.canonicalize" format="default"/>.
+                    </li>
+                    <li>
+                        This arrangement requires a <em>two-step validation process</em> where
+                        each JWS/CT object in the "signers" array is individually validated,
+                        as well as having its "sha256" property compared to the hash of the
+                        canonicalized common data.
                     </li>
                 </ul>
             </section>
@@ -768,8 +767,8 @@ dSdqJkQ-jxTqLJXtV8dqruJe1DVsBLI8ok0IZu8jXibZPow5W1hbBmdYJAYCu5hCA"
   "otherProperties": [2000, true],
   "signatures": ["eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imar
 DtJeSxH2uLU0DhqQP5Zjw4",
-                 "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3
-qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"]
+                 "eyJhbGciOiJFUzI1NiJ9..ENP0j0-QPsA7N_Mg1-RMN
+9IxapeTWtQwR7sPUqEiSNHPuV_fqSdRqqkLOlBdV01cc4lSJdn1XCv-ZHYdZ9t3kA"]
 }
                 </sourcecode>
                 <t>
@@ -781,50 +780,57 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"]
         </section>
 
         <section anchor="alt.algorithm" numbered="true" toc="default">
-            <name>Test Vector Using the Ed25519 Algorithm</name>
+            <name>Test Vector Using the ES256 Algorithm</name>
             <t>
                 This appendix shows how a signed version of the JSON sample object in
                 <xref target="signing.data.creation" format="default"/> would look like
-                if applying the <tt>Ed25519</tt> algorithm described in RFC&nbsp;8037
-                <xref target="RFC8037" format="default"/> (with line breaks in the "signature" property
-                for display purposes only):
+                if applying the <tt>ES256</tt> JOSE algorithm
+                <xref target="RFC7518" format="default"/>
+                (with line breaks in the "signature" property for display purposes only):
             </t>
             <sourcecode type="json">
 {
   "statement": "Hello signed world!",
   "otherProperties": [2000, true],
-  "signature": "eyJhbGciOiJFZERTQSJ9..WAyfK782CRkJh4hcP-OQ3
-qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
+  "signature": "eyJhbGciOiJFUzI1NiJ9..ENP0j0-QPsA7N_Mg1-RMN
+9IxapeTWtQwR7sPUqEiSNHPuV_fqSdRqqkLOlBdV01cc4lSJdn1XCv-ZHYdZ9t3kA"
 }
             </sourcecode>
             <t>
                 The sample above depends on a JWS header holding the algorithm
-                {"alg":"EdDSA"}, and the following private key, here expressed in
+                {"alg":"ES256"}, and the following private key, here expressed in
                 the JWK <xref target="RFC7517" format="default"/> format:
 
             </t>
             <sourcecode type="json">
 {
-  "kty": "OKP",
-  "crv": "Ed25519",
-  "x": "_kms9bkrbpI1lPLoM2j2gKySS-k89TOuyvgC43dX-Mk",
-  "d": "0flr-6bXs459f9qwAq20Zs3NizTGIEH5_rTDFoumFV4"
+  "kty": "EC",
+  "crv": "P-256",
+  "x": "6BKxpty8cI-exDzCkh-goU6dXq3MbcY0cd1LaAxiNrU",
+  "y": "mCbcvUzm44j3Lt2b5BPyQloQ91tf2D2V-gzeUxWaUdg",
+  "d": "6XxMFXhcYT5QN9w5TIg2aSKsbcj-pj4BnZkK7ZOt4B8"
 }
             </sourcecode>
+            <t>
+                Note that signing with the <tt>ES256</tt> algorithm returns different
+                results for each signature due to a randomization step
+                in the signature computation process. 
+            </t>
         </section>
 
         <section anchor="alt.mode" numbered="true" toc="default">
             <name>Enhanced JWS Processing Option</name>
             <t>
-                By default JWS/CT uses the JWS compact serialization mode "as is".
+                By default, JWS/CT uses the JWS compact serialization mode "as is".
                 As a consequence, a <em>technically redundant</em>, <em>internal-only</em>,
                 base64url encoding step is performed over the <tt>JWS&nbsp;Payload</tt>.
                 Although the performance hit should be marginal for most real-world applications,
                 a possibility is using the "Unencoded Payload" mode of RFC7797
                 <xref target="RFC7797" format="default"/>.
                 However, this requires that the JWS implementation supports the
-                "b64":false and "crit":["b64"] header elements implied by RFC7797. 
-                Due to that, this specification leaves RFC7797 as an <em>implementer option</em>.
+                "b64":false and "crit":["b64"] header elements implied by RFC7797,
+                effectively rendering the RFC7797 mode as an 
+                <em>implementer option</em> for specific communities.
             </t>
         </section>
 
@@ -863,13 +869,16 @@ qUYpH6xY3vfFhaRSzNgG5Eu4p54SyTX25-HjNRN8qE5hmMovd8tycp6I9uqRofiBg"
             <t>Version 02:</t>
             <ul spacing="normal">
                 <li>
-                    Changed test key to also work as a string.
+                    Changed alternative test key to ES256/P-256.
                 </li>
                 <li>
                     Moved RFC7797 to an appendix.
                 </li>
                 <li>
                     Changed &lt;tt&gt; to only be used on key words.
+                </li>
+                <li>
+                    Added some clarity to detached signatures.
                 </li>
             </ul>
         </section>
