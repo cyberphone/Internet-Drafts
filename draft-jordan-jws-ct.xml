@@ -713,15 +713,15 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
   "signers": [{
     "sha256": "n-i0HIBJKELoTicCK9c5nqJ8cYH0znGRcEbYKoQfm70",
     "timeStamp": "2020-11-18T07:45:28Z",
-    "name": "Jane Doe",
-    "signature": "eyJhbGciOiJIUzI1NiJ9..57zPdGh88IgI9kECb1u3O
-Rhjrbe5mZP4wetM2QCoCBM"
+    "name": "Alice",
+    "signature": "eyJhbGciOiJIUzI1NiJ9..AE7CnzSYsaspE3yrdsAwi
+avd3IdWtdAmDE8FRMwYLA8"
   },{
     "sha256": "n-i0HIBJKELoTicCK9c5nqJ8cYH0znGRcEbYKoQfm70",
     "timeStamp": "2020-11-18T08:03:40Z",
-    "name": "John Doe",
-    "signature": "eyJhbGciOiJFUzI1NiJ9..fR1Otv7jsSZEUVnxT-0WX
-JwabKSW3Us4OwIRQHpsMsSm5XNuOvO9wUbbPvBaC6GJvTBLlSDL6MijIZoV3i2Llg"
+    "name": "Bob",
+    "signature": "eyJhbGciOiJFUzI1NiJ9..0tNLy0pLcHUjPhhorpKd5
+7a8zTPeqlrOjATiSlPQ1vciE99x6mHmow04tPbJS8dqSqO9c4RkKW6jeL4ZyWpXLA"
   }]
 }
                 </sourcecode>
@@ -729,8 +729,8 @@ JwabKSW3Us4OwIRQHpsMsSm5XNuOvO9wUbbPvBaC6GJvTBLlSDL6MijIZoV3i2Llg"
                     Notes:
                 </t>
                 <ul>
-                    <li>"Jane Doe" used the sample key from <xref target="Operation" format="default"/>
-                        while "John Doe" used the sample key specified in <xref target="alt.algorithm" format="default"/>.
+                    <li>"Alice" used the sample key from <xref target="Operation" format="default"/>
+                        while "Bob" used the sample key specified in <xref target="alt.algorithm" format="default"/>.
                     </li>
                     <li>
                         The "sha256" properties hold base64url-encoded
