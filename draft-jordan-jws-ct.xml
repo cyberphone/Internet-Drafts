@@ -805,7 +805,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
                 <xref target="signing.data.creation" format="default"/> would look like
                 if applying the <tt>ES256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
-                (with line breaks in the "signature" property for display purposes only):
+                (with a line break in the "signature" property for display purposes only):
             </t>
             <sourcecode type="json">
 {
