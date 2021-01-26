@@ -276,7 +276,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
                         section, and the original JSON sample, the process above should result
-                        in the following, now signed JSON object (with line breaks in the "signature" property
+                        in the following, now signed JSON object (with a line break in the "signature" property
                         for display purposes only):
                     </t>
                     <sourcecode type="json">
@@ -590,7 +590,8 @@ uLU0DhqQP5Zjw4
                 <name>Counter Signatures</name>
                 <t>
                     Consider the following JWS/CT object showing an imaginary
-                    real estate business record:
+                    real estate business record
+                    (with a line break in the "signature" property for display purposes only):
                 </t>
                 <sourcecode type="json">
 {
@@ -612,7 +613,8 @@ uyW92csiDqyiQrF6R5ug"
                 </t>
                 <t>
                     Adding a notary signature on top of this could be performed
-                    by embedding the former object as follows:
+                    by embedding the former object as follows
+                    (with line breaks in the "signature" properties for display purposes only):
                 </t>
                 <sourcecode type="json">
 {
@@ -702,7 +704,7 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
                 </t>
                 <t>
                     The following sample shows a possible detached signature solution
-                    (with line breaks in the signature strings for display purposes only):
+                    (with line breaks in the "signature" properties for display purposes only):
                 </t>
                 <sourcecode type="json">
 {
@@ -775,8 +777,8 @@ JwabKSW3Us4OwIRQHpsMsSm5XNuOvO9wUbbPvBaC6GJvTBLlSDL6MijIZoV3i2Llg"
                 <t>
                     By combining the sample used in <xref target="Operation" format="default"/>
                     with the test vector in <xref target="alt.algorithm" format="default"/>, a valid
-                    signature array object could be as follows (with line breaks in the signature
-                    strings for display purposes only):
+                    signature array object could be as follows (with line breaks in the "signatures"
+                    property for display purposes only):
                 </t>
                 <sourcecode type="json">
 {
