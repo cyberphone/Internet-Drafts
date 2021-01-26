@@ -831,8 +831,8 @@ DtJeSxH2uLU0DhqQP5Zjw4",
 }
             </sourcecode>
             <t>
-                Note that signing with the <tt>ES256</tt> algorithm returns different
-                results for each signature due to a randomization step
+                Note that signing with the <tt>ES256</tt> algorithm <em>returns different
+                results for each signature</em> due to a randomization step
                 in the signature computation process. 
             </t>
         </section>
