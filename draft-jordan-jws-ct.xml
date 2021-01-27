@@ -791,7 +791,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
 }
                 </sourcecode>
                 <t>
-                    Note that "signatures" is not a key word, it was only selected
+                    Note that "signatures" is not a keyword, it was only selected
                     to highlight the fact that there are multiple signatures.
                 </t>
             </section>
@@ -894,7 +894,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
                     Moved RFC7797 to an appendix.
                 </li>
                 <li>
-                    Changed &lt;tt&gt; to only be used on key words.
+                    Changed &lt;tt&gt; to only be used on keywords.
                 </li>
                 <li>
                     Added some clarity to detached signatures.
