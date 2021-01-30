@@ -741,8 +741,8 @@ avd3IdWtdAmDE8FRMwYLA8"
                     <li>
                         This arrangement requires a <em>two-step validation process</em> where
                         each JWS/CT object in the "signers" array is individually validated,
-                        as well as having its "sha256" property compared to the hash of the
-                        canonicalized common data.
+                        as well as having its "sha256" property compared with the actual hash
+                        of the canonicalized common data.
                     </li>
                 </ul>
             </section>
