@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jws-ct-02"
+     docName="draft-jordan-jws-ct-04"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -70,7 +70,7 @@
                 By combining the detached mode of JWS with the
                 JSON Canonicalization Scheme (JCS), JWS/CT enables
                 JSON objects to remain in the JSON format after being signed
-                (aka "Clear&nbsp;Text" signing).
+                (also known as "Clear&nbsp;Text" signing).
                 In addition to supporting a consistent data format, this
                 arrangement also simplifies documentation, debugging, and logging.
                 The ability to embed signed JSON objects in other JSON objects,
@@ -103,15 +103,15 @@
             </t>
             <t>
                 The primary motivations for keeping signed JSON objects in the JSON format
-                include <em>simplified documentation</em>, <em>debugging</em>, and <em>logging</em>,
-                as well as for maintaining a <em>consistent message structure</em>.
+                include simplified documentation, debugging, and logging,
+                as well as for maintaining a consistent message structure.
             </t>
             <t>
                 Another target is HTTP-based signature schemes that currently
                 utilize HTTP header values for holding detached signatures.
                 By rather using the method described herein,
                 signed JSON-formatted HTTP requests and responses
-                may be self-contained and thus be <em>serializable</em>.
+                may be self-contained and thus be serializable.
                 The latter facilitates such data to be
             </t>
             <ul spacing="compact">
@@ -167,7 +167,7 @@
             <ul>
                 <li>
                     With the exception of the reliance on the detached mode described in
-                <eref target="https://tools.ietf.org/html/rfc7515#appendix-F">Appendix F</eref> of JWS,
+                    Appendix F of JWS <xref target="RFC7515" format="default"/>,
                     JWS/CT does not alter the JWS signature creation process, validation process,
                     or format. This means that the contents of JWS headers as well as things
                     related to signature algorithms and cryptographic keys are out
@@ -176,7 +176,7 @@
                     <xref target="alt.mode" format="default"/>.
                 </li>
                 <li>
-                    JWS/CT exclusively depends on the JWS <em>Compact Serialization</em> mode.
+                    JWS/CT exclusively depends on the JWS Compact Serialization mode.
                 </li>
                 <li>
                     JCS <xref target="RFC8785" format="default"/>
@@ -186,7 +186,7 @@
             </ul>
             <t>
                 The signature creation and signature validation sections
-                feature samples using the <tt>HS256</tt> JOSE algorithm
+                feature examples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
                 with a 256-bit key having the following value,
                 here expressed as hexadecimal bytes:
@@ -207,7 +207,7 @@
                         Create or parse the JSON object to be signed.
                     </t>
                     <t>
-                        For illustrating the subsequent operations the following sample object is used:
+                        For illustrating the subsequent operations the following example object is used:
                     </t>
                     <sourcecode type="json">
 {
@@ -224,7 +224,7 @@
                         <xref target="RFC8785" format="default"/>.
                     </t>
                     <t>
-                        Applied to the sample, the following JSON string should be generated:
+                        Applied to the example, the following JSON string should be generated:
                     </t>
                     <sourcecode type="json">
 {"otherProperties":[2000,true],"statement":"Hello signed world!"}
@@ -243,11 +243,10 @@
                     <name>Generate a JWS String</name>
                     <t>
                         Use the result of the previous step as <tt>JWS&nbsp;Payload</tt> to the
-                        signature process described in
-                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS.
+                        signature process described in Appendix F of JWS <xref target="RFC7515" format="default"/>.
                     </t>
                     <t>
-                        For the sample, the JWS header is assumed to be:
+                        For the example, the JWS header is assumed to be:
                     </t>
                     <sourcecode type="json">
 {"alg":"HS256"}
@@ -269,13 +268,13 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         The only requirement is that this property <bcp14>MUST NOT</bcp14> clash
                         with any other top-level property name.
                         The JWS string itself <bcp14>MUST</bcp14> be supplied as a
-                        JSON string argument ("") to the signature property.
+                        JSON string argument to the signature property.
                     </t>
                     <t>
-                        For the sample, the property name "signature"
+                        For the example, the property name "signature"
                         is assumed to be the designated holder of the JWS string.
                         Equipped with a signature property, the JWS string from the previous
-                        section, and the original JSON sample, the process above should result
+                        section, and the original JSON example, the process above should result
                         in the following, now signed JSON object (with a line break in the "signature" property
                         for display purposes only):
                     </t>
@@ -312,7 +311,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     </t>
                     <t>
                         To illustrate the subsequent operations the signed JSON object
-                        featured in <xref target="signing.final" format="default"/> is used as sample.
+                        featured in <xref target="signing.final" format="default"/> is used as example.
                    </t>
                 </section>
                 <section anchor="validation.fetch.signprop" numbered="true" toc="default">
@@ -320,13 +319,13 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                     <t>
                         After successful parsing, retrieve the designated JSON top-level
                         property holding the JWS string.  If the property is missing
-                        or its argument is not a JSON string (""),
+                        or its argument is not a JSON string value,
                         the operation <bcp14>MUST</bcp14>
                         cause a compliant implementation to terminate
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample, where the property named "signature" is assumed to hold the JWS string,
+                        For the example, where the property named "signature" is assumed to hold the JWS string,
                         the operation above should return the following string:
                    </t>
                     <sourcecode type="test-vectors">
@@ -341,7 +340,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         be removed from the signed JSON object.
                     </t>
                     <t>
-                        If applied to the sample the resulting JSON object should read as follows:
+                        If applied to the example the resulting JSON object should read as follows:
                    </t>
                     <sourcecode type="json">
 {
@@ -365,7 +364,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         <xref target="RFC8785" format="default"/>.
                     </t>
                     <t>
-                        If applied to the sample the result of the process above should read as follows:
+                        If applied to the example the result of the process above should read as follows:
                    </t>
                     <sourcecode type="json">
 {"otherProperties":[2000,true],"statement":"Hello signed world!"}
@@ -404,7 +403,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                         with an appropriate error.
                     </t>
                     <t>
-                        For the sample, validation is straightforward since both the algorithm and
+                        For the example, validation is straightforward since both the algorithm and
                         the key to use are predefined (see <xref target="Operation" format="default"/>).
                         The input string to a JWS validator should after the process step above read
                         as follows (with line breaks for display purposes only):
@@ -608,7 +607,7 @@ uyW92csiDqyiQrF6R5ug"
 }
                 </sourcecode>
                 <t>
-                    The signature above was created using the sample key from
+                    The signature above was created using the example key from
                     <xref target="Operation" format="default"/>.
                 </t>
                 <t>
@@ -649,7 +648,7 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
                     application specific.
                 </t>
                 <t>
-                    The notary's signature was created using the sample key from
+                    The notary's signature was created using the example key from
                     <xref target="alt.algorithm" format="default"/>.
                 </t>
             </section>
@@ -661,7 +660,7 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
                     to each other, counter-signatures like described in
                     <xref target="counter.signatures" format="default"/>
                     are not applicable since they presume a specific flow.
-                    For supporting <em>independent</em> or <em>asynchronous</em> 
+                    For supporting independent or asynchronous 
                     signers targeting a common document or data object,
                     an imaginable solution is using a scheme where each signer
                     calculates a hash of the target document/data and includes the hash 
@@ -703,7 +702,7 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
                     JWS/CT specification.
                 </t>
                 <t>
-                    The following sample shows a possible detached signature solution
+                    The following example shows a possible detached signature solution
                     (with line breaks in the "signature" properties for display purposes only):
                 </t>
                 <sourcecode type="json">
@@ -729,8 +728,8 @@ avd3IdWtdAmDE8FRMwYLA8"
                     Notes:
                 </t>
                 <ul>
-                    <li>"Alice" used the sample key from <xref target="Operation" format="default"/>
-                        while "Bob" used the sample key specified in <xref target="alt.algorithm" format="default"/>.
+                    <li>"Alice" used the example key from <xref target="Operation" format="default"/>
+                        while "Bob" used the example key specified in <xref target="alt.algorithm" format="default"/>.
                     </li>
                     <li>
                         The "sha256" properties hold base64url-encoded
@@ -739,7 +738,7 @@ avd3IdWtdAmDE8FRMwYLA8"
                         data created in <xref target="signing.canonicalize" format="default"/>.
                     </li>
                     <li>
-                        This arrangement requires a <em>two-step validation process</em> where
+                        This arrangement requires a two-step validation process where
                         each JWS/CT object in the "signers" array is individually validated,
                         as well as having its "sha256" property compared with the actual hash
                         of the canonicalized common data.
@@ -750,7 +749,7 @@ avd3IdWtdAmDE8FRMwYLA8"
             <section anchor="array.signatures" numbered="true" toc="default">
                 <name>Array of Signatures</name>
                 <t>
-                    Another possibility supporting <em>multiple and independent</em>
+                    Another possibility supporting multiple and independent
                     signatures is collecting JWS signature strings in a JSON array object
                     according to the following scheme:
                 </t>
@@ -775,7 +774,7 @@ avd3IdWtdAmDE8FRMwYLA8"
                     is supplied as JWS extensions in the associated signature's base64url-encoded header.
                 </t>
                 <t>
-                    By combining the sample used in <xref target="Operation" format="default"/>
+                    By combining the example used in <xref target="Operation" format="default"/>
                     with the test vector in <xref target="alt.algorithm" format="default"/>, a valid
                     signature array object could be as follows (with line breaks in the "signatures"
                     property for display purposes only):
@@ -801,7 +800,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
         <section anchor="alt.algorithm" numbered="true" toc="default">
             <name>Test Vector Using the ES256 Algorithm</name>
             <t>
-                This appendix shows how a signed version of the JSON sample object in
+                This appendix shows how a signed version of the JSON example object in
                 <xref target="signing.data.creation" format="default"/> would look like
                 if applying the <tt>ES256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
@@ -816,7 +815,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
 }
             </sourcecode>
             <t>
-                The sample above depends on a JWS header holding the algorithm
+                The example above depends on a JWS header holding the algorithm
                 {"alg":"ES256"}, and the following private key, here expressed in
                 the JWK <xref target="RFC7517" format="default"/> format:
 
@@ -831,8 +830,8 @@ DtJeSxH2uLU0DhqQP5Zjw4",
 }
             </sourcecode>
             <t>
-                Note that signing with the <tt>ES256</tt> algorithm <em>returns different
-                results for each signature</em> due to a randomization step
+                Note that signing with the <tt>ES256</tt> algorithm returns different
+                results for each signature due to a randomization step
                 in the signature computation process. 
             </t>
         </section>
@@ -841,7 +840,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
             <name>Enhanced JWS Processing Option</name>
             <t>
                 By default, JWS/CT uses the JWS compact serialization mode "as is".
-                As a consequence, a <em>technically redundant</em>, <em>internal-only</em>,
+                As a consequence, a technically redundant, internal-only,
                 base64url encoding step is performed over the <tt>JWS&nbsp;Payload</tt>.
                 Although the performance hit should be marginal for most real-world applications,
                 a possibility is using the "Unencoded Payload" mode of RFC7797
@@ -849,7 +848,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
                 However, this requires that the JWS implementation supports the
                 "b64":false and "crit":["b64"] header elements implied by RFC7797,
                 effectively rendering the RFC7797 mode as an 
-                <em>implementer option</em> for specific communities.
+                implementer option for specific communities.
             </t>
         </section>
 
@@ -900,6 +899,18 @@ DtJeSxH2uLU0DhqQP5Zjw4",
                     Added some clarity to detached signatures.
                 </li>
             </ul>
+          <t>Version 03:</t>
+          <ul spacing="normal">
+            <li>
+              Language changes suggested by ISE.
+            </li>
+          </ul>
+          <t>Version 04:</t>
+          <ul spacing="normal">
+            <li>
+              Language nit.
+            </li>
+          </ul>
         </section>
     </back>
 </rfc>
