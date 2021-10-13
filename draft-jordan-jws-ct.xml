@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jws-ct-04"
+     docName="draft-jordan-jws-ct-05"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -909,6 +909,12 @@ DtJeSxH2uLU0DhqQP5Zjw4",
           <ul spacing="normal">
             <li>
               Language nit.
+            </li>
+          </ul>
+          <t>Version 05:</t>
+          <ul spacing="normal">
+            <li>
+              Document refresh.
             </li>
           </ul>
         </section>
