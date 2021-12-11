@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jws-ct-05"
+     docName="draft-jordan-jws-ct-06"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -66,11 +66,10 @@
         <abstract>
             <t>
                 This document describes a method for extending the scope of the
-                JSON Web Signature (JWS) standard, called JWS/CT.
+                JSON Web Signature (JWS) specification, called JWS/CT (JWS "Clear Text").
                 By combining the detached mode of JWS with the
                 JSON Canonicalization Scheme (JCS), JWS/CT enables
-                JSON objects to remain in the JSON format after being signed
-                (also known as "Clear&nbsp;Text" signing).
+                JSON objects to remain in the JSON format after being signed.
                 In addition to supporting a consistent data format, this
                 arrangement also simplifies documentation, debugging, and logging.
                 The ability to embed signed JSON objects in other JSON objects,
@@ -85,7 +84,7 @@
                 This specification introduces a method for augmenting data expressed in the
                 JSON <xref target="RFC8259" format="default"/> notation,
                 with enveloped signatures, similar to the scheme used in
-                the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> standard.
+                the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> specification.
                 For interoperability reasons this specification constrains JSON objects
                 to the I-JSON <xref target="RFC7493" format="default"/> subset.
             </t>
@@ -109,7 +108,7 @@
             <t>
                 Another target is HTTP-based signature schemes that currently
                 utilize HTTP header values for holding detached signatures.
-                By rather using the method described herein,
+                By using the method described herein,
                 signed JSON-formatted HTTP requests and responses
                 may be self-contained and thus be serializable.
                 The latter facilitates such data to be
@@ -161,7 +160,7 @@
                 and validating signatures based on this specification.
             </t>
             <t>
-                The following characteristics are vital to know for
+                The following characteristics are crucial to know for
                 prospective JWS/CT implementers and users:
             </t>
             <ul>
@@ -176,7 +175,7 @@
                     <xref target="alt.mode" format="default"/>.
                 </li>
                 <li>
-                    JWS/CT exclusively depends on the JWS Compact Serialization mode.
+                    JWS/CT depends exclusively on the JWS Compact Serialization mode.
                 </li>
                 <li>
                     JCS <xref target="RFC8785" format="default"/>
@@ -207,7 +206,8 @@
                         Create or parse the JSON object to be signed.
                     </t>
                     <t>
-                        For illustrating the subsequent operations the following example object is used:
+                        The following example object is used to illustrate the operations in
+                        the sections that follow:
                     </t>
                     <sourcecode type="json">
 {
@@ -286,14 +286,6 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
 DtJeSxH2uLU0DhqQP5Zjw4"
 }
                     </sourcecode>
-                    <t>
-                        Note: one could equally well apply the signature
-                        to the canonicalized version of the JSON object.
-                        However, the rearrangement of properties (performed by JCS),
-                        may sometimes be considered an issue from a "human" point of view,
-                        while computing-wise the order of JSON properties has no impact
-                        on the outcome.
-                    </t>
                 </section>
             </section>
             <section anchor="validation" numbered="true" toc="default">
@@ -305,9 +297,10 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                 <section anchor="validation.parse.input" numbered="true" toc="default">
                     <name>Parse the Signed JSON Object</name>
                     <t>
-                        Parse the JSON object that is anticipated to be signed.
+                        Parse the JSON object that is expected to have been signed.
                         If the parsing is unsuccessful, the operation <bcp14>MUST</bcp14>
-                        cause a compliant implementation to terminate with an appropriate error.
+                        cause a compliant implementation to terminate
+                        processing and return an error indication.
                     </t>
                     <t>
                         To illustrate the subsequent operations the signed JSON object
@@ -322,7 +315,7 @@ DtJeSxH2uLU0DhqQP5Zjw4"
                         or its argument is not a JSON string value,
                         the operation <bcp14>MUST</bcp14>
                         cause a compliant implementation to terminate
-                        with an appropriate error.
+                        processing and return an error indication.
                     </t>
                     <t>
                         For the example, where the property named "signature" is assumed to hold the JWS string,
@@ -384,8 +377,7 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <t>
                         After extracting the detached mode JWS string and canonicalizing the JSON object
                         (to retrieve the <tt>JWS&nbsp;Payload</tt>),
-                        the JWS string <bcp14>MUST</bcp14> be restored as described in
-                        <eref target="https://tools.ietf.org/html/rfc7515#appendix-F"/> of JWS
+                        the JWS string <bcp14>MUST</bcp14> be restored as described in Appendix F of JWS
                         <xref target="RFC7515" format="default"/>.
                         The actual JWS validation procedure is not specified
                         here because it is covered by <xref target="RFC7515" format="default"/>
@@ -399,8 +391,8 @@ eyJhbGciOiJIUzI1NiJ9..VHVItCBCb8Q5CI-49imarDtJeSxH2uLU0DhqQP5Zjw4
                     <t>
                         If the validation process for some reason fails,
                         the operation <bcp14>MUST</bcp14>
-                        cause a compliant implementation to terminate
-                        with an appropriate error.
+                        cause a compliant implementation to terminate 
+                        processing and return an error indication.
                     </t>
                     <t>
                         For the example, validation is straightforward since both the algorithm and
@@ -586,7 +578,7 @@ uLU0DhqQP5Zjw4
                 how JWS/CT can be used in contexts involving multiple signatures.
             </t>
             <section anchor="counter.signatures" numbered="true" toc="default">
-                <name>Counter Signatures</name>
+                <name>Counter-Signatures</name>
                 <t>
                     Consider the following JWS/CT object showing an imaginary
                     real estate business record
@@ -688,7 +680,7 @@ qj-2RWxOnyAXihd4POKbnjWqqSBmHPNfgMQFH_s5sXHkIOkDZe2nShqEJOEVA"
                 </sourcecode>
                 <t>
                     In this case the object to sign would not be limited to JSON;
-                    it could for example be a PDF document hosted on a specific URL.
+                    it could, for example, be a PDF document hosted on a specific URL.
                     Note that the relying party would have to update the structure for each signature received.
                     In some cases a database would probably be more useful for holding individual signatures
                     since a database can cope with any number of signers as well as keeping track of who
@@ -917,6 +909,12 @@ DtJeSxH2uLU0DhqQP5Zjw4",
               Document refresh.
             </li>
           </ul>
-        </section>
+          <t>Version 06:</t>
+          <ul spacing="normal">
+            <li>
+              Changes after ISE review.
+            </li>
+          </ul>
+          </section>
     </back>
 </rfc>
