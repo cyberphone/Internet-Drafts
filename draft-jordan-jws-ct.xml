@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jws-ct-06"
+     docName="draft-jordan-jws-ct-07"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -75,6 +75,12 @@
                 The ability to embed signed JSON objects in other JSON objects,
                 makes the use of counter-signatures straightforward.
             </t>
+            <t>
+                This informational specification has been produced outside the IETF,
+                is not an IETF standard, and does not have IETF consensus.  The
+                intended audiences of this document are JSON tool vendors as well as
+                designers of JSON-based cryptographic solutions.
+            </t>
         </abstract>
     </front>
     <middle>
@@ -84,13 +90,13 @@
                 This specification introduces a method for augmenting data expressed in the
                 JSON <xref target="RFC8259" format="default"/> notation,
                 with enveloped signatures, similar to the scheme used in
-                the XML&nbsp;Signature <xref target="XMLDSIG" format="default"/> specification.
+                XML&nbsp;Signature <xref target="XMLDSIG" format="default"/>.
                 For interoperability reasons this specification constrains JSON objects
                 to the I-JSON <xref target="RFC7493" format="default"/> subset.
             </t>
             <t>
-                To avoid "reinventing the wheel", this specification leverages the
-                JSON Web Signature (JWS) <xref target="RFC7515" format="default"/> standard.
+                To avoid "reinventing the wheel", this specification leverages
+                JSON Web Signature (JWS) <xref target="RFC7515" format="default"/>.
             </t>
             <t>
                 By building on the detached mode of JWS
@@ -178,6 +184,10 @@
                     JWS/CT depends exclusively on the JWS Compact Serialization mode.
                 </li>
                 <li>
+                    JSON data to be signed MUST be supplied as JSON objects.  That is,
+                    direct signing of JSON arrays or JSON primitives is out of scope for this specification.
+                </li>
+                <li>
                     JCS <xref target="RFC8785" format="default"/>
                     constrains JSON objects to the I-JSON
                     <xref target="RFC7493" format="default"/> subset.
@@ -185,6 +195,8 @@
             </ul>
             <t>
                 The signature creation and signature validation sections
+                (<xref target="signing" format="default"/> and 
+                <xref target="validation" format="default"/> respectively),
                 feature examples using the <tt>HS256</tt> JOSE algorithm
                 <xref target="RFC7518" format="default"/>
                 with a 256-bit key having the following value,
@@ -915,6 +927,12 @@ DtJeSxH2uLU0DhqQP5Zjw4",
               Changes after ISE review.
             </li>
           </ul>
-          </section>
+          <t>Version 07:</t>
+          <ul spacing="normal">
+            <li>
+              Changes after ISE and external reviews.
+            </li>
+          </ul>
+       </section>
     </back>
 </rfc>
