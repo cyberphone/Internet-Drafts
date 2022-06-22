@@ -6,7 +6,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-jordan-jws-ct-07"
+     docName="draft-jordan-jws-ct-08"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -55,7 +55,7 @@
                 <uri>https://www.linkedin.com/in/andersrundgren/</uri>
             </address>
         </author>
-        <date year="2021"/>
+        <date year="2022"/>
         <area>Security</area>
         <workgroup/>
         <keyword>JSON</keyword>
@@ -91,7 +91,7 @@
                 JSON <xref target="RFC8259" format="default"/> notation,
                 with enveloped signatures, similar to the scheme used in
                 XML&nbsp;Signature <xref target="XMLDSIG" format="default"/>.
-                For interoperability reasons this specification constrains JSON objects
+                For interoperability and security reasons this specification constrains JSON objects
                 to the I-JSON <xref target="RFC7493" format="default"/> subset.
             </t>
             <t>
@@ -432,6 +432,7 @@ uLU0DhqQP5Zjw4
                 This specification inherits all the security considerations
                 of JWS <xref target="RFC7515" format="default"/>
                 and JCS <xref target="RFC8785" format="default"/>.
+                Note that strict conformance to I-JSON <xref target="RFC7493" format="default"/> is REQUIRED.
             </t>
             <t>
                 In similarity to any other signature specification,
@@ -467,9 +468,6 @@ uLU0DhqQP5Zjw4
                 For usage in a wider community, the name of the designated
                 signature property becomes a critical factor that
                 <bcp14>MUST</bcp14> be documented and communicated.
-                However, in a properly designed system, a faulty or
-                missing signature <bcp14>MUST</bcp14> "only" lead to
-                failed operation, and not to a security breach.
             </t>
         </section>
     </middle>
@@ -862,6 +860,7 @@ DtJeSxH2uLU0DhqQP5Zjw4",
                 People who have contributed directly and indirectly with
                 valuable input to this specification include
                 <contact fullname="Vladimir Dzhuvinov"/>,
+                <contact fullname="James Greussing"/>,
                 <contact fullname="Freddi Gyara"/>,
                 and
                 <contact fullname="Filip Skokan"/>.
@@ -933,6 +932,12 @@ DtJeSxH2uLU0DhqQP5Zjw4",
               Changes after ISE and external reviews.
             </li>
           </ul>
-       </section>
+          <t>Version 08:</t>
+          <ul spacing="normal">
+            <li>
+              Changes after ISE and external reviews.
+            </li>
+          </ul>
+          </section>
     </back>
 </rfc>
