@@ -19,35 +19,35 @@
      sortRefs="true"
      version="3">
     <front>
-        <title abbrev="COTE">
-          CBOR Object Type Extension (COTE)
-        </title>
-        <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
-            <organization>Independent</organization>
-            <address>
-                <postal>
-                    <city>Montpellier</city>
-                    <country>France</country>
-                </postal>
-                <email>anders.rundgren.net@gmail.com</email>
-                <uri>https://www.linkedin.com/in/andersrundgren/</uri>
-            </address>
-        </author>
-        <date year="2022"/>
-        <area>Application</area>
-        <workgroup>CBOR</workgroup>
-        <keyword>CBOR</keyword>
-        <keyword>Identfier</keyword>
-        <keyword>Type</keyword>
+      <title abbrev="COTE">
+        CBOR Object Type Extension (COTE)
+      </title>
+      <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
+          <organization>Independent</organization>
+          <address>
+              <postal>
+                  <city>Montpellier</city>
+                  <country>France</country>
+              </postal>
+              <email>anders.rundgren.net@gmail.com</email>
+              <uri>https://www.linkedin.com/in/andersrundgren/</uri>
+          </address>
+      </author>
+      <date year="2022"/>
+      <area>Application</area>
+      <workgroup>CBOR</workgroup>
+      <keyword>CBOR</keyword>
+      <keyword>Identfier</keyword>
+      <keyword>Type</keyword>
 
-        <abstract>
-          <t>
-            This document describes a CBOR tag for providing type information
-            to CBOR data.  Unlike the native CBOR tagging scheme which
-            depends on the IANA registry, this specification supports arbitrary
-            typing schemes, including using URLs.
-          </t>
-        </abstract>
+      <abstract>
+        <t>
+          This document describes a CBOR tag for providing type information
+          to CBOR data.  Unlike the native CBOR tagging scheme which
+          depends on the IANA registry, this specification supports arbitrary
+          typing schemes, including using URLs.
+        </t>
+      </abstract>
     </front>
     <middle>
       <section anchor="Introduction" numbered="true" toc="default">
@@ -102,7 +102,7 @@
         <t>
           This specification builds on the CBOR <xref target="RFC8949" format="default"/>
           tag feature (major type 6), by defining a
-          fixed tag with the preliminary decimal value of 211.
+          fixed tag with the preliminary decimal value of 1010.
         </t>
         <t>
           This tag MUST in turn enclose a CBOR array with two elements, where the first
@@ -111,7 +111,7 @@
           (section 8 of <xref target="RFC8949" format="default"/>) this becomes:
         </t>
         <t>
-          &nbsp;&nbsp;&nbsp;&nbsp;211([Object Identifier, Object])
+          &nbsp;&nbsp;&nbsp;&nbsp;1010([Object Identifier, Object])
         </t>
         <t>
           Both arguments may be any valid CBOR object.
@@ -126,17 +126,17 @@
             Consider the following sample:
           </t>
           <sourcecode>
-    211(["https://example.com/myobject", {
-      1: "data",
-      2: "more data"
-    }])
+1010(["https://example.com/myobject", {
+  1: "data",
+  2: "more data"
+}])
           </sourcecode>
           <t>
             Converted to CBOR expressed in hexadecimal notation the following
             is to be expected:
           </t>
           <sourcecode>
-D8 D3                               # tag(211)
+D9 03F2                             # tag(1010)
    82                               # array(2)
       78 1C                         # text(28)
          68747470733A2F2F6578616D706C652E636F6D2F6D796F626A656374
@@ -150,107 +150,108 @@ D8 D3                               # tag(211)
             6D6F72652064617461      # "more data"
           </sourcecode>
         </section>
-        </section>
+      </section>
 
-        <section anchor="IANA" numbered="true" toc="default">
-          <name>IANA Considerations</name>
-          <t>
-            In the registry <xref target="IANA.cbor-tags"/>,
-            IANA is requested to allocate the tag defined in <xref target="tab-tag-value"/>.
-          </t>
-          <table anchor="tab-tag-value">
-            <name>Values for Tag Numbers</name>
-            <thead>
-              <tr>
-                <th align="right">Tag</th>
-                <th align="left">Data Item</th>
-                <th align="left">Semantics</th>
-                <th align="left">Reference</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td align="right">211</td>
-                <td align="left">array: [id, object]</td>
-                <td align="left">Object identifier</td>
-                <td align="left">draft-rundgren-cote</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+      <section anchor="IANA" numbered="true" toc="default">
+        <name>IANA Considerations</name>
+        <t>
+          In the registry <xref target="IANA.cbor-tags"/>,
+          IANA is requested to allocate the tag defined in <xref target="tab-tag-value"/>.
+        </t>
+        <table anchor="tab-tag-value">
+          <name>Values for Tag Numbers</name>
+          <thead>
+            <tr>
+              <th align="right">Tag</th>
+              <th align="left">Data Item</th>
+              <th align="left">Semantics</th>
+              <th align="left">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="right">1010</td>
+              <td align="left">array: [id, object]</td>
+              <td align="left">Object identifier</td>
+              <td align="left">draft-rundgren-cote</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <section anchor="Security" numbered="true" toc="default">
-          <name>Security Considerations</name>
-          <t>
-            This specification inherits all the security considerations
-            of CBOR <xref target="RFC8949" format="default"/>.
-          </t>
-          <t>
-            URL-based type identifiers MUST NOT be used for automatically
-            downloading possible CBOR schemas to CBOR processors, since this
-            introduces potential vulnerabilities.  A RECOMMENDED way
-            deploying URL-based type identifiers is as hyper-links
-            to human-readable information gathered through Web browsers.
-          </t>
-          <t>
-            The availability of type information does in no way limit the need
-            for input data validation. 
-          </t>
-          <t>
-            For signed CBOR objects, it is RECOMMENDED to include the type
-            identifier extension in the signature calculation as well.
-            The same considerations apply to encryption using AEAD
-            algorithms.
-          </t>
-       </section>
+      <section anchor="Security" numbered="true" toc="default">
+        <name>Security Considerations</name>
+        <t>
+          This specification inherits all the security considerations
+          of CBOR <xref target="RFC8949" format="default"/>.
+        </t>
+        <t>
+          URL-based type identifiers MUST NOT be used for automatically
+          downloading possible CBOR schemas to CBOR processors, since this
+          introduces potential vulnerabilities.  A RECOMMENDED way
+          deploying URL-based type identifiers is as hyper-links
+          to human-readable information gathered through Web browsers.
+        </t>
+        <t>
+          The availability of type information does in no way limit the need
+          for input data validation. 
+        </t>
+        <t>
+          For signed CBOR objects, it is RECOMMENDED to include the type
+          identifier extension in the signature calculation as well.
+          The same considerations apply to encryption using AEAD
+          algorithms.
+        </t>
+      </section>
     </middle>
     <back>
+      <references>
+        <name>References</name>
         <references>
-            <name>References</name>
-            <references>
-                <name>Normative References</name>
+            <name>Normative References</name>
 
-                <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
-                <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
-                <xi:include
-                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
 
-              <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags">
-                <front>
-                  <title>Concise Binary Object Representation (CBOR) Tags</title>
-                  <author>
-                    <organization abbrev="IANA">Internet Assigned Numbers Authority</organization>
-                  </author>
-                  <date day="19" month="September" year="2013"/>
-                </front>
-              </reference>
-              </references>
-          </references>
+          <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags">
+            <front>
+              <title>Concise Binary Object Representation (CBOR) Tags</title>
+              <author>
+                <organization abbrev="IANA">Internet Assigned Numbers Authority</organization>
+              </author>
+              <date day="19" month="September" year="2013"/>
+            </front>
+          </reference>
+        </references>
+      </references>
 
-        <section anchor="Acknowledgements" numbered="false" toc="default">
-            <name>Acknowledgements</name>
-            <t>
-                People who have contributed directly and indirectly with
-                valuable input to this specification include
-                <contact fullname="TBD"/>
-            </t>
+      <section anchor="Acknowledgements" numbered="false" toc="default">
+        <name>Acknowledgements</name>
+        <t>
+          People who have contributed with
+          valuable feedback to this specification include
+          <contact fullname="Christian Amsüss"/>,
+          <contact fullname="Carsten Bormann"/>, and
+          <contact fullname="Joe Hildebrand"/>.
+        </t>
+      </section>
+
+      <section anchor="document.history" numbered="false" toc="default">
+          <name>Document History</name>
+          <t>
+              [[ This section to be removed by the RFC Editor before publication as
+              an RFC ]]
+          </t>
+          <t>Version 00:</t>
+          <ul spacing="normal">
+              <li>
+                  Initial publication.
+              </li>
+          </ul>
         </section>
-
-        <section anchor="document.history" numbered="false" toc="default">
-            <name>Document History</name>
-            <t>
-                [[ This section to be removed by the RFC Editor before publication as
-                an RFC ]]
-            </t>
-            <t>Version 00:</t>
-            <ul spacing="normal">
-                <li>
-                    Initial publication.
-                </li>
-            </ul>
-         </section>
-
-    </back>
+      </back>
 </rfc>
