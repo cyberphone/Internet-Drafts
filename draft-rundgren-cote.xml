@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE rfc [
+  <!ENTITY nbsp    "&#160;">
+  <!ENTITY zwsp   "&#8203;">
+  <!ENTITY nbhy   "&#8209;">
+  <!ENTITY wj     "&#8288;">
+]>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     submissionType="independent"
+     category="info"
+     tocDepth="3"
+     docName="draft-rundgren-cote-00"
+     ipr="trust200902"
+     obsoletes=""
+     updates=""
+     xml:lang="en"
+     tocInclude="true"
+     symRefs="true"
+     sortRefs="true"
+     version="3">
+    <front>
+        <title abbrev="COTE">
+          CBOR Object Type Extension (COTE)
+        </title>
+        <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
+            <organization>Independent</organization>
+            <address>
+                <postal>
+                    <city>Montpellier</city>
+                    <country>France</country>
+                </postal>
+                <email>anders.rundgren.net@gmail.com</email>
+                <uri>https://www.linkedin.com/in/andersrundgren/</uri>
+            </address>
+        </author>
+        <date year="2022"/>
+        <area>Application</area>
+        <workgroup>CBOR</workgroup>
+        <keyword>CBOR</keyword>
+        <keyword>Identfier</keyword>
+        <keyword>Type</keyword>
+
+        <abstract>
+          <t>
+            This document describes a CBOR tag for providing type information
+            to CBOR data.  Unlike the native CBOR tagging scheme which
+            depends on the IANA registry, this specification supports arbitrary
+            typing schemes, including using URLs.
+          </t>
+        </abstract>
+    </front>
+    <middle>
+      <section anchor="Introduction" numbered="true" toc="default">
+        <name>Introduction</name>
+        <t>
+          This specification introduces a method for augmenting data expressed in the
+          CBOR <xref target="RFC8949" format="default"/> notation,
+          with a universal type identifier mechanism.
+        </t>
+        <t>
+          The primary purpose is to enable developers defining community-
+          or application-specific type identifiers 
+          without having to go through an IANA registration process. 
+          Although the scheme imposes no restrictions on type identifiers 
+          (beyond being valid CBOR data items), using URLs should due to
+          their ubiquity be a candidate for CBOR based standards.
+        </t>
+        <t>
+          Since the type identifier scheme is supposed to be an integral
+          part of CBOR data items, compliant items may also be embedded in other
+          CBOR and non-CBOR constructs, as well as stored in databases without
+          any additional information.
+        </t>
+        <t>
+          If applied to top level items, the type identifier scheme may also
+          reduce the need for application specific media types.
+          In many cases "application/cbor" should suffice.
+        </t>
+        <section anchor="Terminology" numbered="true" toc="default">
+          <name>Terminology</name>
+          <t>
+            In this document the term CBOR "object" is used interchangeably with
+            the CBOR <xref target="RFC8949" format="default"/> "data item".
+          </t>
+          <t>
+            The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST&nbsp;NOT</bcp14>",
+            "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>
+              SHALL&nbsp;NOT
+            </bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", 
+            "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
+            "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" 
+            in this document are to be interpreted as
+            described in BCP 14 <xref target="RFC2119"/> 
+            <xref target="RFC8174"/> when, and only when, they
+            appear in all capitals, as shown here.
+          </t>
+        </section>
+      </section>
+
+      <section anchor="Specification" numbered="true" toc="default">
+        <name>Specification</name>
+        <t>
+          This specification builds on the CBOR <xref target="RFC8949" format="default"/>
+          tag feature (major type 6), by defining a
+          fixed tag with the preliminary decimal value of 211.
+        </t>
+        <t>
+          This tag MUST in turn enclose a CBOR array with two elements, where the first
+          element contains an object identifier, while the second holds the object data itself.
+          Illustrated in CBOR diagnostic notation
+          (section 8 of <xref target="RFC8949" format="default"/>) this becomes:
+        </t>
+        <t>
+          &nbsp;&nbsp;&nbsp;&nbsp;211([Object Identifier, Object])
+        </t>
+        <t>
+          Both arguments may be any valid CBOR object.
+        </t>
+        <t>
+          Note that real-world usages will typically impose constraints
+          like requiring object identifiers to be expressed as https URLs etc.
+        </t>
+        <section anchor="Sample" numbered="true" toc="default">
+          <name>Sample</name>
+          <t>
+            Consider the following sample:
+          </t>
+          <sourcecode>
+    211(["https://example.com/myobject", {
+      1: "data",
+      2: "more data"
+    }])
+          </sourcecode>
+          <t>
+            Converted to CBOR expressed in hexadecimal notation the following
+            is to be expected:
+          </t>
+          <sourcecode>
+D8 D3                               # tag(211)
+   82                               # array(2)
+      78 1C                         # text(28)
+         68747470733A2F2F6578616D706C652E636F6D2F6D796F626A656374
+                                    # "https://example.com/myobject"
+      A2                            # map(2)
+         01                         # unsigned(1)
+         64                         # text(4)
+            64617461                # "data"
+         02                         # unsigned(2)
+         69                         # text(9)
+            6D6F72652064617461      # "more data"
+          </sourcecode>
+        </section>
+        </section>
+
+        <section anchor="IANA" numbered="true" toc="default">
+          <name>IANA Considerations</name>
+          <t>
+            In the registry <xref target="IANA.cbor-tags"/>,
+            IANA is requested to allocate the tag defined in <xref target="tab-tag-value"/>.
+          </t>
+          <table anchor="tab-tag-value">
+            <name>Values for Tag Numbers</name>
+            <thead>
+              <tr>
+                <th align="right">Tag</th>
+                <th align="left">Data Item</th>
+                <th align="left">Semantics</th>
+                <th align="left">Reference</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="right">211</td>
+                <td align="left">array: [id, object]</td>
+                <td align="left">Object identifier</td>
+                <td align="left">draft-rundgren-cote</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section anchor="Security" numbered="true" toc="default">
+          <name>Security Considerations</name>
+          <t>
+            This specification inherits all the security considerations
+            of CBOR <xref target="RFC8949" format="default"/>.
+          </t>
+          <t>
+            URL-based type identifiers MUST NOT be used for automatically
+            downloading possible CBOR schemas to CBOR processors, since this
+            introduces potential vulnerabilities.  A RECOMMENDED way
+            deploying URL-based type identifiers is as hyper-links
+            to human-readable information gathered through Web browsers.
+          </t>
+          <t>
+            The availability of type information does in no way limit the need
+            for input data validation. 
+          </t>
+          <t>
+            For signed CBOR objects, it is RECOMMENDED to include the type
+            identifier extension in the signature calculation as well.
+            The same considerations apply to encryption using AEAD
+            algorithms.
+          </t>
+       </section>
+    </middle>
+    <back>
+        <references>
+            <name>References</name>
+            <references>
+                <name>Normative References</name>
+
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+                <xi:include
+                    href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
+
+              <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags">
+                <front>
+                  <title>Concise Binary Object Representation (CBOR) Tags</title>
+                  <author>
+                    <organization abbrev="IANA">Internet Assigned Numbers Authority</organization>
+                  </author>
+                  <date day="19" month="September" year="2013"/>
+                </front>
+              </reference>
+              </references>
+          </references>
+
+        <section anchor="Acknowledgements" numbered="false" toc="default">
+            <name>Acknowledgements</name>
+            <t>
+                People who have contributed directly and indirectly with
+                valuable input to this specification include
+                <contact fullname="TBD"/>
+            </t>
+        </section>
+
+        <section anchor="document.history" numbered="false" toc="default">
+            <name>Document History</name>
+            <t>
+                [[ This section to be removed by the RFC Editor before publication as
+                an RFC ]]
+            </t>
+            <t>Version 00:</t>
+            <ul spacing="normal">
+                <li>
+                    Initial publication.
+                </li>
+            </ul>
+         </section>
+
+    </back>
+</rfc>
