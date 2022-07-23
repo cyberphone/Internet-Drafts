@@ -45,12 +45,13 @@
           This document describes a CBOR tag for providing type information
           to CBOR data.  Unlike the native CBOR tagging scheme which
           depends on the IANA registry, this specification supports arbitrary
-          typing schemes, including using URLs.
+          typing schemes, including using URLs.  The latter enable type identifiers
+          to potentially point to associated human readable definitions as well.
         </t>
       </abstract>
     </front>
     <middle>
-      <section anchor="Introduction" numbered="true" toc="default">
+      <section anchor="cote.intr" numbered="true" toc="default">
         <name>Introduction</name>
         <t>
           This specification introduces a method for augmenting data expressed in the
@@ -61,15 +62,16 @@
           The primary purpose is to enable developers defining community-
           or application-specific type identifiers 
           without having to go through an IANA registration process. 
-          Although the scheme imposes no restrictions on type identifiers 
+          Although the described scheme imposes no restrictions on type identifiers 
           (beyond being valid CBOR data items), using URLs should due to
           their ubiquity be a candidate for CBOR based standards.
+          See also <xref target="cote.uri-and-uri" format="default"/>.
         </t>
         <t>
           Since the type identifier scheme is supposed to be an integral
-          part of CBOR data items, compliant items may also be embedded in other
-          CBOR and non-CBOR constructs, as well as stored in databases without
-          any additional information.
+          part of CBOR data items, objects compliant with this specification
+          may also be embedded in other CBOR and non-CBOR constructs,
+          as well as stored in databases without any additional information.
         </t>
         <t>
           If applied to top level items, the type identifier scheme may also
@@ -97,30 +99,34 @@
         </section>
       </section>
 
-      <section anchor="Specification" numbered="true" toc="default">
+      <section anchor="cote.spec" numbered="true" toc="default">
         <name>Specification</name>
         <t>
           This specification builds on the CBOR <xref target="RFC8949" format="default"/>
           tag feature (major type 6), by defining a
           fixed tag with the preliminary decimal value of 1010.
+          See also <xref target="cote.iana" format="default"/>.
         </t>
         <t>
           This tag MUST in turn enclose a CBOR array with two elements, where the first
-          element contains an object identifier, while the second holds the object data itself.
-          Illustrated in CBOR diagnostic notation
-          (section 8 of <xref target="RFC8949" format="default"/>) this becomes:
+          element is assumed to contain an object type identifier, while the second
+          element holds the object data itself.
+          Both arguments MUST be valid (but arbitrary) CBOR objects.
+          This construct results in a CBOR object holding a top level
+          type identifier and associated instance data.
         </t>
         <t>
-          &nbsp;&nbsp;&nbsp;&nbsp;1010([Object Identifier, Object])
+          The syntax expressed in CBOR diagnostic notation
+          (section 8 of <xref target="RFC8949" format="default"/>) would read as:
         </t>
         <t>
-          Both arguments may be any valid CBOR object.
+          &nbsp;&nbsp;&nbsp;&nbsp;1010([<em>Object Identifier</em>, <em>Object Data</em>])
         </t>
         <t>
           Note that real-world usages will typically impose constraints
-          like requiring object identifiers to be expressed as https URLs etc.
+          like requiring object identifiers to be expressed as HTTPS URLs etc.
         </t>
-        <section anchor="Sample" numbered="true" toc="default">
+        <section anchor="cote.sample" numbered="true" toc="default">
           <name>Sample</name>
           <t>
             Consider the following sample:
@@ -132,8 +138,8 @@
 }])
           </sourcecode>
           <t>
-            Converted to CBOR expressed in hexadecimal notation the following
-            is to be expected:
+            Converted to CBOR expressed in hexadecimal notation (here shown with
+            embedded comments as well), should result in the following output:
           </t>
           <sourcecode>
 D9 03F2                             # tag(1010)
@@ -149,10 +155,15 @@ D9 03F2                             # tag(1010)
          69                         # text(9)
             6D6F72652064617461      # "more data"
           </sourcecode>
+          <t>
+            In a typical implemenation "https://example.com/myobject" would
+            also serve as a hyper-link to human readable information about the identifier, 
+            accessed through a Web browser.
+          </t>
         </section>
       </section>
 
-      <section anchor="IANA" numbered="true" toc="default">
+      <section anchor="cote.iana" numbered="true" toc="default">
         <name>IANA Considerations</name>
         <t>
           In the registry <xref target="IANA.cbor-tags"/>,
@@ -179,7 +190,7 @@ D9 03F2                             # tag(1010)
         </table>
       </section>
 
-      <section anchor="Security" numbered="true" toc="default">
+      <section anchor="cote.security" numbered="true" toc="default">
         <name>Security Considerations</name>
         <t>
           This specification inherits all the security considerations
@@ -188,9 +199,7 @@ D9 03F2                             # tag(1010)
         <t>
           URL-based type identifiers MUST NOT be used for automatically
           downloading possible CBOR schemas to CBOR processors, since this
-          introduces potential vulnerabilities.  A RECOMMENDED way
-          deploying URL-based type identifiers is as hyper-links
-          to human-readable information gathered through Web browsers.
+          introduces potential vulnerabilities.
         </t>
         <t>
           The availability of type information does in no way limit the need
@@ -227,7 +236,53 @@ D9 03F2                             # tag(1010)
             </front>
           </reference>
         </references>
+        <references>
+            <name>Informative References</name>
+
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
+        </references>
+
       </references>
+
+      <section anchor="cote.uri-and-uri" numbered="true" toc="default">
+        <name>URI and URL Identifiers</name>
+        <t>
+          The primary rationale for using URI or URL based identifiers is
+          for maintaining a single name-space for the entire specification of
+          a system.
+        </t>
+        <t>
+          A core issue with identifiers depending on host (DNS) names is that
+          host names may not nessesrarliy remain alive during the anticipated life
+          time of an identifier.  In addition, the orginator of a host name may due
+          to organizational changes, negltance, lack of interest, or even death,
+          lose control over its use, leaving associated identifiers orphaned.
+        </t>
+        <t>
+          This non-normative section describes different methods for dealing
+          with identifiers expressed as URIs or URLs.  
+        </t>
+        <section anchor="own.domain" numbered="true" toc="default">
+          <name>Registering a Dedicated Domain</name>
+          <t>
+            Creating a dedicated domain may be tempting but unless the domain
+            is backed by either an organization having multiple uses of the
+            domain or a genuine standards organization,
+            there is a risk that it might not survive in the long run.
+          </t>
+        </section>
+        <section anchor="sub.domain" numbered="true" toc="default">
+          <name>Using a Sub-domain</name>
+          <t>
+            An alternative is using a dedicated sub-domain belonging to an
+            entity that is likely to survive for an oversseablw fututure.
+            With the advent of public repositories like GitHub, this appears
+            to be a simpler, cheaper, and more robust solution than maintaining
+            dedicated domain names.
+          </t>
+        </section>
+      </section>
 
       <section anchor="Acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
