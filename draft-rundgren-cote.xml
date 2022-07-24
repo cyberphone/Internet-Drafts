@@ -61,10 +61,11 @@
         <t>
           The primary purpose is to enable developers defining community-
           or application-specific type identifiers 
-          without having to go through an IANA registration process. 
+          without having to go through an external registration process.
           Although the described scheme imposes no restrictions on type identifiers 
-          (beyond being valid CBOR data items), using URLs should due to
-          their ubiquity be a candidate for CBOR based standards.
+          (beyond being valid CBOR data items), using URLs
+          <xref target="URL" format="default"/>
+          should due to their ubiquity be a candidate for CBOR based standards.
           See also <xref target="cote.uri-and-uri" format="default"/>.
         </t>
         <t>
@@ -110,10 +111,8 @@
         <t>
           This tag MUST in turn enclose a CBOR array with two elements, where the first
           element is assumed to contain an object type identifier, while the second
-          element holds the object data itself.
+          element holds the object (instance) data itself.
           Both arguments MUST be valid (but arbitrary) CBOR objects.
-          This construct results in a CBOR object holding a top level
-          type identifier and associated instance data.
         </t>
         <t>
           The syntax expressed in CBOR diagnostic notation
@@ -156,7 +155,7 @@ D9 03F2                             # tag(1010)
             6D6F72652064617461      # "more data"
           </sourcecode>
           <t>
-            In a typical implemenation "https://example.com/myobject" would
+            In a typical implementation "https://example.com/myobject" would
             also serve as a hyper-link to human readable information about the identifier, 
             accessed through a Web browser.
           </t>
@@ -240,7 +239,32 @@ D9 03F2                             # tag(1010)
             <name>Informative References</name>
 
             <xi:include
-                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml"/>
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5141.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8141.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
+
+          <reference anchor="XSD" target="http://www.w3.org/TR/xmlschema11-1/">
+            <front>
+              <title>XML Schema Definition Language (XSD) 1.1 Part 1: Structures</title>
+              <author>
+                <organization>W3C</organization>
+              </author>
+              <date/>
+            </front>
+          </reference>
+
+          <reference anchor="URL" target="https://url.spec.whatwg.org/">
+            <front>
+              <title>Living Standard — Last Updated 3 May 2022</title>
+              <author>
+                <organization>What WG</organization>
+              </author>
+              <date/>
+            </front>
+          </reference>
+ 
         </references>
 
       </references>
@@ -248,15 +272,16 @@ D9 03F2                             # tag(1010)
       <section anchor="cote.uri-and-uri" numbered="true" toc="default">
         <name>URI and URL Identifiers</name>
         <t>
-          The primary rationale for using URI or URL based identifiers is
-          for maintaining a single name-space for the entire specification of
-          a system.
+          The primary reason for using URI or URL 
+          <xref target="URL" format="default"/>
+          based identifiers is for maintaining a single
+          name-space for the entire specification of a system.
         </t>
         <t>
           A core issue with identifiers depending on host (DNS) names is that
-          host names may not nessesrarliy remain alive during the anticipated life
-          time of an identifier.  In addition, the orginator of a host name may due
-          to organizational changes, negltance, lack of interest, or even death,
+          host names may not necessarily remain valid during the anticipated life
+          time of an identifier.  The originator of a host name may due
+          to organizational changes, neglect, lack of interest, or even death,
           lose control over its use, leaving associated identifiers orphaned.
         </t>
         <t>
@@ -282,8 +307,19 @@ D9 03F2                             # tag(1010)
             dedicated domain names.
           </t>
         </section>
-      </section>
 
+      </section>
+      <section anchor="iso" numbered="true" toc="default">
+        <name>ISO Identifiers</name>
+        <t>
+          ISO currently uses URN <xref target="RFC8141" format="default"/>
+          <xref target="RFC5141" format="default"/> based identifiers like
+          "urn:iso:std:iso:20022:tech:xsd:pain.001.001.10" for data definitions
+          using XML schema <xref target="XSD" format="default"/>.
+          This method could be applied to CBOR and CDDL <xref target="RFC8610" format="default"/> as well.
+        </t>
+      </section>
+      
       <section anchor="Acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
         <t>
