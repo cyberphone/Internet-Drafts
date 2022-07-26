@@ -250,6 +250,8 @@ D9 03F2                             # tag(1010)
             <name>Informative References</name>
 
             <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4151.xml"/>
+            <xi:include
                 href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5141.xml"/>
             <xi:include
                 href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8141.xml"/>
@@ -314,13 +316,21 @@ D9 03F2                             # tag(1010)
           <name>Using a Sub-domain</name>
           <t>
             An alternative is using a dedicated sub-domain belonging to an
-            entity that is likely to survive for an overseeable fututure.
+            entity that is likely to survive for an overseeable future.
             With the advent of public repositories like GitHub, this appears
             to be a simpler, cheaper, and more robust solution than maintaining
             dedicated domain names.
           </t>
         </section>
-
+        <section anchor="cote.tag.uri" numbered="true" toc="default">
+          <name>The 'tag' URI Scheme</name>
+          <t>
+            For applications where strict control over the name-space is
+            hard to achieve, the 'tag' URI scheme
+            <xref target="RFC4151" format="default"/>
+            may be used.
+          </t>
+        </section>
       </section>
       <section anchor="cote.urn" numbered="true" toc="default">
         <name>URN Identifiers</name>
