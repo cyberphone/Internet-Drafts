@@ -37,6 +37,7 @@
       <area>Application</area>
       <workgroup>CBOR</workgroup>
       <keyword>CBOR</keyword>
+      <keyword>URL</keyword>
       <keyword>Identfier</keyword>
       <keyword>Type</keyword>
 
@@ -44,14 +45,14 @@
         <t>
           This document describes a CBOR tag for providing type information
           to CBOR data.  Unlike the native CBOR tagging scheme which
-          depends on the IANA registry, this specification supports arbitrary
-          typing schemes, including using URLs.  The latter enable type identifiers
+          builds on integers in a IANA registry, this specification supports arbitrary
+          type identifiers, including using URLs.  The latter enable type identifiers
           to potentially point to associated human readable definitions as well.
         </t>
       </abstract>
     </front>
     <middle>
-      <section anchor="cote.intr" numbered="true" toc="default">
+      <section anchor="cote.intro" numbered="true" toc="default">
         <name>Introduction</name>
         <t>
           This specification introduces a method for augmenting data expressed in the
@@ -59,14 +60,22 @@
           with a universal type identifier mechanism.
         </t>
         <t>
-          The primary purpose is to enable developers defining community-
-          or application-specific type identifiers 
+          The primary purpose is to enable developers defining
+          application specific type identifiers 
           without having to go through an external registration process.
           Although the described scheme imposes no restrictions on type identifiers 
           (beyond being valid CBOR data items), using URLs
           <xref target="URL" format="default"/>
           should due to their ubiquity be a candidate for CBOR based standards.
           See also <xref target="cote.uri-and-uri" format="default"/>.
+        </t>
+        <t>
+          This specification is also intended to provide a path for ISO
+          using CBOR as a possible alternative to XML by supporting
+          their current URN
+          <xref target="RFC8141" format="default"/>
+          based identifier naming scheme.
+          See also <xref target="cote.urn" format="default"/>.
         </t>
         <t>
           Since the type identifier scheme is supposed to be an integral
@@ -79,7 +88,7 @@
           reduce the need for application specific media types.
           In many cases "application/cbor" should suffice.
         </t>
-        <section anchor="Terminology" numbered="true" toc="default">
+        <section anchor="cote.terms" numbered="true" toc="default">
           <name>Terminology</name>
           <t>
             In this document the term CBOR "object" is used interchangeably with
@@ -137,7 +146,7 @@
 }])
           </sourcecode>
           <t>
-            Converted to CBOR expressed in hexadecimal notation (here shown with
+            Converting the sample above to CBOR expressed in hexadecimal notation (here shown with
             embedded comments as well), should result in the following output:
           </t>
           <sourcecode>
@@ -197,7 +206,9 @@ D9 03F2                             # tag(1010)
         </t>
         <t>
           URL-based type identifiers MUST NOT be used for automatically
-          downloading possible CBOR schemas to CBOR processors, since this
+          downloading CBOR schema data like CDDL
+          <xref target="RFC8610" format="default"/>
+          to CBOR processors, since this
           introduces potential vulnerabilities.
         </t>
         <t>
@@ -276,19 +287,21 @@ D9 03F2                             # tag(1010)
           <xref target="URL" format="default"/>
           based identifiers is for maintaining a single
           name-space for the entire specification of a system.
+          Note that the referenced URL specification does not distinguish
+          between URIs and URLs.
         </t>
         <t>
           A core issue with identifiers depending on host (DNS) names is that
           host names may not necessarily remain valid during the anticipated life
           time of an identifier.  The originator of a host name may due
           to organizational changes, neglect, lack of interest, or even death,
-          lose control over its use, leaving associated identifiers orphaned.
+          lose control over its use, effectively leaving associated identifiers orphaned.
         </t>
         <t>
           This non-normative section describes different methods for dealing
           with identifiers expressed as URIs or URLs.  
         </t>
-        <section anchor="own.domain" numbered="true" toc="default">
+        <section anchor="cote.url.own.domain" numbered="true" toc="default">
           <name>Registering a Dedicated Domain</name>
           <t>
             Creating a dedicated domain may be tempting but unless the domain
@@ -297,11 +310,11 @@ D9 03F2                             # tag(1010)
             there is a risk that it might not survive in the long run.
           </t>
         </section>
-        <section anchor="sub.domain" numbered="true" toc="default">
+        <section anchor="cote.url.sub.domain" numbered="true" toc="default">
           <name>Using a Sub-domain</name>
           <t>
             An alternative is using a dedicated sub-domain belonging to an
-            entity that is likely to survive for an oversseablw fututure.
+            entity that is likely to survive for an overseeable fututure.
             With the advent of public repositories like GitHub, this appears
             to be a simpler, cheaper, and more robust solution than maintaining
             dedicated domain names.
@@ -309,18 +322,19 @@ D9 03F2                             # tag(1010)
         </section>
 
       </section>
-      <section anchor="iso" numbered="true" toc="default">
-        <name>ISO Identifiers</name>
+      <section anchor="cote.urn" numbered="true" toc="default">
+        <name>URN Identifiers</name>
         <t>
-          ISO currently uses URN <xref target="RFC8141" format="default"/>
+          ISO currently use URN <xref target="RFC8141" format="default"/>
           <xref target="RFC5141" format="default"/> based identifiers like
           "urn:iso:std:iso:20022:tech:xsd:pain.001.001.10" for data definitions
           using XML schema <xref target="XSD" format="default"/>.
-          This method could be applied to CBOR and CDDL <xref target="RFC8610" format="default"/> as well.
+          This method could be applied to CBOR and CDDL
+          <xref target="RFC8610" format="default"/> as well.
         </t>
       </section>
       
-      <section anchor="Acknowledgements" numbered="false" toc="default">
+      <section anchor="cote.acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
         <t>
           People who have contributed with
@@ -331,18 +345,18 @@ D9 03F2                             # tag(1010)
         </t>
       </section>
 
-      <section anchor="document.history" numbered="false" toc="default">
-          <name>Document History</name>
-          <t>
-              [[ This section to be removed by the RFC Editor before publication as
-              an RFC ]]
-          </t>
-          <t>Version 00:</t>
-          <ul spacing="normal">
-              <li>
-                  Initial publication.
-              </li>
-          </ul>
-        </section>
-      </back>
+      <section anchor="cote.document.history" numbered="false" toc="default">
+        <name>Document History</name>
+        <t>
+            [[ This section to be removed by the RFC Editor before publication as
+            an RFC ]]
+        </t>
+        <t>Version 00:</t>
+        <ul spacing="normal">
+            <li>
+                Initial publication.
+            </li>
+        </ul>
+      </section>
+    </back>
 </rfc>
