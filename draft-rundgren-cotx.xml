@@ -123,11 +123,11 @@
           See also <xref target="cotx.iana" format="default"/>.
         </t>
         <t>
-          This tag MUST in turn enclose a CBOR array (major type 4) with two elements, 
-          where the first element is assumed to contain an object type identifier in 
-          textual format, while the second element holds the object (instance) data itself.
+          This tag MUST in turn enclose a CBOR array (major type 4) with two elements,
+          where the first element is assumed to contain an object type identifier in
+          textual format, while the second element holds the actual object (instance) data.
           The type identifier MUST be a valid CBOR text string (major type 3),
-          while the object itself MUST be a valid but arbitrary CBOR object.
+          while the targeted object MUST be a valid (but arbitrary) CBOR object.
         </t>
         <t>
           The syntax expressed in CBOR diagnostic notation
