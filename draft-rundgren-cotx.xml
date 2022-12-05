@@ -44,10 +44,10 @@
       <abstract>
         <t>
           This document describes a CBOR tag for providing type information
-          to CBOR data.  Unlike the native CBOR tagging scheme which builds on integers
-          in a IANA registry, this specification supports text based type identifiers.
-          This eables type identifiers to be expressed as URLs, potentially pointing
-          to web pages holding related descriptions in human readable form, 
+          to CBOR data.  Unlike the native CBOR tagging scheme which builds on integer constants
+          defined in a IANA registry, this specification supports arbitrary text based type identifiers.
+          Such identifiers may consequently also be expressed as URLs, potentially pointing
+          to Web pages holding related descriptions in human readable form,
           as well as being compatible with established methods for adding
           type information to JSON and XML data.
         </t>
@@ -63,7 +63,7 @@
         </t>
         <t>
           The primary purpose is to enable developers defining application
-          specific type identifiers without nessesarily having to go
+          specific type identifiers without necessarily having to go
           through an external registration process.
           Using URLs
           <xref target="URL" format="default"/>
@@ -79,17 +79,18 @@
           See also <xref target="cotx.urn" format="default"/>.
         </t>
         <t>
-          By applying the typing scheme to top level data items,
+          By applying the typing scheme to top level CBOR objects,
           additional functionality is enabled including:
         </t>
         <ul spacing="normal">
           <li>
-            Support for embedding in other CBOR and non-CBOR constructs,
-            as well as storage in databases without any additional information.
+            Support for embedding an object in other CBOR and non-CBOR constructs,
+            as well as storage in databases, without being forced adding
+            information about the object.
           </li>
           <li>
             Remove the need for application specific media types.
-            In many cases "application/cbor" should suffice.
+            In most cases "application/cbor" suffice.
           </li>
         </ul>
         <section anchor="cotx.terms" numbered="true" toc="default">
@@ -122,9 +123,9 @@
           See also <xref target="cotx.iana" format="default"/>.
         </t>
         <t>
-          This tag MUST in turn enclose a CBOR array with two elements, where the first
-          element is assumed to contain an object type identifier in textual format,
-          while the second element holds the object (instance) data itself.
+          This tag MUST in turn enclose a CBOR array (major type 4) with two elements, 
+          where the first element is assumed to contain an object type identifier in 
+          textual format, while the second element holds the object (instance) data itself.
           The type identifier MUST be a valid CBOR text string (major type 3),
           while the object itself MUST be a valid but arbitrary CBOR object.
         </t>
@@ -197,7 +198,7 @@ D9 03F2                             # tag(1010)
               <td align="right">1010</td>
               <td align="left">array: [id, object]</td>
               <td align="left">Object identifier</td>
-              <td align="left">draft-rundgren-cotx</td>
+              <td align="left">draft-rundgren-cotx-01</td>
             </tr>
           </tbody>
         </table>
@@ -315,7 +316,7 @@ D9 03F2                             # tag(1010)
           <name>Using a Sub-domain</name>
           <t>
             An alternative is using a dedicated sub-domain belonging to an
-            entity that is likely to survive for the forseeable future.
+            entity that is likely to survive for the foreseeable future.
             With the advent of public repositories like GitHub, this appears
             to be a simpler, cheaper, and more robust solution than maintaining
             dedicated domain names.
