@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-cotx-01"
+     docName="draft-rundgren-cotx-02"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -372,8 +372,14 @@ D9 03F2                             # tag(1010)
           <li>
             IANA reference update.
           </li>
+        </ul>
+        <t>Version 02:</t>
+        <ul spacing="normal">
           <li>
             Made type identifier a CBOR text string.
+          </li>
+          <li>
+            Wordsmithing.
           </li>
         </ul>
       </section>
