@@ -44,29 +44,30 @@
       <abstract>
         <t>
           This document describes a CBOR tag for providing type information
-          to CBOR data.  Unlike the native CBOR tagging scheme which
-          builds on integers in a IANA registry, this specification supports arbitrary
-          type identifiers, including using URLs.  The latter enable type identifiers
-          to potentially point to associated human readable definitions as well.
+          to CBOR data.  Unlike the native CBOR tagging scheme which builds on integers
+          in a IANA registry, this specification supports text based type identifiers.
+          This eables type identifiers to be expressed as URLs, potentially pointing
+          to web pages holding related descriptions in human readable form, 
+          as well as being compatible with established methods for adding
+          type information to JSON and XML data.
         </t>
       </abstract>
     </front>
     <middle>
-      <section anchor="cote.intro" numbered="true" toc="default">
+      <section anchor="cotx.intro" numbered="true" toc="default">
         <name>Introduction</name>
         <t>
           This specification introduces a method for augmenting data expressed in the
           CBOR <xref target="RFC8949" format="default"/> notation,
-          with a universal type identifier mechanism.
+          with a text based type identifier mechanism.
         </t>
         <t>
-          The primary purpose is to enable developers defining
-          application specific type identifiers 
-          without having to go through an external registration process.
-          Although the described scheme imposes no restrictions on type identifiers 
-          (beyond being valid CBOR data items), using URLs
+          The primary purpose is to enable developers defining application
+          specific type identifiers without nessesarily having to go
+          through an external registration process.
+          Using URLs
           <xref target="URL" format="default"/>
-          should due to their ubiquity be a candidate for CBOR based standards.
+          should due to their ubiquity be a candidate for CBOR based applications.
           See also <xref target="cotx.uri-and-uri" format="default"/>.
         </t>
         <t>
@@ -78,16 +79,19 @@
           See also <xref target="cotx.urn" format="default"/>.
         </t>
         <t>
-          Since the type identifier scheme is supposed to be an integral
-          part of CBOR data items, objects compliant with this specification
-          may also be embedded in other CBOR and non-CBOR constructs,
-          as well as stored in databases without any additional information.
+          By applying the typing scheme to top level data items,
+          additional functionality is enabled including:
         </t>
-        <t>
-          If applied to top level items, the type identifier scheme may also
-          reduce the need for application specific media types.
-          In many cases "application/cbor" should suffice.
-        </t>
+        <ul spacing="normal">
+          <li>
+            Support for embedding in other CBOR and non-CBOR constructs,
+            as well as storage in databases without any additional information.
+          </li>
+          <li>
+            Remove the need for application specific media types.
+            In many cases "application/cbor" should suffice.
+          </li>
+        </ul>
         <section anchor="cotx.terms" numbered="true" toc="default">
           <name>Terminology</name>
           <t>
@@ -119,9 +123,10 @@
         </t>
         <t>
           This tag MUST in turn enclose a CBOR array with two elements, where the first
-          element is assumed to contain an object type identifier, while the second
-          element holds the object (instance) data itself.
-          Both arguments MUST be valid (but arbitrary) CBOR objects.
+          element is assumed to contain an object type identifier in textual format,
+          while the second element holds the object (instance) data itself.
+          The type identifier MUST be a valid CBOR text string (major type 3),
+          while the object itself MUST be a valid but arbitrary CBOR object.
         </t>
         <t>
           The syntax expressed in CBOR diagnostic notation
@@ -293,30 +298,24 @@ D9 03F2                             # tag(1010)
           between URIs and URLs.
         </t>
         <t>
-          A core issue with identifiers depending on host (DNS) names is that
-          host names may not necessarily remain valid during the anticipated life
-          time of an identifier.  The originator of a host name may due
-          to organizational changes, neglect, lack of interest, or even death,
-          lose control over its use, effectively leaving associated identifiers orphaned.
-        </t>
-        <t>
           This non-normative section describes different methods for dealing
           with identifiers expressed as URIs or URLs.  
         </t>
         <section anchor="cotx.url.own.domain" numbered="true" toc="default">
           <name>Registering a Dedicated Domain</name>
           <t>
-            Creating a dedicated domain may be tempting but unless the domain
-            is backed by either an organization having multiple uses of the
-            domain or a genuine standards organization,
-            there is a risk that it might not survive in the long run.
+            A core issue with identifiers depending on domain (DNS) names is that
+            domain names may not necessarily remain valid during the anticipated life
+            time of an identifier.  The owner of a domain name may due
+            to organizational changes, neglect, lack of interest, or even death,
+            lose control over its use, effectively leaving associated identifiers orphaned.
           </t>
         </section>
         <section anchor="cotx.url.sub.domain" numbered="true" toc="default">
           <name>Using a Sub-domain</name>
           <t>
             An alternative is using a dedicated sub-domain belonging to an
-            entity that is likely to survive for an overseeable future.
+            entity that is likely to survive for the forseeable future.
             With the advent of public repositories like GitHub, this appears
             to be a simpler, cheaper, and more robust solution than maintaining
             dedicated domain names.
@@ -363,14 +362,17 @@ D9 03F2                             # tag(1010)
         </t>
         <t>Version 00:</t>
         <ul spacing="normal">
-            <li>
-                Initial publication.
-            </li>
+          <li>
+              Initial publication.
+          </li>
         </ul>
         <t>Version 01:</t>
         <ul spacing="normal">
           <li>
             IANA reference update.
+          </li>
+          <li>
+            Made type identifier a CBOR text string.
           </li>
         </ul>
       </section>
