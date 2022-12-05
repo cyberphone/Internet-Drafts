@@ -127,7 +127,7 @@
           where the first element is assumed to contain an object type identifier in
           textual format, while the second element holds the actual object (instance) data.
           The type identifier MUST be a valid CBOR text string (major type 3),
-          while the targeted object MUST be a valid (but arbitrary) CBOR object.
+          while the only constraint on the targeted object is that it MUST be a valid CBOR object.
         </t>
         <t>
           The syntax expressed in CBOR diagnostic notation
