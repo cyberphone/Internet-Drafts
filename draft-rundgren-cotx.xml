@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-cotx-02"
+     docName="draft-rundgren-cotx-03"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -43,13 +43,12 @@
 
       <abstract>
         <t>
-          This document describes a CBOR tag for providing type information
-          to CBOR data.  Unlike the native CBOR tagging scheme which builds on integer constants
-          defined in a IANA registry, this specification supports arbitrary text based type identifiers.
-          Such identifiers may consequently also be expressed as URLs, potentially pointing
-          to Web pages holding related descriptions in human readable form,
-          as well as being compatible with established methods for adding
-          type information to JSON and XML data.
+          This document describes a CBOR tag for augmenting CBOR data items
+          with type identifiers in the form of arbitrary CBOR text strings.
+          This design enables type identifiers to optionally be expressed as URLs,
+          potentially pointing to Web pages holding related descriptions
+          in human readable form, as well as being compatible with established
+          methods for adding type information to JSON and XML data.
         </t>
       </abstract>
     </front>
@@ -59,17 +58,28 @@
         <t>
           This specification introduces a method for augmenting data expressed in the
           CBOR <xref target="RFC8949" format="default"/> notation,
-          with a text based type identifier mechanism.
+          with a type identifier mechanism based on CBOR text strings.
         </t>
         <t>
-          The primary purpose is to enable developers defining application
-          specific type identifiers without necessarily having to go
-          through an external registration process.
-          Using URLs
-          <xref target="URL" format="default"/>
-          should due to their ubiquity be a candidate for CBOR based applications.
-          See also <xref target="cotx.uri-and-uri" format="default"/>.
+          The primary purposes of the text based type identifier tag described in
+          this document are:
         </t>
+        <ul spacing="normal">
+          <li>
+            Enabling developers defining application
+            specific type identifiers without necessarily having to go
+            through an external registration process.
+          </li>
+          <li>
+            By supporting URLs <xref target="URL" format="default"/> as
+            type identifiers, related human readable information may
+            (through dereferencing), be provided for usage with Web browsers.
+            Since URLs are compatible with firmly established
+            methods for adding type information to JSON and XML data,
+            this design may simplify a switch to CBOR.
+            See also <xref target="cotx.uri-and-uri" format="default"/>.
+          </li>
+        </ul>
         <t>
           This specification is also intended to provide a path for ISO
           using CBOR as a possible alternative to XML by supporting
@@ -84,13 +94,13 @@
         </t>
         <ul spacing="normal">
           <li>
-            Support for embedding an object in other CBOR and non-CBOR constructs,
+            Support for embedding CBOR objects in other CBOR and non-CBOR constructs,
             as well as storage in databases, without being forced adding
             information about the object.
           </li>
           <li>
             Remove the need for application specific media types.
-            In most cases "application/cbor" suffice.
+            In many cases "application/cbor" would suffice.
           </li>
         </ul>
         <section anchor="cotx.terms" numbered="true" toc="default">
@@ -198,7 +208,7 @@ D9 03F2                             # tag(1010)
               <td align="right">1010</td>
               <td align="left">array: [id, object]</td>
               <td align="left">Object identifier</td>
-              <td align="left">draft-rundgren-cotx-01</td>
+              <td align="left">draft-rundgren-cotx-03</td>
             </tr>
           </tbody>
         </table>
@@ -306,8 +316,8 @@ D9 03F2                             # tag(1010)
           <name>Registering a Dedicated Domain</name>
           <t>
             A core issue with identifiers depending on domain (DNS) names is that
-            domain names may not necessarily remain valid during the anticipated life
-            time of an identifier.  The owner of a domain name may due
+            domain names may not necessarily remain valid during the anticipated
+            life-time of an identifier.  The owner of a domain name may due
             to organizational changes, neglect, lack of interest, or even death,
             lose control over its use, effectively leaving associated identifiers orphaned.
           </t>
@@ -380,6 +390,12 @@ D9 03F2                             # tag(1010)
           </li>
           <li>
             Wordsmithing.
+          </li>
+        </ul>
+        <t>Version 03:</t>
+        <ul spacing="normal">
+          <li>
+            Cleaner abstract and intro.
           </li>
         </ul>
       </section>
