@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-cotx-03"
+     docName="draft-rundgren-cotx-04"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -33,7 +33,7 @@
               <uri>https://www.linkedin.com/in/andersrundgren/</uri>
           </address>
       </author>
-      <date year="2022"/>
+      <date year="2023"/>
       <area>Application</area>
       <workgroup>CBOR</workgroup>
       <keyword>CBOR</keyword>
@@ -85,7 +85,7 @@
           using CBOR as a possible alternative to XML by supporting
           their current URN
           <xref target="RFC8141" format="default"/>
-          based identifier naming scheme.
+          based type identifier naming scheme.
           See also <xref target="cotx.urn" format="default"/>.
         </t>
         <t>
@@ -134,8 +134,9 @@
         </t>
         <t>
           This tag MUST in turn enclose a CBOR array (major type 4) with two elements,
-          where the first element is assumed to contain an object type identifier in
-          textual format, while the second element holds the actual object (instance) data.
+          where the first element MUST contain a type identifier in
+          textual format indicating the definition of a CBOR object,
+          while the second element MUST hold an instance of the associated object itself.
           The type identifier MUST be a valid CBOR text string (major type 3),
           while the only constraint on the targeted object is that it MUST be a valid CBOR object.
         </t>
@@ -144,11 +145,11 @@
           (section 8 of <xref target="RFC8949" format="default"/>) would read as:
         </t>
         <t>
-          &nbsp;&nbsp;&nbsp;&nbsp;1010([<em>Object Identifier</em>, <em>Object Data</em>])
+          &nbsp;&nbsp;&nbsp;&nbsp;1010([<em>Object Type Identifier</em>, <em>Object Instance Data</em>])
         </t>
         <t>
           Note that real-world usages will typically impose constraints
-          like requiring object identifiers to be expressed as HTTPS URLs etc.
+          like requiring type identifiers to be expressed as HTTPS URLs etc.
         </t>
         <section anchor="cotx.sample" numbered="true" toc="default">
           <name>Sample</name>
@@ -206,9 +207,9 @@ D9 03F2                             # tag(1010)
           <tbody>
             <tr>
               <td align="right">1010</td>
-              <td align="left">array: [id, object]</td>
-              <td align="left">Object identifier</td>
-              <td align="left">draft-rundgren-cotx-03</td>
+              <td align="left">array: [id: text string, obj: any]</td>
+              <td align="left">Object type identifier</td>
+              <td align="left">draft-rundgren-cotx-04</td>
             </tr>
           </tbody>
         </table>
@@ -232,10 +233,9 @@ D9 03F2                             # tag(1010)
           for input data validation. 
         </t>
         <t>
-          For signed CBOR objects, it is RECOMMENDED to include the type
+          For signed CBOR objects, it is RECOMMENDED to include the object type
           identifier extension in the signature calculation as well.
-          The same considerations apply to encryption using AEAD
-          algorithms.
+          The same considerations apply to encryption using AEAD algorithms.
         </t>
       </section>
     </middle>
@@ -303,14 +303,14 @@ D9 03F2                             # tag(1010)
         <t>
           The primary reason for using URI or URL 
           <xref target="URL" format="default"/>
-          based identifiers is for maintaining a single
+          based type identifiers is for maintaining a single
           name-space for the entire specification of a system.
           Note that the referenced URL specification does not distinguish
           between URIs and URLs.
         </t>
         <t>
           This non-normative section describes different methods for dealing
-          with identifiers expressed as URIs or URLs.  
+          with type identifiers expressed as URIs or URLs.
         </t>
         <section anchor="cotx.url.own.domain" numbered="true" toc="default">
           <name>Registering a Dedicated Domain</name>
@@ -346,7 +346,7 @@ D9 03F2                             # tag(1010)
         <name>URN Identifiers</name>
         <t>
           ISO currently use URN <xref target="RFC8141" format="default"/>
-          <xref target="RFC5141" format="default"/> based identifiers like
+          <xref target="RFC5141" format="default"/> based type identifiers like
           "urn:iso:std:iso:20022:tech:xsd:pain.001.001.10" for data definitions
           using XML schema <xref target="XSD" format="default"/>.
           This method could be applied to CBOR and CDDL
@@ -396,6 +396,12 @@ D9 03F2                             # tag(1010)
         <ul spacing="normal">
           <li>
             Cleaner abstract and intro.
+          </li>
+        </ul>
+        <t>Version 04:</t>
+        <ul spacing="normal">
+          <li>
+            Type identifier throughout the spec.
           </li>
         </ul>
       </section>
