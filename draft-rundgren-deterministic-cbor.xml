@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE rfc [
+  <!ENTITY nbsp    "&#160;">
+  <!ENTITY zwsp   "&#8203;">
+  <!ENTITY nbhy   "&#8209;">
+  <!ENTITY wj     "&#8288;">
+]>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     submissionType="independent"
+     category="info"
+     tocDepth="3"
+     docName="draft-rundgren-deterministc-cbor-00"
+     ipr="trust200902"
+     obsoletes=""
+     updates=""
+     xml:lang="en"
+     tocInclude="true"
+     symRefs="true"
+     sortRefs="true"
+     version="3">
+    <front>
+      <title abbrev="D-CBOR">
+        Deterministically Encoded CBOR (D-CBOR)
+      </title>
+      <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
+          <organization>Independent</organization>
+          <address>
+              <postal>
+                  <city>Montpellier</city>
+                  <country>France</country>
+              </postal>
+              <email>anders.rundgren.net@gmail.com</email>
+              <uri>https://www.linkedin.com/in/andersrundgren/</uri>
+          </address>
+      </author>
+      <date year="2023"/>
+      <area>Application</area>
+      <workgroup>CBOR</workgroup>
+      <keyword>CBOR</keyword>
+      <keyword>Encoding</keyword>
+      <keyword>Deterministic</keyword>
+
+      <abstract>
+        <t>
+          This document describes a deterministic encoding scheme for CBOR
+          intended for usage in high-end computing platforms like mobile
+          phones, Web browsers, and Web servers.  In addition to enhancing
+          interoperability, deterministic encoding can also support
+          cryptographic operations like signing CBOR data items.
+          Using this specification, the latter can achieved without wrapping
+          CBOR data items in byte strings or depend on canonicalization procedures.
+        </t>
+      </abstract>
+    </front>
+    <middle>
+      <section anchor="d-cbor.intro" numbered="true" toc="default">
+        <name>Introduction</name>
+        <t>
+          This specification introduces a deterministic encoding scheme for data expressed in the
+          CBOR <xref target="RFC8949" format="default"/> format.  This scheme is subsequently
+          referred to as D&nbhy;CBOR.
+        </t>
+        <section anchor="d-cbor.objectives" numbered="true" toc="default">
+          <name>Objectives</name>
+          <t>
+            The primary objective of D&nbhy;CBOR is providing an interoperable CBOR profile for
+            high-end computing platforms like mobile phones, Web browsers, and Web servers.
+            However, D&nbhy;CBOR also enables performing digital signatures over raw CBOR data items
+            since signatures depend on a unified representation of the data to be signed.
+            In addition, D&nbhy;CBOR permits decoded data to be subjected to transformation
+            and reencoding operations without being corrupted.
+          </t>
+          <t>
+            The deterministic encoding scheme described in this document 
+            is characterized by being bidirectional, making it comparatively easy
+            to understand, debug, and implement.
+          </t>
+          <t>
+            See also <xref target="I-D.mcnally-deterministic-cbor" format="default"/> which represents
+            an alternative approach to deterministic encoding.
+          </t>
+        </section>
+        <section anchor="d-cbor.terms" numbered="true" toc="default">
+          <name>Terminology</name>
+          <t>
+            The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST&nbsp;NOT</bcp14>",
+            "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>
+              SHALL&nbsp;NOT
+            </bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", 
+            "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
+            "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" 
+            in this document are to be interpreted as
+            described in BCP 14 <xref target="RFC2119"/> 
+            <xref target="RFC8174"/> when, and only when, they
+            appear in all capitals, as shown here.
+          </t>
+        </section>
+      </section>
+
+      <section anchor="d-cbor.spec" numbered="true" toc="default">
+        <name>Specification</name>
+        <t>
+          This specification builds on the CBOR <xref target="RFC8949" format="default"/>
+          tag feature (major type 6), by defining a
+          fixed tag with the preliminary decimal value of 1010.
+          See also <xref target="d-cbor.iana" format="default"/>.
+        </t>
+      </section>
+
+      <section anchor="d-cbor.iana" numbered="true" toc="default">
+        <name>IANA Considerations</name>
+        <t>
+          This document has no IANA actions.
+        </t>
+      </section>
+
+      <section anchor="d-cbor.security" numbered="true" toc="default">
+        <name>Security Considerations</name>
+        <t>
+          This specification inherits all the security considerations
+          of CBOR <xref target="RFC8949" format="default"/>.
+        </t>
+      </section>
+    </middle>
+    <back>
+      <references>
+        <name>References</name>
+        <references>
+            <name>Normative References</name>
+
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+            <xi:include
+                href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
+
+        </references>
+        <references>
+            <name>Informative References</name>
+
+          <reference anchor="I-D.mcnally-deterministic-cbor">
+            <front>
+              <title>Gordian dCBOR: Deterministic CBOR Implementation Practices</title>
+              <author fullname="Wolf McNally" initials="W." surname="McNally">
+                <organization>Blockchain Commons</organization>
+              </author>
+              <author fullname="Christopher Allen" initials="C." surname="Allen">
+                <organization>Blockchain Commons</organization>
+              </author>
+              <date day="4" month="May" year="2023"/>
+ 
+            </front>
+            <seriesInfo name="Internet-Draft" value="draft-mcnally-deterministic-cbor-01"/>
+          </reference>
+ 
+        </references>
+
+      </references>
+
+      <section anchor="d-cbor.numbers" numbered="true" toc="default">
+        <name>Encoding of Numbers</name>
+        <t>
+          The following sub sections hold normative examples of numbers and their
+          encoding using D&nbhy;CBOR.
+        </t>
+        <t>
+          Note that the values and encodings are supposed to work in both directions.
+        </t>
+        <section anchor="d-cbor.integer" numbered="true" toc="default">
+          <name>Integer Numbers</name>
+          <table anchor="integer">
+            <name>Integer Numbers</name>
+            <thead>
+              <tr><th align="center">Value</th><th align="center">Encoding</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="right">
+                  <tt>0</tt>
+                </td>
+                <td align="right">
+                  <tt>00</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-1</tt>
+                </td>
+                <td align="right">
+                  <tt>20</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>255</tt>
+                </td>
+                <td align="right">
+                  <tt>18ff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>256</tt>
+                </td>
+                <td align="right">
+                  <tt>190100</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-256</tt>
+                </td>
+                <td align="right">
+                  <tt>38ff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-257</tt>
+                </td>
+                <td align="right">
+                  <tt>390100</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>1099511627775</tt>
+                </td>
+                <td align="right">
+                  <tt>1b000000ffffffffff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>18446744073709551615</tt>
+                </td>
+                <td align="right">
+                  <tt>1bffffffffffffffff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>18446744073709551616</tt>
+                </td>
+                <td align="right">
+                  <tt>c249010000000000000000</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-18446744073709551616</tt>
+                </td>
+                <td align="right">
+                  <tt>3bffffffffffffffff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-18446744073709551617</tt>
+                </td>
+                <td align="right">
+                  <tt>c349010000000000000000</tt>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section anchor="d-cbor.floating" numbered="true" toc="default">
+          <name>Floating Point Numbers</name>
+          <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
+            <name>Dedicated Floating Point Numbers</name>
+            <table anchor="decidated">
+              <name>Dedicated Floating Point Numbers</name>
+              <thead>
+                <tr>
+                  <th align="center">Value</th>
+                  <th align="center">Encoding</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="right">
+                    <tt>0.0</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f90000</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-0.0</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f98000</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>Infinity</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f97c00</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-Infinity</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f9fc00</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>NaN</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f97e00</tt>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section anchor="d-cbor.float.edge" numbered="true" toc="default">
+            <name>Assorted Ordinary Floating Point Numbers</name>
+            <table anchor="assorted">
+              <name>Assorted Ordinary Floating Point Numbers</name>
+              <thead>
+                <tr>
+                  <th align="center">Value</th>
+                  <th align="center">Encoding</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="right">
+                    <tt>-5.960464477539062e-8</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fbbe6fffffffffffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-5.9604644775390625e-8</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f98001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-5.960464477539064e-8</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fbbe70000000000001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-5.960465188081798e-8</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fab3800001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>0.00006097555160522461</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f903ff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>65504.0</tt>
+                  </td>
+                  <td align="right">
+                    <tt>f97bff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>65504.00390625</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa477fe001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>65536.0</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa47800000</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>10.559998512268066</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa4128f5c1</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>10.559998512268068</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fb40251eb820000001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>3.4028234663852886e+38</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa7f7fffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>3.402823466385289e+38</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fb47efffffe0000001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>1.401298464324817e-45</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa00000001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>1.1754942106924411e-38</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fa007fffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>5.0e-324</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fb0000000000000001</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-1.7976931348623157e+308</tt>
+                  </td>
+                  <td align="right">
+                    <tt>fbffefffffffffffff</tt>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+      </section>
+
+      <section anchor="d-cbor.acknowledgements" numbered="false" toc="default">
+        <name>Acknowledgements</name>
+        <t>
+          TBD
+        </t>
+      </section>
+
+      <section anchor="d-cbor.document.history" numbered="false" toc="default">
+        <name>Document History</name>
+        <t>
+            [[ This section to be removed by the RFC Editor before publication as
+            an RFC ]]
+        </t>
+        <t>Version 00:</t>
+        <ul spacing="normal">
+          <li>
+              Initial publication.
+          </li>
+        </ul>
+      </section>
+    </back>
+</rfc>
