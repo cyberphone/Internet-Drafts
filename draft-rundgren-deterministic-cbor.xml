@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministc-cbor-00"
+     docName="draft-rundgren-deterministc-cbor-01"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -111,41 +111,97 @@
           A compliant D&nbhy;CBOR implementation SHOULD support the following
           CBOR data types:
         </t>
-        <ul>
-          <li>
-            <tt>integer</tt>
-          </li>
-          <li>
-            <tt>bignum</tt>
-          </li>
-          <li>
-            <tt>floating&nbsp;point</tt>
-          </li>
-          <li>
-            <tt>byte&nbsp;string</tt>
-          </li>
-          <li>
-            <tt>text&nbsp;string</tt>
-          </li>
-          <li>
-            <tt>true</tt>
-          </li>
-          <li>
-            <tt>false</tt>
-          </li>
-          <li>
-            <tt>null</tt>
-          </li>
-          <li>
-            <tt>array</tt>
-          </li>
-          <li>
-            <tt>map</tt>
-          </li>
-          <li>
-            <tt>tag</tt>
-          </li>
-        </ul>
+        <table anchor="d-cbor.types-table">
+          <name>Supported CBOR Data Types</name>
+          <thead>
+            <tr>
+              <th align="center">Data Type</th>
+              <th align="center">Tag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <tt>integer</tt>
+              </td>
+              <td>
+                Major type <tt>0</tt> and <tt>1</tt>
+            </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>bignum</tt>
+              </td>
+              <td>
+                <tt>0xc2</tt> and <tt>0xc3</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>floating&nbsp;point</tt>
+              </td>
+              <td>
+                <tt>0xf9</tt>, <tt>0xfa</tt> and <tt>0xfb</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>byte&nbsp;string</tt>
+              </td>
+              <td>Major type <tt>2</tt></td>
+            </tr>
+            <tr>
+              <td>
+                <tt>text&nbsp;string</tt>
+              </td>
+              <td>Major type <tt>3</tt></td>
+            </tr>
+            <tr>
+              <td>
+                <tt>false</tt>
+              </td>
+              <td>
+                <tt>0xf4</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>true</tt>
+              </td>
+              <td>
+                <tt>0xf5</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>null</tt>
+              </td>
+              <td>
+                <tt>0xf6</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>array</tt>
+              </td>
+              <td>Major type <tt>4</tt></td>
+            </tr>
+            <tr>
+              <td>
+                <tt>map</tt>
+              </td>
+              <td>Major type <tt>5</tt></td>
+            </tr>
+            <tr>
+              <td>
+                <tt>tag</tt>
+              </td>
+              <td>
+                Major type <tt>6</tt>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <t>
           See also <xref target="d-cbor.constraints" format="default"/>.
         </t>
