@@ -65,15 +65,16 @@
           <t>
             The primary objective of D&nbhy;CBOR is providing an interoperable CBOR profile for
             high-end computing platforms like mobile phones, Web browsers, and Web servers.
-            However, D&nbhy;CBOR also enables performing digital signatures over raw CBOR data items
-            since signatures depend on a unified representation of the data to be signed.
-            In addition, D&nbhy;CBOR permits decoded data to be subjected to transformation
-            and reencoding operations without being corrupted.
+            However, D&nbhy;CBOR also enables performing digital signatures over "raw" (unwrapped)
+            CBOR data items since signatures depend on a <em>unified</em> representation of the data to be signed.
+            In addition, D&nbhy;CBOR permits decoded CBOR data to be subjected to
+            secure transformation and reencoding operations.
           </t>
           <t>
             The deterministic encoding scheme described in this document 
-            is characterized by being bidirectional, making it comparatively easy
-            to understand, debug, and implement.
+            is characterized by being bidirectional also when CBOR is provided
+            in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>),
+            making D&nbhy;CBOR comparatively easy to understand, debug, and implement.
           </t>
           <t>
             See also <xref target="I-D.mcnally-deterministic-cbor" format="default"/> which represents
@@ -100,10 +101,53 @@
       <section anchor="d-cbor.spec" numbered="true" toc="default">
         <name>Specification</name>
         <t>
-          This specification builds on the CBOR <xref target="RFC8949" format="default"/>
-          tag feature (major type 6), by defining a
-          fixed tag with the preliminary decimal value of 1010.
-          See also <xref target="d-cbor.iana" format="default"/>.
+          The deterministic encoding scheme used by D&nbhy;CBOR builds on
+          Section 4.2 of <xref target="RFC8949" format="default"/>.
+          However, to achieve a fixed number representation as outlined in
+          <xref target="d-cbor.numbers" format="default"/>,
+          Rule 2 in Section 4.2.2 MUST also be adhered to.
+        </t>
+        <t>
+          A compliant D&nbhy;CBOR implementation SHOULD support the following
+          CBOR data types:
+        </t>
+        <ul>
+          <li>
+            <tt>integer</tt>
+          </li>
+          <li>
+            <tt>bignum</tt>
+          </li>
+          <li>
+            <tt>floating&nbsp;point</tt>
+          </li>
+          <li>
+            <tt>byte&nbsp;string</tt>
+          </li>
+          <li>
+            <tt>text&nbsp;string</tt>
+          </li>
+          <li>
+            <tt>true</tt>
+          </li>
+          <li>
+            <tt>false</tt>
+          </li>
+          <li>
+            <tt>null</tt>
+          </li>
+          <li>
+            <tt>array</tt>
+          </li>
+          <li>
+            <tt>map</tt>
+          </li>
+          <li>
+            <tt>tag</tt>
+          </li>
+        </ul>
+        <t>
+          See also <xref target="d-cbor.constraints" format="default"/>.
         </t>
       </section>
 
@@ -119,6 +163,11 @@
         <t>
           This specification inherits all the security considerations
           of CBOR <xref target="RFC8949" format="default"/>.
+        </t>
+        <t>
+          Applications that exploit the uniqueness of deterministic encoding
+          should verify that the used decoder actually flags incorrectly formatted
+          CBOR data items.
         </t>
       </section>
     </middle>
@@ -160,8 +209,9 @@
 
       <section anchor="d-cbor.numbers" numbered="true" toc="default">
         <name>Encoding of Numbers</name>
+        <t>This section is normative.</t>
         <t>
-          The following sub sections hold normative examples of numbers and their
+          The following sub sections hold examples of numbers and their
           encoding using D&nbhy;CBOR.
         </t>
         <t>
@@ -169,7 +219,11 @@
         </t>
         <section anchor="d-cbor.integer" numbered="true" toc="default">
           <name>Integer Numbers</name>
-          <table anchor="integer">
+          <t>
+            The following table holds a set of integers highlighting the
+            selection between <tt>integer</tt> and <tt>bignum</tt> types.
+          </t>
+          <table anchor="d-cbor.integer-table">
             <name>Integer Numbers</name>
             <thead>
               <tr><th align="center">Value</th><th align="center">Encoding</th></tr>
@@ -189,6 +243,38 @@
                 </td>
                 <td align="right">
                   <tt>20</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>23</tt>
+                </td>
+                <td align="right">
+                  <tt>17</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>24</tt>
+                </td>
+                <td align="right">
+                  <tt>1818</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-24</tt>
+                </td>
+                <td align="right">
+                  <tt>37</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>-25</tt>
+                </td>
+                <td align="right">
+                  <tt>3818</tt>
                 </td>
               </tr>
               <tr>
@@ -221,6 +307,22 @@
                 </td>
                 <td align="right">
                   <tt>390100</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>65535</tt>
+                </td>
+                <td align="right">
+                  <tt>19ffff</tt>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">
+                  <tt>65536</tt>
+                </td>
+                <td align="right">
+                  <tt>1a00010000</tt>
                 </td>
               </tr>
               <tr>
@@ -270,7 +372,11 @@
           <name>Floating Point Numbers</name>
           <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
             <name>Dedicated Floating Point Numbers</name>
-            <table anchor="decidated">
+            <t>
+              The following table holds the set of dedicated IEEE&nbsp;754 values.
+              Note that <tt>NaN</tt> "signaling" MUST be flagged as an error. 
+            </t>
+            <table anchor="d-cbor.float.dedicated-table">
               <name>Dedicated Floating Point Numbers</name>
               <thead>
                 <tr>
@@ -322,10 +428,15 @@
               </tbody>
             </table>
           </section>
-          <section anchor="d-cbor.float.edge" numbered="true" toc="default">
-            <name>Assorted Ordinary Floating Point Numbers</name>
-            <table anchor="assorted">
-              <name>Assorted Ordinary Floating Point Numbers</name>
+          <section anchor="d-cbor.float.assorted" numbered="true" toc="default">
+            <name>Assorted Floating Point Numbers</name>
+            <t>
+              The following table holds a set of "ordinary" IEEE&nbsp;754 values
+              including some edge cases.
+              Note that subnormal floating point values MUST be supported.
+            </t>
+            <table anchor="d-cbor.float.assorted-table">
+              <name>Assorted Floating Point Numbers</name>
               <thead>
                 <tr>
                   <th align="center">Value</th>
@@ -466,7 +577,60 @@
           </section>
         </section>
       </section>
-
+      <section anchor="d-cbor.constraints">
+        <name>Implementation Constraints</name>
+        <t>This section is informative.</t>
+        <t>
+          Note that even if an application does not support (or need)
+          <tt>bignum</tt> or <tt>floating&nbsp;point</tt> types,
+          you can still use D-CBOR since a strict subset is upwardly
+          compatible with full-blown implementations.
+          Low-end platforms typically also restrict CBOR <tt>map</tt> keys to
+          <tt>integer</tt> and <tt>text&nbsp;string</tt> types.
+          Since these issues are application specific, they are out of scope
+          for this specification.
+        </t>
+      </section>
+      <section anchor="d-cbor.reference-implementations">
+        <name>Reference Implementations</name>
+        <t>This section is informative.</t>
+        <t>Reference implementations that conform to this specification include:</t>
+        <ul spacing="normal">
+          <li>
+            JavaScript: <eref
+      target="https://github.com/cyberphone/CBOR.js#cborjs"
+      brackets="angle"/>
+          </li>
+          <li>
+              JDK 17+: <eref
+      target="https://github.com/cyberphone/openkeystore#cbor-support"
+      brackets="angle"/>
+          </li>
+          <li>
+            Android/Java: <eref
+      target="https://github.com/cyberphone/android-cbor#cbor-for-android"
+      brackets="angle"/>
+          </li>
+        </ul>
+      </section>
+      <section anchor="d-cbor.online-tools">
+        <name>Online Tools</name>
+        <t>This section is informative.</t>
+        <t>The following online tools enable testing D&nbhy;CBOR
+        without installing any software:</t>
+        <ul spacing="normal">
+          <li>
+            <eref
+      target="https://cyberphone.github.io/CBOR.js/doc/playground.html"
+      brackets="angle"/>
+          </li>
+          <li>
+             <eref
+      target="https://test.webpki.org/csf-lab/convert"
+      brackets="angle"/>
+          </li>
+        </ul>
+      </section>
       <section anchor="d-cbor.acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
         <t>
