@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministc-cbor-01"
+     docName="draft-rundgren-deterministc-cbor-02"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -66,7 +66,8 @@
             The primary objective of D&nbhy;CBOR is providing an interoperable CBOR profile for
             high-end computing platforms like mobile phones, Web browsers, and Web servers.
             However, D&nbhy;CBOR also enables performing digital signatures over "raw" (unwrapped)
-            CBOR data items since signatures depend on a <em>unified</em> representation of the data to be signed.
+            CBOR data items since signatures depend on a <em>unified</em> representation
+            of the data to be signed.
             In addition, D&nbhy;CBOR permits decoded CBOR data to be subjected to
             secure transformation and reencoding operations.
           </t>
@@ -103,9 +104,16 @@
         <t>
           The deterministic encoding scheme used by D&nbhy;CBOR builds on
           Section 4.2 of <xref target="RFC8949" format="default"/>.
-          However, to achieve a fixed number representation as outlined in
-          <xref target="d-cbor.numbers" format="default"/>,
-          Rule 2 in Section 4.2.2 MUST also be adhered to.
+          However, to achieve a <em>fixed and bidirectional</em> representation
+          of numbers, Rule 2 in Section 4.2.2 MUST also be adhered to.
+          Also see <xref target="d-cbor.numbers" format="default"/>.
+        </t>
+        <t>
+          For applications that depend on reencoding of CBOR data items,
+          compliant decoder implementations MUST be able to recreate such data
+          in its original form.  This means for example that the string component
+          of date items (<tt>tag&nbsp;0</tt>) MUST be kept "as&nbsp;is" in order
+          to maintain deterministic reencoding.
         </t>
         <t>
           A compliant D&nbhy;CBOR implementation SHOULD support the following
@@ -703,9 +711,21 @@
         <t>Version 00:</t>
         <ul spacing="normal">
           <li>
-              Initial publication.
+            Initial publication.
           </li>
         </ul>
+        <t>Version 01:</t>
+        <ul spacing="normal">
+          <li>
+            Added Table 1: Supported CBOR Data Types
+          </li>
+        </ul>
+        <t>Version 02:</t>
+        <ul spacing="normal">
+          <li>
+            Added bidirectional + reencoding to 2
+          </li>
+        </ul>      
       </section>
     </back>
 </rfc>
