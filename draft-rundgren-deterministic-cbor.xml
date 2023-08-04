@@ -48,7 +48,7 @@
           interoperability, deterministic encoding can also support
           cryptographic operations like signing CBOR data items.
           Using this specification, the latter can achieved without wrapping
-          CBOR data items in byte strings or depend on canonicalization procedures.
+          such data in byte strings or depend on non-standard canonicalization procedures.
         </t>
       </abstract>
     </front>
@@ -69,7 +69,7 @@
             CBOR data items since signatures depend on a <em>unified</em> representation
             of the data to be signed.
             In addition, D&nbhy;CBOR permits decoded CBOR data to be subjected to
-            secure transformation and reencoding operations.
+            simple and secure transformation and reencoding operations.
           </t>
           <t>
             The deterministic encoding scheme described in this document 
