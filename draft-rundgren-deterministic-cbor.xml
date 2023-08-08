@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministc-cbor-02"
+     docName="draft-rundgren-deterministc-cbor-03"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -109,21 +109,31 @@
           Also see <xref target="d-cbor.numbers" format="default"/>.
         </t>
         <t>
-          For applications that depend on reencoding of CBOR data items,
+          Occurrences of CBOR data items that do not conform to this specification
+          MUST be flagged as an error.
+        </t>
+        <t>
+          For applications that depend on <em>reencoding</em> of CBOR data items,
           compliant decoder implementations MUST be able to recreate such data
           in its original form.  This means for example that the string component
           of date items (<tt>tag&nbsp;0</tt>) MUST be kept "as&nbsp;is" in order
           to maintain deterministic reencoding.
         </t>
         <t>
+          The <em>optional</em> numerical extensions described in
+          Section 3.4.4. of <xref target="RFC8949" format="default"/> MUST be
+          treated as <em>distinct</em> data items as well as not be subjected to
+          any transformations at the encoding level.
+        </t>
+        <t>
           A compliant D&nbhy;CBOR implementation SHOULD support the following
-          CBOR data types:
+          CBOR data items:
         </t>
         <table anchor="d-cbor.types-table">
-          <name>Supported CBOR Data Types</name>
+          <name>Supported CBOR Data Items</name>
           <thead>
             <tr>
-              <th align="center">Data Type</th>
+              <th align="center">Data Item</th>
               <th align="center">Tag</th>
             </tr>
           </thead>
@@ -211,6 +221,9 @@
           </tbody>
         </table>
         <t>
+          CBOR data items that do not match Table 1 MUST be rejected. 
+        </t>
+        <t>
           See also <xref target="d-cbor.constraints" format="default"/>.
         </t>
       </section>
@@ -285,7 +298,7 @@
           <name>Integer Numbers</name>
           <t>
             The following table holds a set of integers highlighting the
-            selection between <tt>integer</tt> and <tt>bignum</tt> types.
+            selection between <tt>integer</tt> and <tt>bignum</tt> data items.
           </t>
           <table anchor="d-cbor.integer-table">
             <name>Integer Numbers</name>
@@ -646,11 +659,11 @@
         <t>This section is informative.</t>
         <t>
           Note that even if an application does not support (or need)
-          <tt>bignum</tt> or <tt>floating&nbsp;point</tt> types,
+          <tt>bignum</tt> or <tt>floating&nbsp;point</tt> data items,
           you can still use D-CBOR since a strict subset is upwardly
           compatible with full-blown implementations.
           Low-end platforms typically also restrict CBOR <tt>map</tt> keys to
-          <tt>integer</tt> and <tt>text&nbsp;string</tt> types.
+          <tt>integer</tt> and <tt>text&nbsp;string</tt> data items.
           Since these issues are application specific, they are out of scope
           for this specification.
         </t>
@@ -726,6 +739,15 @@
             Added bidirectional + reencoding to 2
           </li>
         </ul>      
+        <t>Version 03:</t>
+        <ul spacing="normal">
+          <li>
+            Added ref to 3.4.4. Decimal Fractions and Bigfloats.
+          </li>
+          <li>
+            Type => Data Item (throughout the spec).
+          </li>
+        </ul>
       </section>
     </back>
 </rfc>
