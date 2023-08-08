@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministc-cbor-03"
+     docName="draft-rundgren-deterministic-cbor-00"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -746,6 +746,12 @@
           </li>
           <li>
             Type => Data Item (throughout the spec).
+          </li>
+        </ul>
+        <t>Version 04:</t>
+        <ul spacing="normal">
+          <li>
+            Document name spelling error.
           </li>
         </ul>
       </section>
