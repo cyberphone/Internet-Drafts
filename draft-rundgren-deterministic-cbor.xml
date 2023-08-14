@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-00"
+     docName="draft-rundgren-deterministic-cbor-02"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -60,6 +60,11 @@
           CBOR <xref target="RFC8949" format="default"/> format.  This scheme is subsequently
           referred to as D&nbhy;CBOR.
         </t>
+        <t>
+          Note that this document is not on the IETF standards track. However, a
+          conformant implementation is supposed to adhere to the specified behavior for
+          security and interoperability reasons.
+        </t>
         <section anchor="d-cbor.objectives" numbered="true" toc="default">
           <name>Objectives</name>
           <t>
@@ -109,8 +114,7 @@
           Also see <xref target="d-cbor.numbers" format="default"/>.
         </t>
         <t>
-          Occurrences of CBOR data items that do not conform to this specification
-          MUST be flagged as an error.
+          Occurrences of unknown or malformed CBOR data itmes MUST be rejected.
         </t>
         <t>
           For applications that depend on <em>reencoding</em> of CBOR data items,
@@ -126,7 +130,7 @@
           any transformations at the encoding level.
         </t>
         <t>
-          A compliant D&nbhy;CBOR implementation SHOULD support the following
+          A compliant D&nbhy;CBOR implementation SHOULD as a minimum support the following
           CBOR data items:
         </t>
         <table anchor="d-cbor.types-table">
@@ -134,7 +138,7 @@
           <thead>
             <tr>
               <th align="center">Data Item</th>
-              <th align="center">Tag</th>
+              <th align="center">Encoding</th>
             </tr>
           </thead>
           <tbody>
@@ -220,9 +224,6 @@
             </tr>
           </tbody>
         </table>
-        <t>
-          CBOR data items that do not match Table 1 MUST be rejected. 
-        </t>
         <t>
           See also <xref target="d-cbor.constraints" format="default"/>.
         </t>
@@ -748,12 +749,24 @@
             Type => Data Item (throughout the spec).
           </li>
         </ul>
-        <t>Version 04:</t>
+        <t>Version 04-00:</t>
         <ul spacing="normal">
           <li>
             Document name spelling error.
           </li>
         </ul>
+        <t>Version 01:</t>
+        <ul spacing="normal">
+          <li>
+            Minor tweaks.
+          </li>
+        </ul>
+        <t>Version 02:</t>
+        <ul spacing="normal">
+          <li>
+            ISE submission and associated changes.
+          </li>
+        </ul>      
       </section>
     </back>
 </rfc>
