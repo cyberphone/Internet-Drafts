@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-02"
+     docName="draft-rundgren-deterministic-cbor-03"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -289,11 +289,12 @@
         <name>Encoding of Numbers</name>
         <t>This section is normative.</t>
         <t>
-          The following sub sections hold examples of numbers and their
-          encoding using D&nbhy;CBOR.
+          The following sub sections hold examples of numbers expressed
+          in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>)
+          and their hexadecimal counterparts when using D&nbhy;CBOR encoding.
         </t>
         <t>
-          Note that the values and encodings are supposed to work in both directions.
+          Note that the values and encodings are supposed to work in <em>both</em> directions.
         </t>
         <section anchor="d-cbor.integer" numbered="true" toc="default">
           <name>Integer Numbers</name>
@@ -766,7 +767,13 @@
           <li>
             ISE submission and associated changes.
           </li>
-        </ul>      
+        </ul>
+        <t>Version 03:</t>
+        <ul spacing="normal">
+          <li>
+            Number table clarifications.
+          </li>
+        </ul>
       </section>
     </back>
 </rfc>
