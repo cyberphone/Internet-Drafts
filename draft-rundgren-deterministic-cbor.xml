@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-03"
+     docName="draft-rundgren-deterministic-cbor-04"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -117,11 +117,11 @@
           Occurrences of unknown or malformed CBOR data itmes MUST be rejected.
         </t>
         <t>
-          For applications that depend on <em>reencoding</em> of CBOR data items,
+          For applications that depend on <em>deterministic reencoding</em> of CBOR data items,
           compliant decoder implementations MUST be able to recreate such data
           in its original form.  This means for example that the string component
-          of date items (<tt>tag&nbsp;0</tt>) MUST be kept "as&nbsp;is" in order
-          to maintain deterministic reencoding.
+          of date items (<tt>tag&nbsp;0</tt>) MUST be preserved "as&nbsp;is" in order
+          to maintain consistency.
         </t>
         <t>
           The <em>optional</em> numerical extensions described in
@@ -774,6 +774,12 @@
             Number table clarifications.
           </li>
         </ul>
+        <t>Version 04:</t>
+        <ul spacing="normal">
+          <li>
+            Word-smithing.
+          </li>
+        </ul>      
       </section>
     </back>
 </rfc>
