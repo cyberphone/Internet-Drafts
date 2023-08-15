@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-08"
+     docName="draft-rundgren-deterministic-cbor-09"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,6 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-09" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -35,7 +36,7 @@
       </author>
       <date year="2023"/>
       <area>Application</area>
-      <workgroup>CBOR</workgroup>
+      <workgroup/>
       <keyword>CBOR</keyword>
       <keyword>Encoding</keyword>
       <keyword>Deterministic</keyword>
@@ -828,6 +829,12 @@
         <ul spacing="normal">
           <li>
             Explained universality.
+          </li>
+        </ul>
+        <t>Version 09:</t>
+        <ul spacing="normal">
+          <li>
+            Stream added.
           </li>
         </ul>
       </section>
