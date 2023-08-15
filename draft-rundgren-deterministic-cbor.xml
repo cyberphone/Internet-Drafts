@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-07"
+     docName="draft-rundgren-deterministic-cbor-08"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -70,7 +70,8 @@
           <t>
             <xref target="RFC8949" format="default"/> supports a number of deterministic encoding
             options that are <em>mutually incompatible</em>, like Rule 1-3 in Section 4.2.2.
-            This complicates large scale rollout of applications needing deterministic CBOR encoding.
+            This complicates large scale rollout of applications depending on deterministically 
+            encoded CBOR.
           </t>
         </section>
         <section anchor="d-cbor.objectives" numbered="true" toc="default">
@@ -92,6 +93,11 @@
             characterized by being <em>bidirectional</em> also when CBOR is provided
             in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>),
             making D&nbhy;CBOR comparatively easy to understand, debug, and implement.
+          </t>
+          <t>
+            Although this document specifies a <em>deterministic</em> encoding scheme,
+            the intent is that the encoding scheme should be equally useful for applications
+            that do not depend on this particular feature. 
           </t>
           <t>
             In spite of the enhanced functionality, this specification retains full 
@@ -816,6 +822,12 @@
         <ul spacing="normal">
           <li>
             Word-smithing.
+          </li>
+        </ul>
+        <t>Version 08:</t>
+        <ul spacing="normal">
+          <li>
+            Explained universality.
           </li>
         </ul>
       </section>
