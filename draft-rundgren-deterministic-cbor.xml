@@ -315,7 +315,7 @@
         <name>Encoding of Numbers</name>
         <t>This section is normative.</t>
         <t>
-          The following sub sections hold examples of numbers expressed
+          The following sub sections hold examples of numeric values expressed
           in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>)
           and their D&nbhy;CBOR encoded counterpart (expressed in hexadecimal).
         </t>
