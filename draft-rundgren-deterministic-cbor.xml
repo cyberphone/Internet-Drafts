@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-09"
+     docName="draft-rundgren-deterministic-cbor-10"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-09" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-10" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -70,7 +70,8 @@
           <name>Background</name>
           <t>
             <xref target="RFC8949" format="default"/> supports a number of deterministic encoding
-            options that are <em>mutually incompatible</em>, like Rule 1-3 in Section 4.2.2.
+            options that are <em>mutually incompatible</em>, like Rule 1-3 in
+            <eref target="https://rfc-editor.org/rfc/rfc8949#section-4.2.2">Section 4.2.2</eref>.
             This complicates large scale rollout of applications depending on deterministically 
             encoded CBOR.
           </t>
@@ -92,7 +93,9 @@
           <t>
             The deterministic encoding scheme described in this document is
             characterized by being <em>bidirectional</em> also when CBOR is provided
-            in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>),
+            in <em>diagnostic notation</em> 
+            (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>),
             making D&nbhy;CBOR comparatively easy to understand, debug, and implement.
           </t>
           <t>
@@ -130,9 +133,11 @@
         <name>Specification</name>
         <t>
           The deterministic encoding scheme used by D&nbhy;CBOR builds on
-          Section 4.2 of <xref target="RFC8949" format="default"/>.
-          However, to achieve a <em>fixed and bidirectional</em> representation
-          of numbers, Rule 2 in Section 4.2.2 MUST also be adhered to.
+          <xref target="RFC8949" section="4.2" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2" derivedContent="RFC8949"/>.
+          However, to achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in 
+            <eref target="https://rfc-editor.org/rfc/rfc8949#section-4.2.2">Section 4.2.2</eref>
+            MUST also be adhered to.
           <xref target="d-cbor.numbers" format="default"/> provides
           additional information regarding numbers in D&nbhy;CBOR.
         </t>
@@ -152,8 +157,9 @@
         </t>
         <t>
           The <em>optional</em> numerical extensions described in
-          Section 3.4.4. of <xref target="RFC8949" format="default"/> MUST be
-          treated as <em>distinct</em> data items as well as not be subjected to
+          <xref target="RFC8949" section="3.4.4" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.4" derivedContent="RFC8949"/>
+          MUST be treated as <em>distinct</em> data items as well as not be subjected to
           any transformations at the encoding level.
         </t>
         <t>
@@ -317,7 +323,9 @@
         <t>This section is normative.</t>
         <t>
           The following sub sections hold examples of numeric values expressed
-          in <em>diagnostic notation</em> (Section 8 of <xref target="RFC8949" format="default"/>)
+          in <em>diagnostic notation</em> 
+          (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>)
           and their D&nbhy;CBOR encoded counterpart (expressed in hexadecimal).
         </t>
         <t>
@@ -835,6 +843,12 @@
         <ul spacing="normal">
           <li>
             Stream added.
+          </li>
+        </ul>
+        <t>Version 10:</t>
+        <ul spacing="normal">
+          <li>
+            External "Section" refs made into links.
           </li>
         </ul>
       </section>
