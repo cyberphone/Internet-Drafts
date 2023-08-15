@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-11"
+     docName="draft-rundgren-deterministic-cbor-12"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-11" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-12" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -79,7 +79,7 @@
         <section anchor="d-cbor.objectives" numbered="true" toc="default">
           <name>Objectives</name>
           <t>
-            The primary objective of D&nbhy;CBOR is providing an interoperable
+            The main objective of D&nbhy;CBOR is providing an interoperable
             CBOR profile, <em>primarily</em> targeting high-end computing platforms
             like mobile phones, Web browsers, and Web servers.
             In addition, due to the underpinning deterministic encoding scheme,
@@ -866,6 +866,12 @@
         <ul spacing="normal">
           <li>
             IEEE 754 ref.
+          </li>
+        </ul>
+        <t>Version 12:</t>
+        <ul spacing="normal">
+          <li>
+            Language nit.
           </li>
         </ul>
       </section>
