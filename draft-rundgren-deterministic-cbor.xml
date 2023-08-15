@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-10"
+     docName="draft-rundgren-deterministic-cbor-11"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-10" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-11" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -294,6 +294,16 @@
                 href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
             <xi:include
                 href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
+            <reference anchor="IEEE754" target="https://ieeexplore.ieee.org/document/8766229" quoteTitle="true" derivedAnchor="IEEE754">
+          <front>
+            <title>IEEE Standard for Floating-Point Arithmetic</title>
+            <seriesInfo name="DOI" value="10.1109/IEEESTD.2019.8766229"/>
+            <author>
+              <organization showOnFrontPage="true">IEEE</organization>
+            </author>
+          </front>
+          <refcontent>IEEE 754-2019</refcontent>
+        </reference>
 
         </references>
         <references>
@@ -487,7 +497,8 @@
           <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
             <name>Dedicated Floating Point Numbers</name>
             <t>
-              The following table holds the set of dedicated IEEE&nbsp;754 values.
+              The following table holds the set of dedicated IEEE&nbsp;754
+              <xref target="IEEE754" format="default"/> values.
               Note that <tt>NaN</tt> "signaling" MUST be flagged as an error. 
             </t>
             <table anchor="d-cbor.float.dedicated-table">
@@ -849,6 +860,12 @@
         <ul spacing="normal">
           <li>
             External "Section" refs made into links.
+          </li>
+        </ul>
+        <t>Version 11:</t>
+        <ul spacing="normal">
+          <li>
+            IEEE 754 ref.
           </li>
         </ul>
       </section>
