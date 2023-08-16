@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-12"
+     docName="draft-rundgren-deterministic-cbor-13"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-12" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-13" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -135,132 +135,525 @@
           The deterministic encoding scheme used by D&nbhy;CBOR builds on
           <xref target="RFC8949" section="4.2" sectionFormat="of" format="default"
             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2" derivedContent="RFC8949"/>.
-          However, to achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in 
-            <eref target="https://rfc-editor.org/rfc/rfc8949#section-4.2.2">Section 4.2.2</eref>
-            MUST also be adhered to.
-          <xref target="d-cbor.numbers" format="default"/> provides
-          additional information regarding numbers in D&nbhy;CBOR.
         </t>
         <t>
-          Occurrences of unknown or malformed CBOR data items MUST be rejected.
+          The following sections contain some additional clarifications and explicit
+          choices, in order to facilitate an interoperable encoding scheme.
         </t>
-        <t>
-          Map keys MUST only be compared and sorted based on their
-          bytewise lexicographic order of their deterministic encoding.
-        </t>
-        <t>
-          For applications that depend on <em>deterministic reencoding</em> of CBOR data items,
-          compliant decoder implementations MUST be able to recreate such data
-          in its original form.  This means for example that the string component
-          of date items (<tt>tag&nbsp;0</tt>) MUST be preserved "as&nbsp;is" in order
-          to maintain consistency.
-        </t>
-        <t>
-          The <em>optional</em> numerical extensions described in
-          <xref target="RFC8949" section="3.4.4" sectionFormat="of" format="default"
-            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.4" derivedContent="RFC8949"/>
-          MUST be treated as <em>distinct</em> data items as well as not be subjected to
-          any transformations at the encoding level.
-        </t>
-        <t>
-          A compliant D&nbhy;CBOR implementation SHOULD as a <em>minimum</em> support the following
-          CBOR data items:
-        </t>
-        <table anchor="d-cbor.types-table">
-          <name>Supported CBOR Data Items</name>
-          <thead>
-            <tr>
-              <th align="center">Data Item</th>
-              <th align="center">Encoding</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <tt>integer</tt>
-              </td>
-              <td>
-                Major type <tt>0</tt> and <tt>1</tt>
-            </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>bignum</tt>
-              </td>
-              <td>
-                <tt>0xc2</tt> and <tt>0xc3</tt>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>floating&nbsp;point</tt>
-              </td>
-              <td>
-                <tt>0xf9</tt>, <tt>0xfa</tt> and <tt>0xfb</tt>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>byte&nbsp;string</tt>
-              </td>
-              <td>Major type <tt>2</tt></td>
-            </tr>
-            <tr>
-              <td>
-                <tt>text&nbsp;string</tt>
-              </td>
-              <td>Major type <tt>3</tt></td>
-            </tr>
-            <tr>
-              <td>
-                <tt>false</tt>
-              </td>
-              <td>
-                <tt>0xf4</tt>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>true</tt>
-              </td>
-              <td>
-                <tt>0xf5</tt>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>null</tt>
-              </td>
-              <td>
-                <tt>0xf6</tt>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <tt>array</tt>
-              </td>
-              <td>Major type <tt>4</tt></td>
-            </tr>
-            <tr>
-              <td>
-                <tt>map</tt>
-              </td>
-              <td>Major type <tt>5</tt></td>
-            </tr>
-            <tr>
-              <td>
-                <tt>tag</tt>
-              </td>
-              <td>
-                Major type <tt>6</tt>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <t>
-          See also <xref target="d-cbor.constraints" format="default"/>.
-        </t>
-      </section>
+        <section anchor="d-cbor.spec.general" numbered="true" toc="default">
+          <name>General Considerations</name>
+          <t>
+            Occurrences of unknown or malformed CBOR data items MUST be rejected.
+          </t>
+          <t>
+            Map keys MUST only be compared and sorted based on their
+            bytewise lexicographic order of their deterministic encoding.
+          </t>
+          <t>
+            For applications that depend on <em>deterministic reencoding</em> of CBOR data items,
+            compliant decoder implementations MUST be able to recreate such data
+            in its original form.  This means for example that the string component
+            of date items (<tt>tag&nbsp;0</tt>) MUST be preserved "as&nbsp;is" in order
+            to maintain consistency.
+          </t>
+          <t>
+            The <em>optional</em> numerical extensions described in
+            <xref target="RFC8949" section="3.4.4" sectionFormat="of" format="default"
+              derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.4" derivedContent="RFC8949"/>
+            MUST be treated as <em>distinct</em> data items as well as not be subjected to
+            any transformations at the encoding level.
+          </t>
+        </section>
+        <section anchor="d-cbor.spec.dataitems" numbered="true" toc="default">
+          <name>CBOR Data Items</name>
+          <t>
+            A compliant D&nbhy;CBOR implementation SHOULD as a <em>minimum</em> support the following
+            CBOR data items:
+          </t>
+          <table anchor="d-cbor.types-table">
+            <name>CBOR Data Items</name>
+            <thead>
+              <tr>
+                <th align="center">Data Item</th>
+                <th align="center">Encoding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <tt>integer</tt>
+                </td>
+                <td>
+                  Major type <tt>0</tt> and <tt>1</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>bignum</tt>
+                </td>
+                <td>
+                  <tt>0xc2</tt> and <tt>0xc3</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>floating&nbsp;point</tt>
+                </td>
+                <td>
+                  <tt>0xf9</tt>, <tt>0xfa</tt> and <tt>0xfb</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>byte&nbsp;string</tt>
+                </td>
+                <td>
+                  Major type <tt>2</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>text&nbsp;string</tt>
+                </td>
+                <td>
+                  Major type <tt>3</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>false</tt>
+                </td>
+                <td>
+                  <tt>0xf4</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>true</tt>
+                </td>
+                <td>
+                  <tt>0xf5</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>null</tt>
+                </td>
+                <td>
+                  <tt>0xf6</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>array</tt>
+                </td>
+                <td>
+                  Major type <tt>4</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>map</tt>
+                </td>
+                <td>
+                  Major type <tt>5</tt>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>tag</tt>
+                </td>
+                <td>
+                  Major type <tt>6</tt>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <t>
+            See also <xref target="d-cbor.constraints" format="default"/>.
+          </t>
+        </section>
+        <section anchor="d-cbor.spec.numberencoding" numbered="true" toc="default">
+          <name>Encoding of Numbers</name>
+          <t>
+            To achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in
+             <xref target="RFC8949" section="4.2.2" sectionFormat="of" format="default"
+             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>
+             MUST be adhered to.
+          </t>
+          <t>
+            The following sub sections hold examples of numeric values expressed
+            in <em>diagnostic notation</em>
+            (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
+             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>)
+            and their D&nbhy;CBOR encoded counterpart (expressed in hexadecimal).
+          </t>
+          <t>
+            Note that the values and encodings are supposed to work in <em>both</em> directions.
+          </t>
+          <section anchor="d-cbor.integer" numbered="true" toc="default">
+            <name>Integer Numbers</name>
+            <t>
+              The following table holds a set of integers highlighting the
+              selection between <tt>integer</tt> and <tt>bignum</tt> data items.
+            </t>
+            <table anchor="d-cbor.integer-table">
+              <name>Integer Numbers</name>
+              <thead>
+                <tr>
+                  <th align="center">Value</th>
+                  <th align="center">Encoding</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="right">
+                    <tt>0</tt>
+                  </td>
+                  <td align="right">
+                    <tt>00</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-1</tt>
+                  </td>
+                  <td align="right">
+                    <tt>20</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>23</tt>
+                  </td>
+                  <td align="right">
+                    <tt>17</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>24</tt>
+                  </td>
+                  <td align="right">
+                    <tt>1818</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-24</tt>
+                  </td>
+                  <td align="right">
+                    <tt>37</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-25</tt>
+                  </td>
+                  <td align="right">
+                    <tt>3818</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>255</tt>
+                  </td>
+                  <td align="right">
+                    <tt>18ff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>256</tt>
+                  </td>
+                  <td align="right">
+                    <tt>190100</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-256</tt>
+                  </td>
+                  <td align="right">
+                    <tt>38ff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-257</tt>
+                  </td>
+                  <td align="right">
+                    <tt>390100</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>65535</tt>
+                  </td>
+                  <td align="right">
+                    <tt>19ffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>65536</tt>
+                  </td>
+                  <td align="right">
+                    <tt>1a00010000</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>1099511627775</tt>
+                  </td>
+                  <td align="right">
+                    <tt>1b000000ffffffffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>18446744073709551615</tt>
+                  </td>
+                  <td align="right">
+                    <tt>1bffffffffffffffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>18446744073709551616</tt>
+                  </td>
+                  <td align="right">
+                    <tt>c249010000000000000000</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-18446744073709551616</tt>
+                  </td>
+                  <td align="right">
+                    <tt>3bffffffffffffffff</tt>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right">
+                    <tt>-18446744073709551617</tt>
+                  </td>
+                  <td align="right">
+                    <tt>c349010000000000000000</tt>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+            <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
+              <name>"Dedicated" Floating Point Numbers</name>
+              <t>
+                The following table holds the set of dedicated IEEE&nbsp;754
+                <xref target="IEEE754" format="default"/> values.
+                Note that <tt>NaN</tt> "signaling" MUST be flagged as an error.
+              </t>
+              <table anchor="d-cbor.float.dedicated-table">
+                <name>"Dedicated" Floating Point Numbers</name>
+                <thead>
+                  <tr>
+                    <th align="center">Value</th>
+                    <th align="center">Encoding</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td align="right">
+                      <tt>0.0</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f90000</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-0.0</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f98000</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>Infinity</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f97c00</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-Infinity</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f9fc00</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>NaN</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f97e00</tt>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            <section anchor="d-cbor.float.ordinary" numbered="true" toc="default">
+              <name>"Ordinary" Floating Point Numbers</name>
+              <t>
+                The following table holds a set of "ordinary" IEEE&nbsp;754
+                <xref target="IEEE754" format="default"/> values
+                including some edge cases.
+                Note that subnormal floating point values MUST be supported.
+              </t>
+              <table anchor="d-cbor.float.assorted-table">
+                <name>"Ordinary" Floating Point Numbers</name>
+                <thead>
+                  <tr>
+                    <th align="center">Value</th>
+                    <th align="center">Encoding</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td align="right">
+                      <tt>-5.960464477539062e-8</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fbbe6fffffffffffff</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-5.9604644775390625e-8</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f98001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-5.960464477539064e-8</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fbbe70000000000001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-5.960465188081798e-8</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fab3800001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>0.00006097555160522461</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f903ff</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>65504.0</tt>
+                    </td>
+                    <td align="right">
+                      <tt>f97bff</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>65504.00390625</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa477fe001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>65536.0</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa47800000</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>10.559998512268066</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa4128f5c1</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>10.559998512268068</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fb40251eb820000001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>3.4028234663852886e+38</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa7f7fffff</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>3.402823466385289e+38</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fb47efffffe0000001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>1.401298464324817e-45</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa00000001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>1.1754942106924411e-38</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fa007fffff</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>5.0e-324</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fb0000000000000001</tt>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="right">
+                      <tt>-1.7976931348623157e+308</tt>
+                    </td>
+                    <td align="right">
+                      <tt>fbffefffffffffffff</tt>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+          </section>
+        </section>
 
       <section anchor="d-cbor.iana" numbered="true" toc="default">
         <name>IANA Considerations</name>
@@ -328,380 +721,6 @@
 
       </references>
 
-      <section anchor="d-cbor.numbers" numbered="true" toc="default">
-        <name>Encoding of Numbers</name>
-        <t>This section is normative.</t>
-        <t>
-          The following sub sections hold examples of numeric values expressed
-          in <em>diagnostic notation</em> 
-          (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
-            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>)
-          and their D&nbhy;CBOR encoded counterpart (expressed in hexadecimal).
-        </t>
-        <t>
-          Note that the values and encodings are supposed to work in <em>both</em> directions.
-        </t>
-        <section anchor="d-cbor.integer" numbered="true" toc="default">
-          <name>Integer Numbers</name>
-          <t>
-            The following table holds a set of integers highlighting the
-            selection between <tt>integer</tt> and <tt>bignum</tt> data items.
-          </t>
-          <table anchor="d-cbor.integer-table">
-            <name>Integer Numbers</name>
-            <thead>
-              <tr><th align="center">Value</th><th align="center">Encoding</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td align="right">
-                  <tt>0</tt>
-                </td>
-                <td align="right">
-                  <tt>00</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-1</tt>
-                </td>
-                <td align="right">
-                  <tt>20</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>23</tt>
-                </td>
-                <td align="right">
-                  <tt>17</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>24</tt>
-                </td>
-                <td align="right">
-                  <tt>1818</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-24</tt>
-                </td>
-                <td align="right">
-                  <tt>37</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-25</tt>
-                </td>
-                <td align="right">
-                  <tt>3818</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>255</tt>
-                </td>
-                <td align="right">
-                  <tt>18ff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>256</tt>
-                </td>
-                <td align="right">
-                  <tt>190100</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-256</tt>
-                </td>
-                <td align="right">
-                  <tt>38ff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-257</tt>
-                </td>
-                <td align="right">
-                  <tt>390100</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>65535</tt>
-                </td>
-                <td align="right">
-                  <tt>19ffff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>65536</tt>
-                </td>
-                <td align="right">
-                  <tt>1a00010000</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>1099511627775</tt>
-                </td>
-                <td align="right">
-                  <tt>1b000000ffffffffff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>18446744073709551615</tt>
-                </td>
-                <td align="right">
-                  <tt>1bffffffffffffffff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>18446744073709551616</tt>
-                </td>
-                <td align="right">
-                  <tt>c249010000000000000000</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-18446744073709551616</tt>
-                </td>
-                <td align="right">
-                  <tt>3bffffffffffffffff</tt>
-                </td>
-              </tr>
-              <tr>
-                <td align="right">
-                  <tt>-18446744073709551617</tt>
-                </td>
-                <td align="right">
-                  <tt>c349010000000000000000</tt>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <section anchor="d-cbor.floating" numbered="true" toc="default">
-          <name>Floating Point Numbers</name>
-          <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
-            <name>Dedicated Floating Point Numbers</name>
-            <t>
-              The following table holds the set of dedicated IEEE&nbsp;754
-              <xref target="IEEE754" format="default"/> values.
-              Note that <tt>NaN</tt> "signaling" MUST be flagged as an error. 
-            </t>
-            <table anchor="d-cbor.float.dedicated-table">
-              <name>Dedicated Floating Point Numbers</name>
-              <thead>
-                <tr>
-                  <th align="center">Value</th>
-                  <th align="center">Encoding</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td align="right">
-                    <tt>0.0</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f90000</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-0.0</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f98000</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>Infinity</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f97c00</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-Infinity</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f9fc00</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>NaN</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f97e00</tt>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-          <section anchor="d-cbor.float.assorted" numbered="true" toc="default">
-            <name>Assorted Floating Point Numbers</name>
-            <t>
-              The following table holds a set of "ordinary" IEEE&nbsp;754 values
-              including some edge cases.
-              Note that subnormal floating point values MUST be supported.
-            </t>
-            <table anchor="d-cbor.float.assorted-table">
-              <name>Assorted Floating Point Numbers</name>
-              <thead>
-                <tr>
-                  <th align="center">Value</th>
-                  <th align="center">Encoding</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td align="right">
-                    <tt>-5.960464477539062e-8</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fbbe6fffffffffffff</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-5.9604644775390625e-8</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f98001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-5.960464477539064e-8</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fbbe70000000000001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-5.960465188081798e-8</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fab3800001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>0.00006097555160522461</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f903ff</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>65504.0</tt>
-                  </td>
-                  <td align="right">
-                    <tt>f97bff</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>65504.00390625</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa477fe001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>65536.0</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa47800000</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>10.559998512268066</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa4128f5c1</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>10.559998512268068</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fb40251eb820000001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>3.4028234663852886e+38</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa7f7fffff</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>3.402823466385289e+38</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fb47efffffe0000001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>1.401298464324817e-45</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa00000001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>1.1754942106924411e-38</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fa007fffff</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>5.0e-324</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fb0000000000000001</tt>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="right">
-                    <tt>-1.7976931348623157e+308</tt>
-                  </td>
-                  <td align="right">
-                    <tt>fbffefffffffffffff</tt>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-        </section>
-      </section>
       <section anchor="d-cbor.constraints">
         <name>Implementation Constraints</name>
         <t>This section is informative.</t>
@@ -874,6 +893,12 @@
             Language nit.
           </li>
         </ul>
+        <t>Version 13:</t>
+        <ul spacing="normal">
+          <li>
+            Major restructuring of "Specification".
+          </li>
+        </ul> 
       </section>
     </back>
 </rfc>
