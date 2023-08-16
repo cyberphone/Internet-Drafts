@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-14"
+     docName="draft-rundgren-deterministic-cbor-16"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="D-CBOR">
         Deterministically Encoded CBOR (D-CBOR)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-14" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-16" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -80,9 +80,9 @@
           <name>Objectives</name>
           <t>
             The main objective of D&nbhy;CBOR is providing an interoperable
-            CBOR profile, <em>primarily</em> targeting high-end computing platforms
+            CBOR encoding profile, <em>primarily</em> targeting high-end computing platforms
             like mobile phones, Web browsers, and Web servers.
-            In addition, due to the underpinning deterministic encoding scheme,
+            In addition, due to the underpinning deterministic representation of data,
             D&nbhy;CBOR also enables performing cryptographic operations like
             signatures over "raw" (unwrapped) CBOR data items since signatures
             depend on a <em>unified</em> representation of the data to be signed.
@@ -277,9 +277,15 @@
           <name>Encoding of Numbers</name>
           <t>
             To achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in
-             <xref target="RFC8949" section="4.2.2" sectionFormat="of" format="default"
-             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>
-             MUST be adhered to.
+            <xref target="RFC8949" section="4.2.2" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>
+            MUST be adhered to.
+          </t>
+          <t>
+             Note that <tt>integer</tt> and <tt>floating&nbsp;point</tt> data items MUST
+            use preferred serialization as described in
+            <xref target="RFC8949" section="4.2.1" sectionFormat="of" format="default"
+           derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.1" derivedContent="RFC8949"/>.
           </t>
           <t>
             The following sub sections hold examples of numeric values expressed
@@ -294,8 +300,10 @@
           <section anchor="d-cbor.integer" numbered="true" toc="default">
             <name>Integer Numbers</name>
             <t>
-              The following table holds a set of integers highlighting the
-              selection between <tt>integer</tt> and <tt>bignum</tt> data items.
+              The following table holds a set of integers.  Note that <tt>bignum</tt> data items MUST
+              use preferred serialization as described in
+              <xref target="RFC8949" section="3.4.3" sectionFormat="of" format="default"
+             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.3" derivedContent="RFC8949"/>.
             </t>
             <table anchor="d-cbor.integer-table">
               <name>Integer Numbers</name>
@@ -446,14 +454,14 @@
             </table>
           </section>
             <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
-              <name>"Dedicated" Floating Point Numbers</name>
+              <name>Special Floating Point Numbers</name>
               <t>
-                The following table holds the set of dedicated IEEE&nbsp;754
+                The following table holds the set of special IEEE&nbsp;754
                 <xref target="IEEE754" format="default"/> values.
                 Note that <tt>NaN</tt> "signaling" MUST be flagged as an error.
               </t>
               <table anchor="d-cbor.float.dedicated-table">
-                <name>"Dedicated" Floating Point Numbers</name>
+                <name>Special Floating Point Numbers</name>
                 <thead>
                   <tr>
                     <th align="center">Value</th>
@@ -905,6 +913,12 @@
             Word-smithing.
           </li>
         </ul> 
+        <t>Version 15:</t>
+        <ul spacing="normal">
+          <li>
+            Word-smithing.
+          </li>
+        </ul>
       </section>
     </back>
 </rfc>
