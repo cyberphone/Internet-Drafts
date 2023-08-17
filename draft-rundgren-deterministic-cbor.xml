@@ -786,7 +786,7 @@
       <section anchor="d-cbor.acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
         <t>
-          This document also incorporates suggestions made by many people, notably
+          This document incorporates much appreciated suggestions and feedback by
           <contact fullname="Eliot Lear"/>,
           and <contact fullname="Carsten Bormann"/>.
         </t>
