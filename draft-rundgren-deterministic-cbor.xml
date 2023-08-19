@@ -733,7 +733,7 @@
         <t>
           The following table holds a few examples of numeric CBOR data items that
           MUST be rejected since they do not conform to CDEP.
-          "PS" in the table is an abbreviation of "Preferred&nbsp;Serialization".
+          "PS" in the table is a short form for "Preferred&nbsp;Serialization".
         </t>
         <table anchor="cdep.table.incorrectnumbers">
           <name>Incorrect Number Encodings</name>
