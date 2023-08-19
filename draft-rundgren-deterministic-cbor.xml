@@ -538,7 +538,7 @@
                   </tr>
                   <tr>
                     <td align="right">
-                      <tt>-5.9604644775390625e-8</tt>
+                      <tt>-5.960464477539063e-8</tt>
                     </td>
                     <td align="right">
                       <tt>f98001</tt>
@@ -731,8 +731,9 @@
       <section anchor="cdep.incorrectnumbers">
         <name>Incorrect Number Encodings</name>
         <t>
-          The following table holds examples of numeric CBOR data items that
+          The following table holds a few examples of numeric CBOR data items that
           MUST be rejected since they do not conform to CDEP.
+          "PS" in the table is an abbreviation of "Preferred&nbsp;Serialization".
         </t>
         <table anchor="cdep.table.incorrectnumbers">
           <name>Incorrect Number Encodings</name>
@@ -761,10 +762,57 @@
             </tr>
             <tr>
               <td>
+                <tt>fb7ff8000000000000</tt>
+              </td>
+              <td>
+                PS: <tt>f97e00</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>fb8000000000000000</tt>
+              </td>
+              <td>
+                PS: <tt>f98000</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>faff800000</tt>
+              </td>
+              <td>
+                PS: <tt>f9fc00</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>fa477fe000</tt>
+              </td>
+              <td>
+                PS: <tt>f97bff</tt>
+              </td>
+            </tr>            <tr>
+              <td>
+                <tt>fab3800000</tt>
+              </td>
+              <td>
+                PS: <tt>f98001</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>fa00000000</tt>
+              </td>
+              <td>
+                PS: <tt>f90000</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <tt>1800</tt>
               </td>
               <td>
-              Fits in <tt>00</tt>
+              PS: <tt>00</tt>
               </td>
             </tr>
             <tr>
@@ -772,7 +820,7 @@
                 <tt>1817</tt>
               </td>
               <td>
-              Fits in <tt>17</tt>
+              PS: <tt>17</tt>
               </td>
             </tr>
             <tr>
@@ -780,7 +828,7 @@
                 <tt>1900ff</tt>
               </td>
               <td>
-              Fits in <tt>18ff</tt>
+              PS: <tt>18ff</tt>
               </td>
             </tr>
             <tr>
@@ -788,7 +836,7 @@
                 <tt>1a000000ff</tt>
               </td>
               <td>
-              Fits in <tt>18ff</tt>
+              PS: <tt>18ff</tt>
               </td>
             </tr>
             <tr>
@@ -796,7 +844,7 @@
                 <tt>1a0000ffff</tt>
               </td>
               <td>
-              Fits in <tt>19ffff</tt>
+              PS: <tt>19ffff</tt>
               </td>
             </tr>
             <tr>
@@ -804,7 +852,7 @@
                 <tt>1b00000000ffffffff</tt>
               </td>
               <td>
-              Fits in <tt>1affffffff</tt>
+              PS: <tt>1affffffff</tt>
               </td>
             </tr>
             <tr>
@@ -812,7 +860,7 @@
                 <tt>3b00000000ffffffff</tt>
               </td>
               <td>
-              Fits in <tt>3affffffff</tt>
+              PS: <tt>3affffffff</tt>
               </td>
             </tr>
             <tr>
@@ -820,7 +868,7 @@
                 <tt>c2488000000000000000</tt>
               </td>
               <td>
-              Fits in <tt>1b8000000000000000</tt>
+              PS: <tt>1b8000000000000000</tt>
               </td>
             </tr>
             <tr>
@@ -828,7 +876,7 @@
                 <tt>c348ffffffffffffffff</tt>
               </td>
               <td>
-              Fits in <tt>3bffffffffffffffff</tt>
+              PS: <tt>3bffffffffffffffff</tt>
               </td>
             </tr>
             <tr>
@@ -836,7 +884,7 @@
                 <tt>c24a00800000000000000000</tt>
               </td>
               <td>
-              Fits in <tt>c249800000000000000000</tt>
+              PS: <tt>c249800000000000000000</tt>
               </td>
             </tr>
           </tbody>
