@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-19"
+     docName="draft-rundgren-deterministic-cbor-20"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -22,7 +22,7 @@
       <title abbrev="CDEP">
         CBOR Deterministic Encoding Profile (CDEP)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-19" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-20" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -282,6 +282,7 @@
             (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
              derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>)
             and their CDEP encoded counterpart (expressed in hexadecimal).
+            See also <xref target="cdep.incorrectnumbers" format="default"/>.
           </t>
           <t>
             To achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in
@@ -456,7 +457,7 @@
               <t>
                 The following table holds the set of special IEEE&nbsp;754
                 <xref target="IEEE754" format="default"/> values.
-                Note that <tt>NaN</tt> "signaling" MUST be flagged as an error.
+                Note that "signaling" <tt>NaN</tt> values MUST NOT be present.
               </t>
               <table anchor="cdep.float.dedicated-table">
                 <name>Special Floating Point Numbers</name>
@@ -676,7 +677,7 @@
         </t>
         <t>
           Applications that exploit the uniqueness of deterministic encoding
-          should verify that the used decoder actually flags incorrectly formatted
+          should verify that the used decoder actually rejects incorrectly formatted
           CBOR data items.
         </t>
       </section>
@@ -727,6 +728,120 @@
 
       </references>
 
+      <section anchor="cdep.incorrectnumbers">
+        <name>Incorrect Number Encodings</name>
+        <t>
+          The following table holds examples of numeric CBOR data items that
+          MUST be rejected since they do not conform to CDEP.
+        </t>
+        <table anchor="cdep.table.incorrectnumbers">
+          <name>Incorrect Number Encodings</name>
+          <thead>
+            <tr>
+              <th align="center">Encoded</th>
+              <th align="center">Error Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <tt>f97e01</tt>
+              </td>
+              <td>
+                <tt>NaN</tt> "signaling"
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>f97c01</tt>
+              </td>
+              <td>
+                Invalid <tt>NaN</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1800</tt>
+              </td>
+              <td>
+              Fits in <tt>00</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1817</tt>
+              </td>
+              <td>
+              Fits in <tt>17</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1900ff</tt>
+              </td>
+              <td>
+              Fits in <tt>18ff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1a000000ff</tt>
+              </td>
+              <td>
+              Fits in <tt>18ff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1a0000ffff</tt>
+              </td>
+              <td>
+              Fits in <tt>19ffff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>1b00000000ffffffff</tt>
+              </td>
+              <td>
+              Fits in <tt>1affffffff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>3b00000000ffffffff</tt>
+              </td>
+              <td>
+              Fits in <tt>3affffffff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>c2488000000000000000</tt>
+              </td>
+              <td>
+              Fits in <tt>1b8000000000000000</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>c348ffffffffffffffff</tt>
+              </td>
+              <td>
+              Fits in <tt>3bffffffffffffffff</tt>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <tt>c24a00800000000000000000</tt>
+              </td>
+              <td>
+              Fits in <tt>c249800000000000000000</tt>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
       <section anchor="cdep.constraints">
         <name>Implementation Constraints</name>
         <t>This section is non-normative.</t>
@@ -956,6 +1071,12 @@
         <ul spacing="normal">
           <li>
             Minor restruction of Number section.
+          </li>
+        </ul>
+        <t>Version 20:</t>
+        <ul spacing="normal">
+          <li>
+            "Incorrect Number Encodings" added.
           </li>
         </ul>
       </section>
