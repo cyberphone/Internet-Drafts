@@ -9,7 +9,7 @@
      submissionType="independent"
      category="info"
      tocDepth="3"
-     docName="draft-rundgren-deterministic-cbor-17"
+     docName="draft-rundgren-deterministic-cbor-19"
      ipr="trust200902"
      obsoletes=""
      updates=""
@@ -19,10 +19,10 @@
      sortRefs="true"
      version="3">
     <front>
-      <title abbrev="D-CBOR">
-        Deterministically Encoded CBOR (D-CBOR)
+      <title abbrev="CDEP">
+        CBOR Deterministic Encoding Profile (CDEP)
       </title>
-      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-17" stream="independent"/>
+      <seriesInfo name="Internet-Draft" value="draft-rundgren-deterministic-cbor-19" stream="independent"/>
       <author fullname="Anders Rundgren" initials="A." surname="Rundgren" role="editor">
           <organization>Independent</organization>
           <address>
@@ -43,7 +43,7 @@
 
       <abstract>
         <t>
-          This document describes a deterministic encoding scheme for CBOR
+          This document describes CDEP, a deterministic encoding profile for CBOR,
           intended for usage in high-end computing platforms like mobile
           phones, Web browsers, and Web servers.  In addition to enhancing
           interoperability, deterministic encoding also enables performing
@@ -54,54 +54,55 @@
       </abstract>
     </front>
     <middle>
-      <section anchor="d-cbor.intro" numbered="true" toc="default">
+      <section anchor="cdep.intro" numbered="true" toc="default">
         <name>Introduction</name>
         <t>
-          This specification introduces a deterministic encoding scheme for data expressed in the
-          CBOR <xref target="RFC8949" format="default"/> format.  This scheme is subsequently
-          referred to as D&nbhy;CBOR.
+          This specification introduces a deterministic encoding profile for data expressed in the
+          CBOR <xref target="RFC8949" format="default"/> format.  This profile is subsequently
+          referred to as CDEP.
         </t>
         <t>
           Note that this document is not on the IETF standards track. However, a
           conformant implementation is supposed to adhere to the specified behavior for
           security and interoperability reasons.
         </t>
-        <section anchor="d-cbor.background" numbered="true" toc="default">
+        <section anchor="cdep.background" numbered="true" toc="default">
           <name>Background</name>
           <t>
             <xref target="RFC8949" format="default"/> supports a number of deterministic encoding
             options. Some of these options are not necessarily interoperable, like Rule 1&nbhy;3 in
             <eref target="https://rfc-editor.org/rfc/rfc8949#section-4.2.2">Section 4.2.2</eref>.
-            This could in turn hamper large scale rollout of applications depending on deterministically 
+            This could potentially hamper large scale rollout of applications depending on deterministically 
             encoded CBOR.
           </t>
         </section>
-        <section anchor="d-cbor.objectives" numbered="true" toc="default">
+        <section anchor="cdep.objectives" numbered="true" toc="default">
           <name>Objectives</name>
           <t>
-            The main objective of D&nbhy;CBOR is providing an interoperable
+            The main objective of CDEP is providing an interoperable
             CBOR encoding profile, <em>primarily</em> targeting high-end computing platforms
             like mobile phones, Web browsers, and Web servers.
             In addition, due to the underpinning deterministic representation of data,
-            D&nbhy;CBOR also enables performing cryptographic operations like
+            CDEP also enables performing cryptographic operations like
             signatures over "raw" (unwrapped) CBOR data items since signatures
             depend on a <em>unified</em> representation of the data to be signed.
-            Furthermore, building on the same foundation, D&nbhy;CBOR also permits
+            Furthermore, building on the same foundation, CDEP also permits
             decoded CBOR data to be subjected to simple and secure 
             <em>transformation</em> and <em>reencoding</em> operations.
           </t>
           <t>
-            The deterministic encoding scheme described in this document is
+            The deterministic encoding profile described in this document is
             characterized by being <em>bidirectional</em> also when CBOR is provided
             in <em>diagnostic notation</em> 
             (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>),
-            making D&nbhy;CBOR comparatively easy to understand, debug, and implement.
+            making CDEP comparatively easy to understand, debug, and implement.
           </t>
           <t>
-            Although this document specifies a <em>deterministic</em> encoding scheme,
+            Although CDEP is a <em>deterministic</em> encoding profile,
             the intent is that the encoding scheme should be equally useful for applications
-            that do not depend on this particular feature. 
+            that do not depend on this particular feature.
+            See also <xref target="cdep.decoder" format="default"/>
           </t>
           <t>
             In spite of the enhanced functionality, this specification retains full 
@@ -112,7 +113,7 @@
             an alternative approach to deterministic encoding.
           </t>
         </section>
-        <section anchor="d-cbor.terms" numbered="true" toc="default">
+        <section anchor="cdep.terms" numbered="true" toc="default">
           <name>Terminology</name>
           <t>
             The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST&nbsp;NOT</bcp14>",
@@ -129,10 +130,10 @@
         </section>
       </section>
 
-      <section anchor="d-cbor.spec" numbered="true" toc="default">
+      <section anchor="cdep.spec" numbered="true" toc="default">
         <name>Specification</name>
         <t>
-          The deterministic encoding scheme used by D&nbhy;CBOR builds on
+          The CDEP deterministic encoding profile builds on
           <xref target="RFC8949" section="4.2" sectionFormat="of" format="default"
             derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2" derivedContent="RFC8949"/>.
         </t>
@@ -140,8 +141,8 @@
           The following sections contain some additional clarifications and explicit
           choices, in order to facilitate an interoperable encoding scheme.
         </t>
-        <section anchor="d-cbor.spec.general" numbered="true" toc="default">
-          <name>General Considerations</name>
+        <section anchor="cdep.spec.general" numbered="true" toc="default">
+          <name>General Requirements</name>
           <t>
             Occurrences of unknown or malformed CBOR data items MUST be rejected.
           </t>
@@ -164,13 +165,13 @@
             any transformations at the encoding level.
           </t>
         </section>
-        <section anchor="d-cbor.spec.dataitems" numbered="true" toc="default">
+        <section anchor="cdep.spec.dataitems" numbered="true" toc="default">
           <name>CBOR Data Items</name>
           <t>
-            A compliant D&nbhy;CBOR implementation SHOULD as a <em>minimum</em> support the following
+            Compliant CDEP implementations SHOULD as a <em>minimum</em> support the following
             CBOR data items:
           </t>
-          <table anchor="d-cbor.types-table">
+          <table anchor="cdep.types-table">
             <name>CBOR Data Items</name>
             <thead>
               <tr>
@@ -270,34 +271,31 @@
             </tbody>
           </table>
           <t>
-            See also <xref target="d-cbor.constraints" format="default"/>.
+            See also <xref target="cdep.constraints" format="default"/>.
           </t>
         </section>
-        <section anchor="d-cbor.spec.numberencoding" numbered="true" toc="default">
+        <section anchor="cdep.spec.numberencoding" numbered="true" toc="default">
           <name>Encoding of Numbers</name>
-          <t>
-            To achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in
-            <xref target="RFC8949" section="4.2.2" sectionFormat="of" format="default"
-            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>
-            MUST be adhered to.
-          </t>
-          <t>
-             Note that <tt>integer</tt> and <tt>floating&nbsp;point</tt> data items MUST
-            use preferred serialization as described in
-            <xref target="RFC8949" section="4.2.1" sectionFormat="of" format="default"
-           derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.1" derivedContent="RFC8949"/>.
-          </t>
           <t>
             The following sub sections hold examples of numeric values expressed
             in <em>diagnostic notation</em>
             (<xref target="RFC8949" section="8" sectionFormat="of" format="default"
              derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>)
-            and their D&nbhy;CBOR encoded counterpart (expressed in hexadecimal).
+            and their CDEP encoded counterpart (expressed in hexadecimal).
+          </t>
+          <t>
+            To achieve a <em>fixed and bidirectional</em> representation of numbers, Rule 2 in
+            <xref target="RFC8949" section="4.2.2" sectionFormat="of" format="default"
+            derivedLink="https://rfc-editor.org/rfc/rfc8949#section-4.2.2" derivedContent="RFC8949"/>
+            MUST be adhered to.
+            In addition, <tt>integer</tt> and <tt>floating&nbsp;point</tt> data items MUST
+            use preferred serialization as described in
+            <eref target="https://rfc-editor.org/rfc/rfc8949#section-4.2.1">Section 4.2.1</eref>.
           </t>
           <t>
             Note that the values and encodings are supposed to work in <em>both</em> directions.
           </t>
-          <section anchor="d-cbor.integer" numbered="true" toc="default">
+          <section anchor="cdep.integer" numbered="true" toc="default">
             <name>Integer Numbers</name>
             <t>
               The following table holds a set of integers.  Note that <tt>bignum</tt> data items MUST
@@ -305,7 +303,7 @@
               <xref target="RFC8949" section="3.4.3" sectionFormat="of" format="default"
              derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.3" derivedContent="RFC8949"/>.
             </t>
-            <table anchor="d-cbor.integer-table">
+            <table anchor="cdep.integer-table">
               <name>Integer Numbers</name>
               <thead>
                 <tr>
@@ -453,14 +451,14 @@
               </tbody>
             </table>
           </section>
-            <section anchor="d-cbor.float.dedicated" numbered="true" toc="default">
+            <section anchor="cdep.float.dedicated" numbered="true" toc="default">
               <name>Special Floating Point Numbers</name>
               <t>
                 The following table holds the set of special IEEE&nbsp;754
                 <xref target="IEEE754" format="default"/> values.
                 Note that <tt>NaN</tt> "signaling" MUST be flagged as an error.
               </t>
-              <table anchor="d-cbor.float.dedicated-table">
+              <table anchor="cdep.float.dedicated-table">
                 <name>Special Floating Point Numbers</name>
                 <thead>
                   <tr>
@@ -512,7 +510,7 @@
                 </tbody>
               </table>
             </section>
-            <section anchor="d-cbor.float.ordinary" numbered="true" toc="default">
+            <section anchor="cdep.float.ordinary" numbered="true" toc="default">
               <name>"Ordinary" Floating Point Numbers</name>
               <t>
                 The following table holds a set of "ordinary" IEEE&nbsp;754
@@ -520,7 +518,7 @@
                 including some edge cases.
                 Note that subnormal floating point values MUST be supported.
               </t>
-              <table anchor="d-cbor.float.assorted-table">
+              <table anchor="cdep.float.assorted-table">
                 <name>"Ordinary" Floating Point Numbers</name>
                 <thead>
                   <tr>
@@ -663,14 +661,14 @@
           </section>
         </section>
 
-      <section anchor="d-cbor.iana" numbered="true" toc="default">
+      <section anchor="cdep.iana" numbered="true" toc="default">
         <name>IANA Considerations</name>
         <t>
           This document has no IANA actions.
         </t>
       </section>
 
-      <section anchor="d-cbor.security" numbered="true" toc="default">
+      <section anchor="cdep.security" numbered="true" toc="default">
         <name>Security Considerations</name>
         <t>
           This specification inherits all the security considerations
@@ -729,13 +727,13 @@
 
       </references>
 
-      <section anchor="d-cbor.constraints">
+      <section anchor="cdep.constraints">
         <name>Implementation Constraints</name>
-        <t>This section is informative.</t>
+        <t>This section is non-normative.</t>
         <t>
           Note that even if an application does not support (or need)
           <tt>bignum</tt> or <tt>floating&nbsp;point</tt> data items,
-          you can still use D-CBOR since a strict subset is upwardly
+          CDEP is still applicable, since a <em>strict subset</em> is upwardly
           compatible with full-blown implementations.
           Low-end platforms typically also restrict CBOR <tt>map</tt> keys to
           <tt>integer</tt> and <tt>text&nbsp;string</tt> data items.
@@ -743,9 +741,18 @@
           for this specification.
         </t>
       </section>
-      <section anchor="d-cbor.reference-implementations">
+      <section anchor="cdep.decoder">
+        <name>Decoder Considerations</name>
+        <t>This section is non-normative.</t>
+        <t>
+          To not unnecessarily create incompatibilities with the existing CBOR ecosystem,
+          CDEP decoders may benefit from supporting a <em>non-deterministic mode</em>,
+          where the map key ordering and preferred serialization checks are disabled.
+        </t>
+      </section>
+      <section anchor="cdep.reference-implementations">
         <name>Reference Implementations</name>
-        <t>This section is informative.</t>
+        <t>This section is non-normative.</t>
         <t>Reference implementations that conform to this specification include:</t>
         <ul spacing="normal">
           <li>
@@ -765,10 +772,10 @@
           </li>
         </ul>
       </section>
-      <section anchor="d-cbor.online-tools">
+      <section anchor="cdep.online-tools">
         <name>Online Tools</name>
-        <t>This section is informative.</t>
-        <t>The following online tools enable testing D&nbhy;CBOR
+        <t>This section is non-normative.</t>
+        <t>The following online tools enable testing CDEP
         without installing any software:</t>
         <ul spacing="normal">
           <li>
@@ -783,16 +790,19 @@
           </li>
         </ul>
       </section>
-      <section anchor="d-cbor.acknowledgements" numbered="false" toc="default">
+      <section anchor="cdep.acknowledgements" numbered="false" toc="default">
         <name>Acknowledgements</name>
         <t>
           This document incorporates much appreciated suggestions and feedback by
           <contact fullname="Eliot Lear"/>,
+          <contact fullname="Wolf McNally"/>,
+          <contact fullname="Laurence Lundblade"/>,
+          <contact fullname="Joe Hildebrand"/>,
           and <contact fullname="Carsten Bormann"/>.
         </t>
       </section>
 
-      <section anchor="d-cbor.document.history" numbered="false" toc="default">
+      <section anchor="cdep.document.history" numbered="false" toc="default">
         <name>Document History</name>
         <t>
             [[ This section to be removed by the RFC Editor before publication as
@@ -931,6 +941,21 @@
         <ul spacing="normal">
           <li>
             Acknowledgements.
+          </li>
+        </ul>
+        <t>Version 18:</t>
+        <ul spacing="normal">
+          <li>
+            D-CBOR => CDEP.
+          </li>
+          <li>
+            Added "Decoder Considerations".
+          </li>
+        </ul>
+        <t>Version 19:</t>
+        <ul spacing="normal">
+          <li>
+            Minor restruction of Number section.
           </li>
         </ul>
       </section>
