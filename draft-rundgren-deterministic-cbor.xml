@@ -729,14 +729,14 @@
       </references>
 
       <section anchor="cdep.incorrectnumbers">
-        <name>Incorrect Number Encodings</name>
+        <name>Incorrectly Encoded Numbers</name>
         <t>
           The following table holds a few examples of numeric CBOR data items that
-          MUST be rejected since they do not conform to CDEP.
+          MUST be rejected because their respective encoding does not conform to CDEP.
           "PS" in the table is a short form for "Preferred&nbsp;Serialization".
         </t>
         <table anchor="cdep.table.incorrectnumbers">
-          <name>Incorrect Number Encodings</name>
+          <name>Incorrectly Encoded Numbers</name>
           <thead>
             <tr>
               <th align="center">Encoded</th>
@@ -1149,7 +1149,7 @@
         <t>Version 20:</t>
         <ul spacing="normal">
           <li>
-            "Incorrect Number Encodings" added.
+            "Incorrectly Encoded Numbers" added.
           </li>
         </ul>
       </section>
