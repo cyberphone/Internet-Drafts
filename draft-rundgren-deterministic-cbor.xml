@@ -299,7 +299,8 @@
           <section anchor="cdep.integer" numbered="true" toc="default">
             <name>Integer Numbers</name>
             <t>
-              The following table holds a set of integers.  Note that <tt>bignum</tt> data items MUST
+              The following table holds a set of <tt>integer</tt>/<tt>bignum</tt> values.
+              Note that <tt>bignum</tt> data items MUST
               use preferred serialization as described in
               <xref target="RFC8949" section="3.4.3" sectionFormat="of" format="default"
              derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.3" derivedContent="RFC8949"/>.
@@ -1155,7 +1156,7 @@
         <t>Version 21:</t>
         <ul spacing="normal">
           <li>
-            TBD.
+            Improved integer table text.
           </li>
         </ul>
         </section>
